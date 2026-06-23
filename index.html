@@ -269,10 +269,13 @@
             return `https://docs.google.com/spreadsheets/d/${matches[1]}/gviz/tq?tqx=out:json&gid=1742833314`;
         }
 
-        // 💡 [지능형 구글 ID 원천 징수 엔진] 어떤 주소 형태든 순수한 파일 ID값만 발라내서 100% 뜨는 다이렉트 주소로 리턴
+        // 💡 [초정밀 껍질 소거 ID 검출기] 주소 내부에 대괄호, 따옴표가 뒤섞여있어도 순수 drive.google 포함 부분만 완벽 추출
         function convertToDirectDriveLink(url) {
             if (!url) return "";
-            const cleanUrl = url.toString().trim();
+            
+            // 💡 [핵심] 문자열 가공 처리 추가: 괄호와 따옴표, 공백 완전 소거
+            let cleanUrl = url.toString().replace(/[\[\]"']/g, "").trim();
+            
             if (!cleanUrl.includes("drive.google.com") && !cleanUrl.includes("docs.google.com")) return "";
             if (cleanUrl.includes("#REF!") || cleanUrl.includes("에러")) return "";
             
@@ -329,13 +332,13 @@
                     let rawImgUrl = "";
                     let isApproved = "";
 
-                    // 행의 모든 데이터를 스캔
+                    // 행의 모든 데이터를 스캔하여 주소 및 마크 검출
                     cells.forEach((cell) => {
                         if (!cell || cell.v === null) return;
                         const cellValue = cell.v.toString().trim();
 
-                        // 💡 중요: 구글 수식거친 주소든, 오리지널 구글 드라이브 주소(open?id= / file/d/)든 무조건 수집
-                        if (cellValue.startsWith('http') && cellValue.includes('drive.google.com')) {
+                        // 💡 정밀 스캔: 문자열 내부에 drive.google이 들어가 있다면 무조건 원본 주소 후보군으로 포획
+                        if (cellValue.includes('drive.google.com') || cellValue.includes('docs.google.com')) {
                             rawImgUrl = cellValue;
                         }
                         // 승인 마크 수집
