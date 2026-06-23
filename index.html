@@ -21,6 +21,32 @@
             color: #222;
         }
 
+        /* 🏆 랭킹 등재 신청 버튼 스타일 */
+        .btn-apply-ranking {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #4c6ef5 0%, #364fc7 100%);
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: 700;
+            text-decoration: none;
+            padding: 12px 32px;
+            border-radius: 50px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(76, 110, 245, 0.3);
+            transition: all 0.2s ease-in-out;
+            cursor: pointer;
+            border: none;
+            outline: none;
+        }
+
+            .btn-apply-ranking:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 6px 20px rgba(76, 110, 245, 0.4);
+                background: linear-gradient(135deg, #5c7cfa 0%, #3b5bdb 100%);
+            }
+
         /* 🏛️ 시상대(Podium) 레이아웃 스타일 */
         .podium-container {
             display: flex;
@@ -210,6 +236,13 @@
             color: #868e96;
         }
 
+        /* ✔️, ❌ 인증 배지 디자인 */
+        .status-badge {
+            font-size: 15px;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
         .level-text {
             color: #4c6ef5;
             font-weight: 600;
@@ -244,7 +277,7 @@
                 cursor: not-allowed;
             }
 
-        /* 모달 팝업 스타일 */
+        /* 🖼️ 공통 모달 팝업 스타일 */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -260,22 +293,24 @@
 
         .modal-card {
             background: #ffffff;
-            padding: 20px;
+            padding: 24px;
             border-radius: 16px;
-            max-width: 90%;
+            max-width: 450px;
+            width: 90%;
             max-height: 90%;
             box-shadow: 0 10px 25px rgba(0,0,0,0.2);
             display: flex;
             flex-direction: column;
             align-items: center;
             position: relative;
+            box-sizing: border-box;
         }
 
         .modal-close {
             position: absolute;
-            top: 12px;
-            right: 16px;
-            font-size: 20px;
+            top: 14px;
+            right: 18px;
+            font-size: 22px;
             font-weight: bold;
             color: #868e96;
             cursor: pointer;
@@ -299,6 +334,54 @@
             font-size: 16px;
             margin-top: 5px;
         }
+
+        /* 🛑 유의사항 박스 디자인 */
+        .notice-box {
+            width: 100%;
+            background-color: #fff5f5;
+            border: 1px solid #ffc9c9;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 15px 0;
+            box-sizing: border-box;
+            text-align: left;
+        }
+
+            .notice-box ul {
+                margin: 0;
+                padding-left: 20px;
+                color: #c92a2a;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+
+            .notice-box li {
+                margin-bottom: 6px;
+            }
+
+                .notice-box li:last-child {
+                    margin-bottom: 0;
+                }
+
+        /* 모달 안의 구글 폼 이동 버튼 */
+        .btn-modal-submit {
+            background: #228be6;
+            color: #fff;
+            border: none;
+            padding: 10px 24px;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+            .btn-modal-submit:hover {
+                background: #1c7ed6;
+            }
     </style>
 </head>
 <body>
@@ -308,6 +391,8 @@
          style="width: 500px; height: auto; margin-bottom: -10px; object-fit: contain;">
 
     <h1>클래식 서버 전투력 랭킹</h1>
+
+    <button class="btn-apply-ranking" onclick="openNoticeModal()">🏆 랭킹 등재 신청하기</button>
 
     <div class="podium-container">
         <div class="podium-card p-2nd" id="podium-2nd">
@@ -334,15 +419,16 @@
             <table>
                 <thead>
                     <tr>
-                        <th style="width: 10%;">순위</th>
+                        <th style="width: 8%;">순위</th>
                         <th style="width: 12%;">레벨</th>
                         <th>닉네임</th>
-                        <th style="text-align: right; width: 25%;">전투력</th>
-                        <th style="text-align: center; width: 20%;">인증</th>
+                        <th style="text-align: right; width: 20%;">전투력</th>
+                        <th style="text-align: center; width: 12%;">인증</th>
+                        <th style="text-align: center; width: 15%;">스탯</th>
                     </tr>
                 </thead>
                 <tbody id="ranking-list">
-                    <tr><td colspan="5" style="text-align:center; padding:40px 0; color:#adb5bd;">데이터를 불러오는 중입니다...</td></tr>
+                    <tr><td colspan="6" style="text-align:center; padding:40px 0; color:#adb5bd;">데이터를 불러오는 중입니다...</td></tr>
                 </tbody>
             </table>
         </div>
@@ -356,19 +442,36 @@
         </div>
     </div>
 
+    <div class="modal-overlay" id="notice-modal" onclick="closeNoticeModal()">
+        <div class="modal-card" onclick="event.stopPropagation()">
+            <span class="modal-close" onclick="closeNoticeModal()">&times;</span>
+            <div class="modal-user-info" style="font-size: 18px; color: #212529;">📢 랭킹 등록 신청 유의사항</div>
+
+            <div class="notice-box">
+                <ul>
+                    <li>반드시 본인의 <b>정확한 캐릭터 닉네임</b>을 입력해 주세요.</li>
+                    <li>[U]캐릭터정보 <b>스크린샷</b> 파일 제출은 자유이며, 인증 및 스텟 보기 이외에 사용하지 않습니다.</li>
+                    <li><b>자동 갱신 시스템이 아닙니다. </b>관리자 확인 및 승인 처리까지 최대 7일이 소요될 수 있습니다.</li>
+                </ul>
+            </div>
+
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSdy4jZ88bJ195h0l5N_P2gE96-Xf2f7q8Sj89V7D3G1-G9-AQ/viewform" target="_blank" class="btn-modal-submit" onclick="closeNoticeModal()">
+                확인 및 신청서 작성하기
+            </a>
+        </div>
+    </div>
+
     <script>
         const GOOGLE_SHEET_URL = "https://docs.google.com/spreadsheets/d/1VxePbQvytvB0bkVxDMxukX9VqB15yemmyqNeJ9Ju5eg/edit?gid=1742833314#gid=1742833314";
 
         let rankingData = [];
 
-        // 💡 [CORS 완벽 우회 포맷] 로컬 바탕화면 환경에서 브라우저 보안 검사를 우회하여 다이렉트로 통과하는 텍스트 스트림 양식
         function getJsonUrl(url) {
         const matches = url.match(/\/d\/([a-zA-Z0-9-_]+)/);
         if (!matches) return null;
-        return `https://docs.google.com/spreadsheets/d/${matches[1]}/gviz/tq?tqx=out:csv&gid=1742833314`;
+        return `https://docs.google.com/spreadsheets/d/${matches[1]}/gviz/tq?tqx=out:json&gid=1742833314`;
         }
 
-        // CSV 문자열 데이터 분리용 파서 (헤더 및 특수문자 대응)
         function parseCSV(text) {
         if (!text) return [];
         return text.split(/\r?\n/).map(line => {
@@ -400,7 +503,6 @@
         const csvRows = parseCSV(text);
         if (csvRows.length === 0) throw new Error("데이터 공백");
 
-        // 💡 첫 행(헤더)을 분석해서 컬럼 위치를 AI 추적 매칭
         const headers = csvRows[0];
         let idxLevel = 1, idxName = 2, idxPower = 3, idxImg = 6, idxApprove = 7;
 
@@ -415,35 +517,33 @@
 
         const dataMap = new Map();
 
-        // 2번째 행부터 데이터 축적 가동
         for(let i = 1; i < csvRows.length; i++) {
-            const cells = csvRows[i];
-            if (!cells || cells.length <= Math.max(idxName, idxLevel, idxPower)) continue;
+        const cells = csvRows[i];
+        if (!cells || cells.length <= Math.max(idxName, idxLevel, idxPower)) continue;
 
-            const name = cells[idxName] ? cells[idxName].trim() : "";
-            if (!name) continue;
+        const name = cells[idxName] ? cells[idxName].trim() : "";
+        if (!name) continue;
 
-            const rawLevelStr = cells[idxLevel] ? cells[idxLevel].toString().split('.')[0] : "0";
-            const level = parseInt(rawLevelStr.replace(/[^0-9]/g, "")) || 0;
+        const rawLevelStr = cells[idxLevel] ? cells[idxLevel].toString().split('.')[0] : "0";
+        const level = parseInt(rawLevelStr.replace(/[^0-9]/g, "")) || 0;
 
-            const rawPowerStr = cells[idxPower] ? cells[idxPower].toString().split('.')[0] : "0";
-            const power = parseInt(rawPowerStr.replace(/[^0-9]/g, "")) || 0;
-            
-            // 💡 1. 이미지 주소를 변수에 담고 #REF!, 에러, 주소 형식이 아닌 것을 '먼저' 공백("") 처리합니다.
-            let img = cells[idxImg] ? cells[idxImg].trim() : "";
-            if (img.includes('#REF!') || img.includes('에러') || (!img.startsWith('http') && img !== "")) {
-                img = ""; // 에러 주소면 빈값으로 원천 차단
-            }
-            
-            const isApproved = cells[idxApprove] ? cells[idxApprove].trim().toUpperCase() : "";
+        const rawPowerStr = cells[idxPower] ? cells[idxPower].toString().split('.')[0] : "0";
+        const power = parseInt(rawPowerStr.replace(/[^0-9]/g, "")) || 0;
 
-            if (isApproved === 'Y' || isApproved === '승인') {
-                if (!dataMap.has(name) || dataMap.get(name).power < power) {
-                    // 💡 2. 위에서 정제가 끝난 순수한 'img' 변수를 구조체에 저장합니다.
-                    dataMap.set(name, { level, name, power, img });
-                }
-            }
+        let img = cells[idxImg] ? cells[idxImg].trim() : "";
+        if (img.includes('#REF!') || img.includes('에러') || (!img.startsWith('http') && img !== "")) {
+        img = "";
         }
+
+        const isApproved = cells[idxApprove] ? cells[idxApprove].trim().toUpperCase() : "";
+
+        if (isApproved === 'Y' || isApproved === '승인') {
+        if (!dataMap.has(name) || dataMap.get(name).power < power) {
+        dataMap.set(name, { level, name, power, img });
+        }
+        }
+        }
+
         const fetchedData = Array.from(dataMap.values());
         fetchedData.sort((a, b) => b.power - a.power);
         rankingData = fetchedData;
@@ -451,7 +551,7 @@
 
         } catch (error) {
         console.error("데이터 로드 실패:", error);
-        document.getElementById('ranking-list').innerHTML = `<tr><td colspan="5" style="text-align:center; color:#fa5252; padding:40px 0;">데이터 연동 실패 (시트 설정 및 주소를 확인해 주세요)</td></tr>`;
+        document.getElementById('ranking-list').innerHTML = `<tr><td colspan="6" style="text-align:center; color:#fa5252; padding:40px 0;">데이터 연동 실패 (시트 설정 및 주소를 확인해 주세요)</td></tr>`;
         }
         }
 
@@ -464,7 +564,7 @@
         const searchTerm = document.getElementById('search-bar').value.trim().toLowerCase();
 
         if (rankingData.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:#adb5bd; padding:40px 0;">현재 승인되어 등록된 데이터가 없습니다.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:#adb5bd; padding:40px 0;">현재 승인되어 등록된 데이터가 없습니다.</td></tr>`;
         return;
         }
 
@@ -484,6 +584,9 @@
         else if (rank === 2) rankDisplay = `<span class="badge top-2">2</span>`;
         else if (rank === 3) rankDisplay = `<span class="badge top-3">3</span>`;
 
+        // 💡 인증 배지 분리 가동 (img 주소가 있으면 ✔️, 없으면 ❌)
+        let statusBadgeHtml = user.img ? '<span class="status-badge" style="color: #2b8a3e;">✔️</span>' : '<span class="status-badge" style="color: #c92a2a;">❌</span>';
+
         let disabledAttr = user.img ? '' : 'disabled';
         let statsBtnHtml = `<button class="btn-view-stats" ${disabledAttr} onclick="openModal('${user.name}', '${user.level}', '${user.power}', '${user.img}')">📷 스탯보기</button>`;
 
@@ -493,13 +596,14 @@
         <td class="level-text">Lv.${user.level}</td>
         <td style="font-weight: 600; color:#212529;">${user.name}</td>
         <td class="power-text" style="text-align: right;">${user.power.toLocaleString()}</td>
+        <td style="text-align: center;">${statusBadgeHtml}</td>
         <td style="text-align: center;">${statsBtnHtml}</td>
         `;
         tbody.appendChild(tr);
         });
 
         if (!hasMatch) {
-        tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:#adb5bd; padding:40px 0;">'${searchTerm}' 유저를 찾을 수 없습니다.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:#adb5bd; padding:40px 0;">'${searchTerm}' 유저를 찾을 수 없습니다.</td></tr>`;
         }
         }
 
@@ -512,6 +616,7 @@
         <div class="podium-name">${user.name}</div>
         <div class="podium-level">Lv.${user.level}</div>
         <div class="podium-power">${user.power.toLocaleString()}</div>
+        <div style="margin-top: 4px;">${user.img ? '<span class="status-badge" style="color: #2b8a3e; font-size:13px;">✔️ 인증완료</span>' : '<span class="status-badge" style="color: #c92a2a; font-size:13px;">❌ 미인증</span>'}</div>
         ${btnHtml}
         `;
         } else {
@@ -535,6 +640,13 @@
         function closeModal() {
         document.getElementById('img-modal').style.display = 'none';
         document.getElementById('modal-img-src').src = '';
+        }
+
+        function openNoticeModal() {
+        document.getElementById('notice-modal').style.display = 'flex';
+        }
+        function closeNoticeModal() {
+        document.getElementById('notice-modal').style.display = 'none';
         }
 
         window.onload = function() {
