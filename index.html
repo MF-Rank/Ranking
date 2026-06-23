@@ -417,32 +417,33 @@
 
         // 2번째 행부터 데이터 축적 가동
         for(let i = 1; i < csvRows.length; i++) {
-        const cells = csvRows[i];
-        if (!cells || cells.length <= Math.max(idxName, idxLevel, idxPower)) continue;
+            const cells = csvRows[i];
+            if (!cells || cells.length <= Math.max(idxName, idxLevel, idxPower)) continue;
 
-        const name = cells[idxName] ? cells[idxName].trim() : "";
-        if (!name) continue;
+            const name = cells[idxName] ? cells[idxName].trim() : "";
+            if (!name) continue;
 
+            const rawLevelStr = cells[idxLevel] ? cells[idxLevel].toString().split('.')[0] : "0";
+            const level = parseInt(rawLevelStr.replace(/[^0-9]/g, "")) || 0;
 
-        const rawLevelStr = cells[idxLevel].split('.')[0];
-        const level = parseInt(rawLevelStr.replace(/[^0-9]/g, "")) || 0;
+            const rawPowerStr = cells[idxPower] ? cells[idxPower].toString().split('.')[0] : "0";
+            const power = parseInt(rawPowerStr.replace(/[^0-9]/g, "")) || 0;
+            
+            // 💡 1. 이미지 주소를 변수에 담고 #REF!, 에러, 주소 형식이 아닌 것을 '먼저' 공백("") 처리합니다.
+            let img = cells[idxImg] ? cells[idxImg].trim() : "";
+            if (img.includes('#REF!') || img.includes('에러') || (!img.startsWith('http') && img !== "")) {
+                img = ""; // 에러 주소면 빈값으로 원천 차단
+            }
+            
+            const isApproved = cells[idxApprove] ? cells[idxApprove].trim().toUpperCase() : "";
 
-        const rawPowerStr = cells[idxPower].split('.')[0];
-        const power = parseInt(rawPowerStr.replace(/[^0-9]/g, "")) || 0;
-        let img = cells[idxImg] ? cells[idxImg].trim() : "";
-        if (img.includes('#REF!') || img.includes('에러') || (!img.startsWith('http') && img !== "")) 
-        {
-           img = "";
+            if (isApproved === 'Y' || isApproved === '승인') {
+                if (!dataMap.has(name) || dataMap.get(name).power < power) {
+                    // 💡 2. 위에서 정제가 끝난 순수한 'img' 변수를 구조체에 저장합니다.
+                    dataMap.set(name, { level, name, power, img });
+                }
+            }
         }
-        const isApproved = cells[idxApprove] ? cells[idxApprove].trim().toUpperCase() : "";
-
-        if (isApproved === 'Y' || isApproved === '승인') {
-        if (!dataMap.has(name) || dataMap.get(name).power < power) {
-        dataMap.set(name, { level, name, power, img });
-        }
-        }
-        }
-
         const fetchedData = Array.from(dataMap.values());
         fetchedData.sort((a, b) => b.power - a.power);
         rankingData = fetchedData;
