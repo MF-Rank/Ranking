@@ -423,8 +423,12 @@
         const name = cells[idxName] ? cells[idxName].trim() : "";
         if (!name) continue;
 
-        const level = parseInt(cells[idxLevel].replace(/[^0-9]/g, "")) || 0;
-        const power = parseInt(cells[idxPower].replace(/[^0-9]/g, "")) || 0;
+        
+        const rawLevelStr = cells[idxLevel].split('.')[0];
+        const level = parseInt(rawLevelStr.replace(/[^0-9]/g, "")) || 0;
+
+        const rawPowerStr = cells[idxPower].split('.')[0];
+        const power = parseInt(rawPowerStr.replace(/[^0-9]/g, "")) || 0;
         const img = cells[idxImg] ? cells[idxImg].trim() : "";
         const isApproved = cells[idxApprove] ? cells[idxApprove].trim().toUpperCase() : "";
 
