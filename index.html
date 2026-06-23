@@ -423,13 +423,17 @@
         const name = cells[idxName] ? cells[idxName].trim() : "";
         if (!name) continue;
 
-        
+
         const rawLevelStr = cells[idxLevel].split('.')[0];
         const level = parseInt(rawLevelStr.replace(/[^0-9]/g, "")) || 0;
 
         const rawPowerStr = cells[idxPower].split('.')[0];
         const power = parseInt(rawPowerStr.replace(/[^0-9]/g, "")) || 0;
-        const img = cells[idxImg] ? cells[idxImg].trim() : "";
+        let img = cells[idxImg] ? cells[idxImg].trim() : "";
+        if (img.includes('#REF!') || img.includes('에러') || (!img.startsWith('http') && img !== "")) 
+        {
+           img = "";
+        }
         const isApproved = cells[idxApprove] ? cells[idxApprove].trim().toUpperCase() : "";
 
         if (isApproved === 'Y' || isApproved === '승인') {
