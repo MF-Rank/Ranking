@@ -269,13 +269,14 @@
             return `https://docs.google.com/spreadsheets/d/${matches[1]}/gviz/tq?tqx=out:json&gid=1742833314`;
         }
 
-        // 💡 [초강력 만능 변환 렌더러] 구글 드라이브 주소가 어떤 형태로 유입되든 고유 ID를 분리 추출하여 강제 렌더링 가능한 주소로 세팅
+        // 💡 [지능형 구글 ID 원천 징수 엔진] 어떤 주소 형태든 순수한 파일 ID값만 발라내서 100% 뜨는 다이렉트 주소로 리턴
         function convertToDirectDriveLink(url) {
             if (!url) return "";
-            if (!url.includes("drive.google.com") && !url.includes("docs.google.com")) return url;
+            const cleanUrl = url.toString().trim();
+            if (!cleanUrl.includes("drive.google.com") && !cleanUrl.includes("docs.google.com")) return "";
+            if (cleanUrl.includes("#REF!") || cleanUrl.includes("에러")) return "";
             
             let fileId = "";
-            // 다양한 구글 드라이브 URL 패턴에서 ID 추출
             const idMatchers = [
                 /id=([a-zA-Z0-9-_]+)/,
                 /\/d\/([a-zA-Z0-9-_]+)/,
@@ -283,14 +284,14 @@
             ];
             
             for (let matcher of idMatchers) {
-                const match = url.match(matcher);
+                const match = cleanUrl.match(matcher);
                 if (match && match[1]) {
                     fileId = match[1];
                     break;
                 }
             }
             
-            return fileId ? `https://drive.google.com/uc?export=view&id=${fileId}` : url;
+            return fileId ? `https://drive.google.com/uc?export=view&id=${fileId}` : "";
         }
 
         async function fetchRankingData() {
@@ -315,31 +316,36 @@
                     const name = cells[2].v.toString().trim();
                     if (!name) return;
 
-                    // 레벨 연산
+                    // 레벨 파싱
                     const rawLevel = cells[1] ? (cells[1].f || cells[1].v || "0") : "0";
                     const cleanLevelStr = rawLevel.toString().includes('.') ? rawLevel.toString().split('.')[0] : rawLevel.toString();
                     const level = parseInt(cleanLevelStr.replace(/[^0-9]/g, "")) || 0;
 
-                    // 전투력 연산
+                    // 전투력 파싱
                     const rawPower = cells[3] ? (cells[3].f || cells[3].v || "0") : "0";
                     const cleanPowerStr = rawPower.toString().includes('.') ? rawPower.toString().split('.')[0] : rawPower.toString();
                     const power = parseInt(cleanPowerStr.replace(/[^0-9]/g, "")) || 0;
                     
-                    let img = "";
+                    let rawImgUrl = "";
                     let isApproved = "";
 
-                    cells.forEach((cell, index) => {
+                    // 행의 모든 데이터를 스캔
+                    cells.forEach((cell) => {
                         if (!cell || cell.v === null) return;
                         const cellValue = cell.v.toString().trim();
 
-                        // http 링크 감지 (수식 에러 #REF!는 완벽 차단)
-                        if (index >= 4 && cellValue.startsWith('http') && !cellValue.includes('#REF!')) {
-                            img = convertToDirectDriveLink(cellValue); // 💡 강제 변환 엔진 장착
+                        // 💡 중요: 구글 수식거친 주소든, 오리지널 구글 드라이브 주소(open?id= / file/d/)든 무조건 수집
+                        if (cellValue.startsWith('http') && cellValue.includes('drive.google.com')) {
+                            rawImgUrl = cellValue;
                         }
-                        if (index >= 4 && (cellValue.toUpperCase() === 'Y' || cellValue === '승인')) {
+                        // 승인 마크 수집
+                        if (cellValue.toUpperCase() === 'Y' || cellValue === '승인') {
                             isApproved = 'Y';
                         }
                     });
+
+                    // 💡 코드가 직접 구글 드라이브 주소를 정제해 100% 로드 가능한 주소로 재생성
+                    const img = convertToDirectDriveLink(rawImgUrl);
 
                     if (isApproved === 'Y') {
                         if (!dataMap.has(name) || dataMap.get(name).power < power) {
