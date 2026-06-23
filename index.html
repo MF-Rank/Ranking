@@ -450,8 +450,9 @@
             <div class="notice-box">
                 <ul>
                     <li>반드시 본인의 <b>정확한 캐릭터 닉네임</b>을 입력해 주세요.</li>
-                    <li>[U]캐릭터정보 <b>스크린샷</b> 파일 제출은 자유이며, 인증 및 스텟 보기 이외에 사용하지 않습니다.</li>
-                    <li><b>자동 갱신 시스템이 아닙니다. </b>관리자 확인 및 승인 처리까지 최대 7일이 소요될 수 있습니다.</li>
+                    <li>[U]캐릭터정보 <b>스크린샷</b> 파일 제출은 자유이며, 관리자 검수 및 스텟 보기 기능 외에 사용하지 않습니다.</li>
+                    <li>악의적으로 거짓 된 정보를 제출 할 경우 등재되지 않으며, 해당 폼 제출 계정은 블랙리스트에 등록됩니다.</li>
+                    <li><b>자동 갱신 시스템이 아닙니다. </b>관리자 검수 및 승인 처리까지 최대 7일이 소요될 수 있습니다.</li>
                 </ul>
             </div>
 
@@ -521,21 +522,25 @@
         const cells = csvRows[i];
         if (!cells || cells.length <= Math.max(idxName, idxLevel, idxPower)) continue;
 
-        const name = cells[idxName] ? cells[idxName].trim() : "";
+        // 💡 [핵심 교정] 안전한 닉네임 값 획득
+        const name = (cells[idxName] !== undefined && cells[idxName] !== null) ? cells[idxName].toString().trim() : "";
         if (!name) continue;
 
-        const rawLevelStr = cells[idxLevel] ? cells[idxLevel].toString().split('.')[0] : "0";
-        const level = parseInt(rawLevelStr.replace(/[^0-9]/g, "")) || 0;
+        // 💡 [완벽 보완] 서식이 .00 이든 문자든 무조건 순수 정수만 추리는 정밀 컨버터
+        const levelVal = cells[idxLevel] !== undefined ? cells[idxLevel].toString() : "0";
+        const cleanLevelStr = levelVal.includes('.') ? levelVal.split('.')[0] : levelVal;
+        const level = parseInt(cleanLevelStr.replace(/[^0-9]/g, "")) || 0;
 
-        const rawPowerStr = cells[idxPower] ? cells[idxPower].toString().split('.')[0] : "0";
-        const power = parseInt(rawPowerStr.replace(/[^0-9]/g, "")) || 0;
+        const powerVal = cells[idxPower] !== undefined ? cells[idxPower].toString() : "0";
+        const cleanPowerStr = powerVal.includes('.') ? powerVal.split('.')[0] : powerVal;
+        const power = parseInt(cleanPowerStr.replace(/[^0-9]/g, "")) || 0;
 
-        let img = cells[idxImg] ? cells[idxImg].trim() : "";
+        let img = cells[idxImg] ? cells[idxImg].toString().trim() : "";
         if (img.includes('#REF!') || img.includes('에러') || (!img.startsWith('http') && img !== "")) {
         img = "";
         }
 
-        const isApproved = cells[idxApprove] ? cells[idxApprove].trim().toUpperCase() : "";
+        const isApproved = cells[idxApprove] ? cells[idxApprove].toString().trim().toUpperCase() : "";
 
         if (isApproved === 'Y' || isApproved === '승인') {
         if (!dataMap.has(name) || dataMap.get(name).power < power) {
@@ -584,7 +589,6 @@
         else if (rank === 2) rankDisplay = `<span class="badge top-2">2</span>`;
         else if (rank === 3) rankDisplay = `<span class="badge top-3">3</span>`;
 
-        // 💡 인증 배지 분리 가동 (img 주소가 있으면 ✔️, 없으면 ❌)
         let statusBadgeHtml = user.img ? '<span class="status-badge" style="color: #2b8a3e;">✔️</span>' : '<span class="status-badge" style="color: #c92a2a;">❌</span>';
 
         let disabledAttr = user.img ? '' : 'disabled';
