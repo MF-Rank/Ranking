@@ -269,11 +269,10 @@
             return `https://docs.google.com/spreadsheets/d/${matches[1]}/gviz/tq?tqx=out:json&gid=1742833314`;
         }
 
-        // 💡 [초정밀 껍질 소거 ID 검출기] 주소 내부에 대괄호, 따옴표가 뒤섞여있어도 순수 drive.google 포함 부분만 완벽 추출
+        // 💡 [구글 최신 보안 우회 패치] 외부 호출을 허용하는 프록시 썸네일 엔진 적용 (&sz=w1000 옵션으로 고화질 강제 변환)
         function convertToDirectDriveLink(url) {
             if (!url) return "";
             
-            // 💡 [핵심] 문자열 가공 처리 추가: 괄호와 따옴표, 공백 완전 소거
             let cleanUrl = url.toString().replace(/[\[\]"']/g, "").trim();
             
             if (!cleanUrl.includes("drive.google.com") && !cleanUrl.includes("docs.google.com")) return "";
@@ -294,7 +293,8 @@
                 }
             }
             
-            return fileId ? `https://drive.google.com/uc?export=view&id=${fileId}` : "";
+            // 💡 핵심 교정: 외부 웹사이트 임베딩 제한을 우회하는 썸네일 노출형 무적 주소 포맷 적용
+            return fileId ? `https://drive.google.com/thumbnail?id=${fileId}&sz=w1000` : "";
         }
 
         async function fetchRankingData() {
@@ -337,17 +337,14 @@
                         if (!cell || cell.v === null) return;
                         const cellValue = cell.v.toString().trim();
 
-                        // 💡 정밀 스캔: 문자열 내부에 drive.google이 들어가 있다면 무조건 원본 주소 후보군으로 포획
                         if (cellValue.includes('drive.google.com') || cellValue.includes('docs.google.com')) {
                             rawImgUrl = cellValue;
                         }
-                        // 승인 마크 수집
                         if (cellValue.toUpperCase() === 'Y' || cellValue === '승인') {
                             isApproved = 'Y';
                         }
                     });
 
-                    // 💡 코드가 직접 구글 드라이브 주소를 정제해 100% 로드 가능한 주소로 재생성
                     const img = convertToDirectDriveLink(rawImgUrl);
 
                     if (isApproved === 'Y') {
