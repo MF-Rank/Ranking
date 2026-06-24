@@ -16,7 +16,7 @@
             --text-name: #212529;
             --table-th-bg: #f8f9fa;
             --table-border: #f1f3f5;
-            --omega-bg: rgba(181, 16, 0, 0.08); /* 라이트모드 오메가 반투명 배경 */
+            --omega-bg: rgba(181, 16, 0, 0.15); /* 라이트모드 오메가 반투명 배경 밝기 상향 */
         }
 
         /* 🌙 다크모드 변수 세팅 */
@@ -31,7 +31,7 @@
             --text-name: #ffe066;
             --table-th-bg: #25262b;
             --table-border: #2c2e33;
-            --omega-bg: rgba(181, 16, 0, 0.2); /* 다크모드 오메가 반투명 배경 (가독성 상향) */
+            --omega-bg: rgba(220, 50, 30, 0.35); /* 다크모드 오메가 반투명 배경 밝기 최적화 */
         }
 
         body {
@@ -371,17 +371,16 @@
             border-bottom: 1px solid var(--table-border);
         }
 
-        /* 👑 [신설] 오메가 등급 유저 전용 행 디자인 클래스 */
+        /* 👑 오메가 등급 유저 전용 행 디자인 클래스 */
         .omega-row {
             background-color: var(--omega-bg) !important;
         }
 
-        /* 👑 [신설] 오메가 Ω 티어 마크 디자인 스타일 */
+        /* 👑 오메가 Ω 티어 마크 디자인 스타일 */
         .tier-omega-mark {
             color: #b51000;
             font-weight: 800;
-            font-size: 14px;
-            margin-right: 4px;
+            font-size: 15px;
         }
 
         .badge {
@@ -573,20 +572,23 @@
             <table>
                 <thead>
                     <tr>
-                        <th style="width: 12%;">순위</th>
-                        <th style="width: 22%;">레벨</th> <th>닉네임</th>
-                        <th style="text-align: right; width: 25%;">전투력</th>
-                        <th style="text-align: center; width: 22%;">스탯 이미지</th>
+                        <th style="width: 10%;">순위</th>
+                        <th style="width: 15%;">티어</th> <!-- 💡 독립된 티어 칸 매칭 완벽 고정 -->
+                        <th style="width: 15%;">레벨</th> 
+                        <th>닉네임</th>
+                        <th style="text-align: right; width: 20%;">전투력</th>
+                        <th style="text-align: center; width: 15%;">스탯 이미지</th>
                     </tr>
                 </thead>
                 <tbody id="ranking-list">
-                    <tr><td colspan="5" style="text-align:center; padding:40px 0; color:#adb5bd;">데이터를 불러오는 중입니다...</td></tr>
+                    <tr><td colspan="6" style="text-align:center; padding:40px 0; color:#adb5bd;">데이터를 불러오는 중입니다...</td></tr>
                 </tbody>
             </table>
         </div>
 
     </div>
 
+    <!-- 이미지 확인 모달 -->
     <div class="modal-overlay" id="img-modal" onclick="closeModal()">
         <div class="modal-card" onclick="event.stopPropagation()">
             <span class="modal-close" onclick="closeModal()">&times;</span>
@@ -595,6 +597,7 @@
         </div>
     </div>
 
+    <!-- 유의사항 및 신청 링크 모달 -->
     <div class="modal-overlay" id="notice-modal" onclick="closeNoticeModal()">
         <div class="modal-card" onclick="event.stopPropagation()">
             <span class="modal-close" onclick="closeNoticeModal()">&times;</span>
@@ -740,7 +743,7 @@
 
             } catch (error) {
                 console.error("데이터 로드 실패:", error);
-                document.getElementById('ranking-list').innerHTML = `<tr><td colspan="5" style="text-align:center; color:#fa5252; padding:40px 0;">데이터 연동 실패 (시트 설정 및 주소를 확인해 주세요)</td></tr>`;
+                document.getElementById('ranking-list').innerHTML = `<tr><td colspan="6" style="text-align:center; color:#fa5252; padding:40px 0;">데이터 연동 실패 (시트 설정 및 주소를 확인해 주세요)</td></tr>`;
             }
         }
 
@@ -748,20 +751,17 @@
             const tbody = document.getElementById('ranking-list');
             tbody.innerHTML = '';
 
-            updatePodiumSlots();
-
             const searchTerm = document.getElementById('search-bar').value.trim().toLowerCase();
 
             if (rankingData.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:#adb5bd; padding:40px 0;">현재 승인되어 등록된 데이터가 없습니다.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:#adb5bd; padding:40px 0;">현재 승인되어 등록된 데이터가 없습니다.</td></tr>`;
                 return;
             }
 
             let hasMatch = false;
 
-            // 검색어 유무와 상관없이 원래 데이터셋(rankingData) 기준의 등수를 매기기 위해 인덱스 활용
             rankingData.forEach((user, index) => {
-                const realRank = index + 1; // 검색 필터와 무관한 실제 서버 등수
+                const realRank = index + 1; 
 
                 if (searchTerm && !user.name.toLowerCase().includes(searchTerm)) {
                     return;
@@ -772,27 +772,29 @@
                 let rankDisplay = `<span class="badge top-normal">${realRank}</span>`;
                 if (realRank === 1) rankDisplay = `<span class="badge top-1">1</span>`;
                 else if (realRank === 2) rankDisplay = `<span class="badge top-2">2</span>`;
-                else if (rankDisplay === 3 || realRank === 3) rankDisplay = `<span class="badge top-3">3</span>`;
+                else if (realRank === 3) rankDisplay = `<span class="badge top-3">3</span>`;
 
                 let disabledAttr = (user.isPrivate || !user.img) ? 'disabled' : '';
                 let btnText = user.isPrivate ? '🔒 비공개' : '📷 스탯보기';
                 let statsBtnHtml = `<button class="btn-view-stats" ${disabledAttr} onclick="openModal('${user.name}', '${user.level}', '${user.power}', '${user.img}')">${btnText}</button>`;
 
-                // 👑 [추가] 1~5등(오메가 티어) 유저 판별 시스템 및 마크 주입
-                let omegaMarkHtml = '';
+                // 👑 [독립 설계] 티어 칼럼에만 마크가 안전하게 렌더링되도록 격리 연산
+                let tierDisplayHtml = '-';
                 let rowClassAttr = '';
                 
                 if (realRank >= 1 && realRank <= 5) {
-                    omegaMarkHtml = `<span class="tier-omega-mark">Ω</span>`;
-                    rowClassAttr = `class="omega-row"`; // 행 배경색 입히기 코드 타겟팅
+                    tierDisplayHtml = `<span class="tier-omega-mark">Ω</span>`;
+                    rowClassAttr = 'omega-row'; 
                 }
 
                 const tr = document.createElement('tr');
-                if (rowClassAttr) tr.className = "omega-row"; // 오메가 변수 주입
+                if (rowClassAttr) tr.className = rowClassAttr;
                 
+                // 💡 헤더 th 6개 규격과 정확히 일치하는 td 6개 구조 정렬
                 tr.innerHTML = `
                 <td>${rankDisplay}</td>
-                <td class="level-text">${omegaMarkHtml}Lv.${user.level}</td>
+                <td>${tierDisplayHtml}</td>
+                <td class="level-text">Lv.${user.level}</td>
                 <td style="font-weight: 600; color: var(--text-name);">${user.name}</td>
                 <td class="power-text" style="text-align: right;">${user.power.toLocaleString()}</td>
                 <td style="text-align: center;">${statsBtnHtml}</td>
@@ -801,8 +803,11 @@
             });
 
             if (!hasMatch) {
-                tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:#adb5bd; padding:40px 0;">'${searchTerm}' 유저를 찾을 수 없습니다.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:#adb5bd; padding:40px 0;">'${searchTerm}' 유저를 찾을 수 없습니다.</td></tr>`;
             }
+
+            // 💡 [순서 최적화] 리더보드 테이블이 안전하게 선언된 직후에 시상대를 세팅하여 꼬임 현상 완벽 방어
+            updatePodiumSlots();
         }
 
         function updatePodiumSlots() {
