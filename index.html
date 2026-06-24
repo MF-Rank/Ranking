@@ -16,7 +16,7 @@
             --text-name: #212529;
             --table-th-bg: #f8f9fa;
             --table-border: #f1f3f5;
-            --omega-bg: rgba(181, 16, 0, 0.08); /* 라이트모드 오메가 반투명 배경 */
+            --omega-bg: rgba(181, 16, 0, 0.15);
         }
 
         /* 🌙 다크모드 변수 세팅 */
@@ -31,14 +31,14 @@
             --text-name: #ffe066;
             --table-th-bg: #25262b;
             --table-border: #2c2e33;
-            --omega-bg: rgba(181, 16, 0, 0.2); /* 다크모드 오메가 반투명 배경 (가독성 상향) */
+            --omega-bg: rgba(220, 50, 30, 0.35);
         }
 
         body {
             background-color: var(--bg-body);
             color: var(--text-main);
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            padding: 40px 20px; /* 상단 여백 밸런스 조정 */
+            padding: 40px 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -94,7 +94,7 @@
             background: linear-gradient(135deg, #5c7cfa 0%, #3b5bdb 100%);
         }
 
-        /* 🏛️ [최상단] 테마 제어 토글 바 */
+        /* 🏛 [[최상단] 테마 제어 토글 바 */
         .top-control-bar {
             width: 100%;
             max-width: 1400px;
@@ -126,11 +126,12 @@
             transform: translateY(-1px);
         }
 
-        /* 🏛️ 메인 내용 컨테이너 (5:5 비율) */
+        /* 🏛 메인 내용 컨테이너 */
         .main-container {
             display: flex;
             flex-direction: row;
-            align-items: stretch;
+            /* 💡 핵심 교정: stretch를 배제하고 상단 정렬(flex-start)하여 두 박스의 높이가 연동되어 찢어지는 현상 차단 */
+            align-items: flex-start;
             gap: 30px;
             max-width: 1400px;
             width: 100%;
@@ -138,7 +139,7 @@
             transition: all 0.3s ease-in-out;
         }
 
-        /* 🏛️ [좌측] 웅장한 시상대 구역 */
+        /* 🏛 [좌측] 웅장한 시상대 구역 */
         .podium-wrapper {
             flex: 1;
             display: flex;
@@ -151,11 +152,12 @@
             padding: 25px 20px 25px 20px;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.03);
             box-sizing: border-box;
-            min-height: 580px;
+            height: 580px; /* 높이 완전 하드코딩 고정 */
+            max-height: 580px;
             transition: all 0.3s ease-in-out;
         }
 
-        /* 🏛️ 단상 카드 공통 구조 설계 */
+        /* 🏛 단상 카드 공통 구조 설계 */
         .podium-card {
             background: var(--bg-panel);
             border: 1px solid var(--border-color);
@@ -178,7 +180,6 @@
             box-shadow: 0 12px 24px rgba(0, 0, 0, 0.06);
         }
 
-        /* 🏆 시즌 트로피 이미지 개별 높이 차등 밸런스 패치 */
         .trophy-img {
             width: auto;
             max-width: 100%;
@@ -203,7 +204,7 @@
             box-shadow: 0 6px 15px rgba(255, 215, 0, 0.1);
         }
 
-        /* ✨ 자바스크립트 간섭 우회형 무적 광채 오버레이 컨테이너 */
+        /* ✨ 무적 광채 오버레이 컨테이너 */
         .shine-effect {
             position: absolute;
             top: 0;
@@ -242,7 +243,6 @@
         .p-1st .trophy-img { height: 280px !important; }
         .p-1st .podium-name { font-size: 20px; font-weight: 800; }
 
-        /* 2등 카드 */
         .p-2nd {
             flex: 1;
             height: 430px;
@@ -251,7 +251,6 @@
         }
         .p-2nd .trophy-img { height: 190px !important; }
 
-        /* 3등 카드 */
         .p-3rd {
             flex: 0.9;
             height: 380px;
@@ -270,25 +269,9 @@
             margin-bottom: 4px;
         }
 
-        .podium-level {
-            font-size: 13px;
-            color: #4c6ef5;
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
-
-        .podium-power {
-            font-weight: 800;
-            font-size: 18px;
-            color: #b71c1c;
-            margin-bottom: 10px;
-        }
-
-        .podium-empty {
-            color: var(--text-muted);
-            font-size: 14px;
-            margin-bottom: 60px;
-        }
+        .podium-level { font-size: 13px; color: #4c6ef5; font-weight: 700; margin-bottom: 8px; }
+        .podium-power { font-weight: 800; font-size: 18px; color: #b71c1c; margin-bottom: 10px; }
+        .podium-empty { color: var(--text-muted); font-size: 14px; margin-bottom: 60px; }
 
         /* 📊 [우측] 리더보드 순위표 구역 */
         .rank-panel {
@@ -302,53 +285,30 @@
             width: 100%;
         }
 
-        .rank-header-line {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid var(--table-border);
-            gap: 12px;
+        /* 💡 [신설] 스크롤 뷰 구현용 테이블 오버레이 래퍼 */
+        .table-wrapper {
+            width: 100%;
+            max-height: 475px; /* 단상 디자인 높이와 정확히 밸런스 맞는 고정 스크롤 영역 설정 */
+            overflow-y: auto;
+            border-bottom: 1px solid var(--border-color);
         }
 
-        .rank-header-line .title-area {
-            display: flex;
-            align-items: center;
-            gap: 10px;
+        /* 스크롤바 스킨 커스텀 디테일 */
+        .table-wrapper::-webkit-scrollbar {
+            width: 6px;
+        }
+        .table-wrapper::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .table-wrapper::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 10px;
+        }
+        .table-wrapper::-webkit-scrollbar-thumb:hover {
+            background: var(--text-muted);
         }
 
-        .rank-header-line .card-title {
-            margin: 0;
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--text-title);
-            white-space: nowrap;
-        }
-
-        .rank-header-line .control-area {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .search-input {
-            width: 160px !important;
-            max-width: 160px !important;
-            padding: 7px 12px;
-            font-size: 13px;
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            background-color: var(--bg-panel);
-            color: var(--text-main);
-            outline: none;
-            box-sizing: border-box;
-        }
-
-        .search-input:focus {
-            border-color: #4c6ef5;
-        }
-
+        /* 스크롤 헤더 고정 패치 */
         table {
             width: 100%;
             border-collapse: collapse;
@@ -362,6 +322,9 @@
             font-weight: 600;
             padding: 12px;
             border-bottom: 2px solid var(--table-border);
+            position: sticky; /* 👈 스크롤을 내려도 타이틀 헤더는 위에 박혀있도록 고정 */
+            top: 0;
+            z-index: 10;
         }
 
         td {
@@ -371,173 +334,44 @@
             border-bottom: 1px solid var(--table-border);
         }
 
-        /* 👑 [신설] 오메가 등급 유저 전용 행 디자인 클래스 */
-        .omega-row {
-            background-color: var(--omega-bg) !important;
-        }
-
-        /* 👑 [신설] 오메가 Ω 티어 마크 디자인 스타일 */
-        .tier-omega-mark {
-            color: #b51000;
-            font-weight: 800;
-            font-size: 14px;
-            margin-right: 4px;
-        }
-
-        .badge {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 24px;
-            height: 24px;
-            border-radius: 6px;
-            font-weight: bold;
-            font-size: 13px;
-        }
-
+        .omega-row { background-color: var(--omega-bg) !important; }
+        .tier-omega-mark { color: #b51000; font-weight: 800; font-size: 14px; }
+        .badge { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 6px; font-weight: bold; font-size: 13px; }
         .top-1 { background-color: #fff3bf; color: #e67700; }
         .top-2 { background-color: #e9ecef; color: #495057; }
         .top-3 { background-color: #ffe8cc; color: #d9480f; }
         .top-normal { color: var(--text-muted); }
-
         .level-text { color: #4c6ef5; font-weight: 600; font-size: 13px; }
         .power-text { font-weight: 700; color: #b71c1c; }
 
         .btn-view-stats {
-            background: #eef2ff;
-            color: #4c6ef5;
-            border: none;
-            padding: 6px 12px;
-            font-size: 12px;
-            font-weight: 600;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: background 0.2s;
+            background: #eef2ff; color: #4c6ef5; border: none; padding: 6px 12px;
+            font-size: 12px; font-weight: 600; border-radius: 6px; cursor: pointer; transition: background 0.2s;
         }
         .btn-view-stats:hover { background: #dbe4ff; }
         [data-theme="dark"] .btn-view-stats { background: #25262b; color: #748ffc; }
         [data-theme="dark"] .btn-view-stats:hover { background: #2c2e33; }
         .btn-view-stats:disabled { background: var(--table-th-bg); color: var(--text-muted); cursor: not-allowed; }
 
-        /* 📱 모바일 디바이스 자동 감지 레이아웃 브레이크 포인트 */
         @media (max-width: 991px) {
-            .main-container {
-                flex-direction: column !important;
-                align-items: center !important;
-            }
-            .rank-header-line {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 12px;
-            }
-            .rank-header-line .control-area {
-                width: 100%;
-                justify-content: space-between;
-            }
-            .search-input {
-                flex: 1;
-                max-width: none !important;
-                width: auto !important;
-            }
-            .podium-wrapper {
-                flex: none;
-                max-width: 100% !important;
-                width: 100%;
-                background: none;
-                border: none;
-                box-shadow: none;
-                padding: 10px 0;
-                min-height: auto;
-            }
-            .podium-card {
-                max-width: 220px !important;
-                flex: 1 !important;
-                padding: 20px 10px !important;
-            }
-            .p-1st { height: 340px !important; }
-            .p-2nd { height: 300px !important; }
-            .p-3rd { height: 270px !important; }
-            .p-1st .trophy-img { height: 130px !important; }
-            .p-2nd .trophy-img { height: 100px !important; }
-            .p-3rd .trophy-img { height: 85px !important; }
-            .podium-name { font-size: 14px !important; }
-            .podium-power { font-size: 13px; }
+            .main-container { flex-direction: column !important; align-items: center !important; }
+            .podium-wrapper { flex: none; max-width: 100% !important; width: 100%; height: auto; max-height: none; padding: 10px 0; }
+            .podium-card { max-width: 220px !important; flex: 1 !important; padding: 20px 10px !important; }
+            .p-1st { height: 340px !important; } .p-2nd { height: 300px !important; } .p-3rd { height: 270px !important; }
+            .p-1st .trophy-img { height: 130px !important; } .p-2nd .trophy-img { height: 100px !important; } .p-3rd .trophy-img { height: 85px !important; }
+            .table-wrapper { max-height: none; } /* 모바일은 스크롤 해제 */
         }
 
-        /* 🖼️ 공통 모달 팝업 스타일 */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-        }
-
-        .modal-card {
-            background: var(--bg-panel);
-            border: 1px solid var(--border-color);
-            padding: 24px;
-            border-radius: 16px;
-            max-width: 450px;
-            width: 90%;
-            max-height: 90%;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            position: relative;
-            box-sizing: border-box;
-        }
-
-        .modal-close {
-            position: absolute;
-            top: 14px;
-            right: 18px;
-            font-size: 22px;
-            font-weight: bold;
-            color: var(--text-muted);
-            cursor: pointer;
-        }
-
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); display: none; align-items: center; justify-content: center; z-index: 1000; }
+        .modal-card { background: var(--bg-panel); border: 1px solid var(--border-color); padding: 24px; border-radius: 16px; max-width: 450px; width: 90%; max-height: 90%; box-shadow: 0 10px 25px rgba(0,0,0,0.3); display: flex; flex-direction: column; align-items: center; position: relative; box-sizing: border-box; }
+        .modal-close { position: absolute; top: 14px; right: 18px; font-size: 22px; font-weight: bold; color: var(--text-muted); cursor: pointer; }
         .modal-close:hover { color: var(--text-title); }
         .modal-img { max-width: 100%; max-height: 70vh; object-fit: contain; border-radius: 8px; margin-top: 15px; border: 1px solid var(--border-color); }
         .modal-user-info { font-weight: 700; font-size: 16px; margin-top: 5px; color: var(--text-title); }
-
-        /* 🛑 유의사항 박스 디자인 */
-        .notice-box {
-            width: 100%;
-            background-color: rgba(201, 42, 42, 0.05);
-            border: 1px solid rgba(201, 42, 42, 0.2);
-            border-radius: 8px;
-            padding: 16px;
-            margin: 15px 0;
-            box-sizing: border-box;
-            text-align: left;
-        }
+        .notice-box { width: 100%; background-color: rgba(201, 42, 42, 0.05); border: 1px solid rgba(201, 42, 42, 0.2); border-radius: 8px; padding: 16px; margin: 15px 0; box-sizing: border-box; text-align: left; }
         .notice-box ul { margin: 0; padding-left: 20px; color: #f85149; font-size: 14px; line-height: 1.6; }
         [data-theme="light"] .notice-box ul { color: #c92a2a; }
-        .notice-box li { margin-bottom: 6px; }
-
-        .btn-modal-submit {
-            background: #228be6;
-            color: #fff;
-            border: none;
-            padding: 10px 24px;
-            font-size: 14px;
-            font-weight: 600;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background 0.2s;
-            text-decoration: none;
-            display: inline-block;
-            margin-top: 10px;
-        }
-        .btn-modal-submit:hover { background: #1c7ed6; }
+        .btn-modal-submit { background: #228be6; color: #fff; border: none; padding: 10px 24px; font-size: 14px; font-weight: 600; border-radius: 8px; cursor: pointer; text-decoration: none; display: inline-block; margin-top: 10px; }
     </style>
 </head>
 <body>
@@ -570,23 +404,29 @@
                 </div>
             </div>
 
-            <table>
-                <thead>
-                    <tr>
-                        <th style="width: 12%;">순위</th>
-                        <th style="width: 22%;">레벨</th> <th>닉네임</th>
-                        <th style="text-align: right; width: 25%;">전투력</th>
-                        <th style="text-align: center; width: 22%;">스탯 이미지</th>
-                    </tr>
-                </thead>
-                <tbody id="ranking-list">
-                    <tr><td colspan="5" style="text-align:center; padding:40px 0; color:#adb5bd;">데이터를 불러오는 중입니다...</td></tr>
-                </tbody>
-            </table>
+            <!-- 💡 리더보드 테이블만 독립 스크롤 영역으로 바인딩 완료 -->
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 10%;">순위</th>
+                            <th style="width: 15%;">티어</th> 
+                            <th style="width: 15%;">레벨</th> 
+                            <th>닉네임</th>
+                            <th style="text-align: right; width: 20%;">전투력</th>
+                            <th style="text-align: center; width: 15%;">스탯 이미지</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ranking-list">
+                        <tr><td colspan="6" style="text-align:center; padding:40px 0; color:#adb5bd;">데이터를 불러오는 중입니다...</td></tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
 
     </div>
 
+    <!-- 이미지 확인 모달 -->
     <div class="modal-overlay" id="img-modal" onclick="closeModal()">
         <div class="modal-card" onclick="event.stopPropagation()">
             <span class="modal-close" onclick="closeModal()">&times;</span>
@@ -595,11 +435,11 @@
         </div>
     </div>
 
+    <!-- 유의사항 모달 -->
     <div class="modal-overlay" id="notice-modal" onclick="closeNoticeModal()">
         <div class="modal-card" onclick="event.stopPropagation()">
             <span class="modal-close" onclick="closeNoticeModal()">&times;</span>
             <div class="modal-user-info" style="font-size: 18px; color: var(--text-title);">📢 랭킹 등록 신청 유의사항</div>
-
             <div class="notice-box">
                 <ul>
                     <li>반드시 본인의 <b>정확한 캐릭터 닉네임</b>을 입력해 주세요.</li>
@@ -608,7 +448,6 @@
                     <li><b>자동 갱신 시스템이 아닙니다. </b>관리자 검수 및 승인 처리까지 최대 7일이 소요될 수 있습니다.</li>
                 </ul>
             </div>
-
             <a href="https://forms.gle/2AeXVbuECiLms4bcA" target="_blank" class="btn-modal-submit" onclick="closeNoticeModal()">
                 동의 및 신청서 작성하기
             </a>
@@ -619,16 +458,13 @@
         const TROPHY_1ST = "https://raw.githubusercontent.com/MF-Rank/Ranking/main/images/S1-1st.png";
         const TROPHY_2ND = "https://raw.githubusercontent.com/MF-Rank/Ranking/main/images/S1-2nd.png";
         const TROPHY_3RD = "https://raw.githubusercontent.com/MF-Rank/Ranking/main/images/S1-3rd.png";
-
         const GOOGLE_SHEET_URL = "https://docs.google.com/spreadsheets/d/1VxePbQvytvB0bkVxDMxukX9VqB15yemmyqNeJ9Ju5eg/edit?gid=1742833314#gid=1742833314";
 
         let rankingData = [];
 
-        // 🌓 다이내믹 테마 스위칭 및 메모리 엔진
         function toggleTheme() {
             const currentTheme = document.documentElement.getAttribute('data-theme');
             const targetTheme = currentTheme === 'dark' ? 'light' : 'dark';
-
             document.documentElement.setAttribute('data-theme', targetTheme);
             localStorage.setItem('theme', targetTheme);
             updateThemeButtonText(targetTheme);
@@ -660,17 +496,12 @@
 
             let fileId = "";
             const idMatchers = [
-                /id=([a-zA-Z0-9-_]+)/,
-                /\/d\/([a-zA-Z0-9-_]+)/,
-                /\/file\/d\/([a-zA-Z0-9-_]+)/
+                /id=([a-zA-Z0-9-_]+)/, /\/d\/([a-zA-Z0-9-_]+)/, /\/file\/d\/([a-zA-Z0-9-_]+)/
             ];
 
             for (let matcher of idMatchers) {
                 const match = cleanUrl.match(matcher);
-                if (match && match[1]) {
-                    fileId = match[1];
-                    break;
-                }
+                if (match && match[1]) { fileId = match[1]; break; }
             }
             return fileId ? `https://drive.google.com/thumbnail?id=${fileId}&sz=w1000` : "";
         }
@@ -680,14 +511,12 @@
             try {
                 const response = await fetch(jsonUrl);
                 const text = await response.text();
-
                 const startIdx = text.indexOf('{');
                 const endIdx = text.lastIndexOf('}');
                 if (startIdx === -1 || endIdx === -1) throw new Error("JSON 파싱 실패");
 
                 const json = JSON.parse(text.substring(startIdx, endIdx + 1));
                 const rows = json.table.rows;
-
                 const dataMap = new Map();
 
                 rows.forEach(row => {
@@ -705,27 +534,17 @@
                     const cleanPowerStr = rawPower.toString().includes('.') ? rawPower.toString().split('.')[0] : rawPower.toString();
                     const power = parseInt(cleanPowerStr.replace(/[^0-9]/g, "")) || 0;
 
-                    let rawImgUrl = "";
-                    let isApproved = false;
-                    let isPrivate = false;
+                    let rawImgUrl = ""; let isApproved = false; let isPrivate = false;
 
                     cells.forEach((cell) => {
                         if (!cell || cell.v === null) return;
                         const cellValue = cell.v.toString().trim();
-
-                        if (cellValue.includes('drive.google.com') || cellValue.includes('docs.google.com')) {
-                            rawImgUrl = cellValue;
-                        }
-                        if (cellValue.toUpperCase() === 'Y' || cellValue === '승인') {
-                            isApproved = true;
-                        }
-                        if (cellValue === '비공개') {
-                            isPrivate = true;
-                        }
+                        if (cellValue.includes('drive.google.com') || cellValue.includes('docs.google.com')) rawImgUrl = cellValue;
+                        if (cellValue.toUpperCase() === 'Y' || cellValue === '승인') isApproved = true;
+                        if (cellValue === '비공개') isPrivate = true;
                     });
 
                     const img = convertToDirectDriveLink(rawImgUrl);
-
                     if (isApproved) {
                         if (!dataMap.has(name) || dataMap.get(name).power < power) {
                             dataMap.set(name, { level, name, power, img, isPrivate });
@@ -737,62 +556,50 @@
                 fetchedData.sort((a, b) => b.power - a.power);
                 rankingData = fetchedData;
                 renderRanking();
-
             } catch (error) {
-                console.error("데이터 로드 실패:", error);
-                document.getElementById('ranking-list').innerHTML = `<tr><td colspan="5" style="text-align:center; color:#fa5252; padding:40px 0;">데이터 연동 실패 (시트 설정 및 주소를 확인해 주세요)</td></tr>`;
+                console.error(error);
+                document.getElementById('ranking-list').innerHTML = `<tr><td colspan="6" style="text-align:center; color:#fa5252; padding:40px 0;">데이터 연동 실패</td></tr>`;
             }
         }
 
         function renderRanking() {
             const tbody = document.getElementById('ranking-list');
             tbody.innerHTML = '';
-
-            updatePodiumSlots();
-
             const searchTerm = document.getElementById('search-bar').value.trim().toLowerCase();
 
             if (rankingData.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:#adb5bd; padding:40px 0;">현재 승인되어 등록된 데이터가 없습니다.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:#adb5bd; padding:40px 0;">현재 승인되어 등록된 데이터가 없습니다.</td></tr>`;
                 return;
             }
 
             let hasMatch = false;
-
-            // 검색어 유무와 상관없이 원래 데이터셋(rankingData) 기준의 등수를 매기기 위해 인덱스 활용
             rankingData.forEach((user, index) => {
-                const realRank = index + 1; // 검색 필터와 무관한 실제 서버 등수
-
-                if (searchTerm && !user.name.toLowerCase().includes(searchTerm)) {
-                    return;
-                }
+                const realRank = index + 1;
+                if (searchTerm && !user.name.toLowerCase().includes(searchTerm)) return;
 
                 hasMatch = true;
-
                 let rankDisplay = `<span class="badge top-normal">${realRank}</span>`;
                 if (realRank === 1) rankDisplay = `<span class="badge top-1">1</span>`;
                 else if (realRank === 2) rankDisplay = `<span class="badge top-2">2</span>`;
-                else if (rankDisplay === 3 || realRank === 3) rankDisplay = `<span class="badge top-3">3</span>`;
+                else if (realRank === 3) rankDisplay = `<span class="badge top-3">3</span>`;
 
                 let disabledAttr = (user.isPrivate || !user.img) ? 'disabled' : '';
                 let btnText = user.isPrivate ? '🔒 비공개' : '📷 스탯보기';
                 let statsBtnHtml = `<button class="btn-view-stats" ${disabledAttr} onclick="openModal('${user.name}', '${user.level}', '${user.power}', '${user.img}')">${btnText}</button>`;
 
-                // 👑 [추가] 1~5등(오메가 티어) 유저 판별 시스템 및 마크 주입
-                let omegaMarkHtml = '';
-                let rowClassAttr = '';
-                
+                let tierDisplayHtml = '-'; let rowClassAttr = '';
                 if (realRank >= 1 && realRank <= 5) {
-                    omegaMarkHtml = `<span class="tier-omega-mark">Ω</span>`;
-                    rowClassAttr = `class="omega-row"`; // 행 배경색 입히기 코드 타겟팅
+                    tierDisplayHtml = `<span class="tier-omega-mark">Ω</span>`;
+                    rowClassAttr = 'omega-row';
                 }
 
                 const tr = document.createElement('tr');
-                if (rowClassAttr) tr.className = "omega-row"; // 오메가 변수 주입
+                if (rowClassAttr) tr.className = rowClassAttr;
                 
                 tr.innerHTML = `
                 <td>${rankDisplay}</td>
-                <td class="level-text">${omegaMarkHtml}Lv.${user.level}</td>
+                <td>${tierDisplayHtml}</td>
+                <td class="level-text">Lv.${user.level}</td>
                 <td style="font-weight: 600; color: var(--text-name);">${user.name}</td>
                 <td class="power-text" style="text-align: right;">${user.power.toLocaleString()}</td>
                 <td style="text-align: center;">${statsBtnHtml}</td>
@@ -801,20 +608,19 @@
             });
 
             if (!hasMatch) {
-                tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:#adb5bd; padding:40px 0;">'${searchTerm}' 유저를 찾을 수 없습니다.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:#adb5bd; padding:40px 0;">'${searchTerm}' 유저를 찾을 수 없습니다.</td></tr>`;
             }
+            updatePodiumSlots();
         }
 
         function updatePodiumSlots() {
             const fillSlot = (cardId, user, trophyUrl, rankNum) => {
                 const cardContainer = document.getElementById(cardId);
                 if (!cardContainer) return;
-
                 if (user) {
                     let disabledAttr = (user.isPrivate || !user.img) ? 'disabled' : '';
                     let btnText = user.isPrivate ? '🔒 비공개' : '📷 스탯보기';
                     let shineLayerHtml = (rankNum === 1) ? '<div class="shine-effect"></div>' : '';
-
                     cardContainer.innerHTML = `
                         ${shineLayerHtml}
                         <img src="${trophyUrl}" class="trophy-img" alt="${rankNum}등 트로피">
@@ -829,7 +635,6 @@
                     `;
                 }
             };
-
             fillSlot('podium-1st', rankingData[0], TROPHY_1ST, 1);
             fillSlot('podium-2nd', rankingData[1], TROPHY_2ND, 2);
             fillSlot('podium-3rd', rankingData[2], TROPHY_3RD, 3);
@@ -841,22 +646,11 @@
             document.getElementById('modal-img-src').src = imgUrl;
             document.getElementById('img-modal').style.display = 'flex';
         }
+        function closeModal() { document.getElementById('img-modal').style.display = 'none'; document.getElementById('modal-img-src').src = ''; }
+        function openNoticeModal() { document.getElementById('notice-modal').style.display = 'flex'; }
+        function closeNoticeModal() { document.getElementById('notice-modal').style.display = 'none'; }
 
-        function closeModal() {
-            document.getElementById('img-modal').style.display = 'none';
-            document.getElementById('modal-img-src').src = '';
-        }
-
-        function openNoticeModal() {
-            document.getElementById('notice-modal').style.display = 'flex';
-        }
-        function closeNoticeModal() {
-            document.getElementById('notice-modal').style.display = 'none';
-        }
-
-        window.onload = function() {
-            fetchRankingData();
-        };
+        window.onload = function() { fetchRankingData(); };
     </script>
 </body>
 </html>
