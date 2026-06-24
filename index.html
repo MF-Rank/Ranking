@@ -8,7 +8,7 @@
             background-color: #f8f9fa;
             color: #333333;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            padding: 40px 20px;
+            padding: 40px 20px; /* 상단 여백 밸런스 조정 */
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -180,7 +180,7 @@
         }
         .p-2nd .trophy-img { height: 190px !important; }
 
-        /* 🥉 3등 카드 (⚠️ 긴급 수정: 세미콜론 및 중괄호 오타 완전 교정 완료) */
+        /* 🥉 3등 카드 */
         .p-3rd {
             flex: 0.9;
             height: 380px;
@@ -188,6 +188,36 @@
             background: linear-gradient(180deg, #fffaf5 0%, #ffffff 40%);
         }
         .p-3rd .trophy-img { height: 150px !important; }
+
+        .podium-name {
+            font-weight: 700;
+            font-size: 16px;
+            color: #111111;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-bottom: 4px;
+        }
+
+        .podium-level {
+            font-size: 13px;
+            color: #4c6ef5;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .podium-power {
+            font-weight: 800;
+            font-size: 18px;
+            color: #b71c1c;
+            margin-bottom: 10px;
+        }
+
+        .podium-empty {
+            color: #adb5bd;
+            font-size: 14px;
+            margin-bottom: 60px;
+        }
 
         /* 📊 [우측] 리더보드 순위표 구역 */
         .rank-panel {
@@ -431,12 +461,14 @@
 
     <div class="main-container" id="main-layout">
 
+        <!-- 🏛️ [좌측 반반 영역] 대형 시상대 구역 -->
         <div class="podium-wrapper">
             <div class="podium-card p-2nd" id="podium-2nd"></div>
             <div class="podium-card p-1st" id="podium-1st"></div>
             <div class="podium-card p-3rd" id="podium-3rd"></div>
         </div>
 
+        <!-- 📊 [우측 반반 영역] 실시간 리더보드 순위표 -->
         <div class="rank-panel">
             <div class="rank-header-line">
                 <div class="title-area">
@@ -466,6 +498,7 @@
 
     </div>
 
+    <!-- 이미지 확인 모달 -->
     <div class="modal-overlay" id="img-modal" onclick="closeModal()">
         <div class="modal-card" onclick="event.stopPropagation()">
             <span class="modal-close" onclick="closeModal()">&times;</span>
@@ -474,6 +507,7 @@
         </div>
     </div>
 
+    <!-- 유의사항 및 신청 링크 모달 -->
     <div class="modal-overlay" id="notice-modal" onclick="closeNoticeModal()">
         <div class="modal-card" onclick="event.stopPropagation()">
             <span class="modal-close" onclick="closeNoticeModal()">&times;</span>
@@ -495,6 +529,7 @@
     </div>
 
     <script>
+        // 🏆 안전한 변수 선언 구역
         const TROPHY_1ST = "https://raw.githubusercontent.com/MF-Rank/Ranking/main/images/S1-1st.png";
         const TROPHY_2ND = "https://raw.githubusercontent.com/MF-Rank/Ranking/main/images/S1-2nd.png";
         const TROPHY_3RD = "https://raw.githubusercontent.com/MF-Rank/Ranking/main/images/S1-3rd.png";
@@ -569,3 +604,137 @@
                     cells.forEach((cell) => {
                         if (!cell || cell.v === null) return;
                         const cellValue = cell.v.toString().trim();
+
+                        if (cellValue.includes('drive.google.com') || cellValue.includes('docs.google.com')) {
+                            rawImgUrl = cellValue;
+                        }
+                        if (cellValue.toUpperCase() === 'Y' || cellValue === '승인') {
+                            isApproved = true;
+                        }
+                        if (cellValue === '비공개') {
+                            isPrivate = true;
+                        }
+                    });
+
+                    const img = convertToDirectDriveLink(rawImgUrl);
+
+                    if (isApproved) {
+                        if (!dataMap.has(name) || dataMap.get(name).power < power) {
+                            dataMap.set(name, { level, name, power, img, isPrivate });
+                        }
+                    }
+                });
+
+                const fetchedData = Array.from(dataMap.values());
+                fetchedData.sort((a, b) => b.power - a.power);
+                rankingData = fetchedData;
+                renderRanking();
+
+            } catch (error) {
+                console.error("데이터 로드 실패:", error);
+                document.getElementById('ranking-list').innerHTML = `<tr><td colspan="5" style="text-align:center; color:#fa5252; padding:40px 0;">데이터 연동 실패 (시트 설정 및 주소를 확인해 주세요)</td></tr>`;
+            }
+        }
+
+        function renderRanking() {
+            const tbody = document.getElementById('ranking-list');
+            tbody.innerHTML = '';
+
+            updatePodiumSlots();
+
+            const searchTerm = document.getElementById('search-bar').value.trim().toLowerCase();
+
+            if (rankingData.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:#adb5bd; padding:40px 0;">현재 승인되어 등록된 데이터가 없습니다.</td></tr>`;
+                return;
+            }
+
+            let hasMatch = false;
+
+            rankingData.forEach((user, index) => {
+                const rank = index + 1;
+
+                if (searchTerm && !user.name.toLowerCase().includes(searchTerm)) {
+                    return;
+                }
+
+                hasMatch = true;
+
+                let rankDisplay = `<span class="badge top-normal">${rank}</span>`;
+                if (rank === 1) rankDisplay = `<span class="badge top-1">1</span>`;
+                else if (rank === 2) rankDisplay = `<span class="badge top-2">2</span>`;
+                else if (rank === 3) rankDisplay = `<span class="badge top-3">3</span>`;
+
+                let disabledAttr = (user.isPrivate || !user.img) ? 'disabled' : '';
+                let btnText = user.isPrivate ? '🔒 비공개' : '📷 스탯보기';
+                let statsBtnHtml = `<button class="btn-view-stats" ${disabledAttr} onclick="openModal('${user.name}', '${user.level}', '${user.power}', '${user.img}')">${btnText}</button>`;
+
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                <td>${rankDisplay}</td>
+                <td class="level-text">Lv.${user.level}</td>
+                <td style="font-weight: 600; color:#212529;">${user.name}</td>
+                <td class="power-text" style="text-align: right;">${user.power.toLocaleString()}</td>
+                <td style="text-align: center;">${statsBtnHtml}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            if (!hasMatch) {
+                tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:#adb5bd; padding:40px 0;">'${searchTerm}' 유저를 찾을 수 없습니다.</td></tr>`;
+            }
+        }
+
+        function updatePodiumSlots() {
+            const fillSlot = (cardId, user, trophyUrl, rankNum) => {
+                const cardContainer = document.getElementById(cardId);
+                if (!cardContainer) return;
+
+                if (user) {
+                    let disabledAttr = (user.isPrivate || !user.img) ? 'disabled' : '';
+                    let btnText = user.isPrivate ? '🔒 비공개' : '📷 스탯보기';
+
+                    cardContainer.innerHTML = `
+                        <img src="${trophyUrl}" class="trophy-img" alt="${rankNum}등 트로피">
+                        <div class="podium-name">${user.name}</div>
+                        <div class="podium-level">Lv.${user.level}</div>
+                        <div class="podium-power">${user.power.toLocaleString()}</div>
+                        <button class="btn-view-stats" ${disabledAttr} onclick="openModal('${user.name}', '${user.level}', '${user.power}', '${user.img}')">${btnText}</button>
+                    `;
+                } else {
+                    cardContainer.innerHTML = `
+                        <div class="podium-empty">${rankNum}등 공석</div>
+                    `;
+                }
+            };
+
+            fillSlot('podium-1st', rankingData[0], TROPHY_1ST, 1);
+            fillSlot('podium-2nd', rankingData[1], TROPHY_2ND, 2);
+            fillSlot('podium-3rd', rankingData[2], TROPHY_3RD, 3);
+        }
+
+        function openModal(name, level, power, imgUrl) {
+            if (!imgUrl) return;
+            document.getElementById('modal-user-title').innerText = `[Lv.${level}] ${name} 님의 스텟 인증`;
+            document.getElementById('modal-img-src').src = imgUrl;
+            document.getElementById('img-modal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('img-modal').style.display = 'none';
+            document.getElementById('modal-img-src').src = '';
+        }
+
+        function openNoticeModal() {
+            document.getElementById('notice-modal').style.display = 'flex';
+        }
+        function closeNoticeModal() {
+            document.getElementById('notice-modal').style.display = 'none';
+        }
+
+        window.onload = function() {
+            fetchRankingData();
+        };
+    </script>
+</body>
+</html>
