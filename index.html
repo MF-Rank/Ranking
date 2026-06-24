@@ -183,7 +183,7 @@
             border-top: 6px solid #cd7f32;
             background: linear-gradient(180deg, #fffaf5 0%, #ffffff 40%);
         }
-        .main-container.simple-mode .p-3rd { height: 270px !important; }
+        .main-container.simple-mode .p-3rd { height: 270px; !important; }
 
         .podium-name {
             font-weight: 700;
@@ -481,14 +481,12 @@
 
     <div class="main-container" id="main-layout">
 
-        <!-- 🏛️ [좌측 반반 영역] 대형 시상대 구역 -->
         <div class="podium-wrapper">
             <div class="podium-card p-2nd" id="podium-2nd"></div>
             <div class="podium-card p-1st" id="podium-1st"></div>
             <div class="podium-card p-3rd" id="podium-3rd"></div>
         </div>
 
-        <!-- 📊 [우측 반반 영역] 실시간 리더보드 순위표 -->
         <div class="rank-panel">
             <div class="rank-header-line">
                 <div class="title-area">
@@ -518,7 +516,6 @@
 
     </div>
 
-    <!-- 이미지 확인 모달 -->
     <div class="modal-overlay" id="img-modal" onclick="closeModal()">
         <div class="modal-card" onclick="event.stopPropagation()">
             <span class="modal-close" onclick="closeModal()">&times;</span>
@@ -527,7 +524,6 @@
         </div>
     </div>
 
-    <!-- 유의사항 및 신청 링크 모달 -->
     <div class="modal-overlay" id="notice-modal" onclick="closeNoticeModal()">
         <div class="modal-card" onclick="event.stopPropagation()">
             <span class="modal-close" onclick="closeNoticeModal()">&times;</span>
@@ -549,13 +545,12 @@
     </div>
 
     <script>
-        // 🏆 로컬 크로스오리진 완벽 대응 다이렉트 이미지 도메인
+        // 🏆 [변수 안전 구역 설정] 스크립트 실행 순서 버그 방지를 위해 최상단으로 강제 견인
         const TROPHY_1ST = "https://raw.githubusercontent.com/MF-Rank/Ranking/main/images/S1-1st.png";
         const TROPHY_2ND = "https://raw.githubusercontent.com/MF-Rank/Ranking/main/images/S1-2nd.png";
         const TROPHY_3RD = "https://raw.githubusercontent.com/MF-Rank/Ranking/main/images/S1-3rd.png";
 
-        // 💡 [로컬/서버 동시 호환 무적 프록시 엔진] CORS 제한 없이 어떤 환경에서도 시트 주소를 매칭해 파싱합니다.
-        const GOOGLE_SHEET_URL = "https://docs.google.com/spreadsheets/d/1VxePbQvytvB0bkVxDMxukX9VqB15yemmyqNeJ9Ju5eg/pub?gid=1742833314&output=csv";
+        const GOOGLE_SHEET_URL = "https://docs.google.com/spreadsheets/d/1VxePbQvytvB0bkVxDMxukX9VqB15yemmyqNeJ9Ju5eg/edit?gid=1742833314#gid=1742833314";
 
         let rankingData = [];
 
@@ -572,63 +567,82 @@
             }
         }
 
+        function getJsonUrl(url) {
+            const matches = url.match(/\/d\/([a-zA-Z0-9-_]+)/);
+            if (!matches) return null;
+            return `https://docs.google.com/spreadsheets/d/${matches[1]}/gviz/tq?tqx=out:json&gid=1742833314`;
+        }
+
         function convertToDirectDriveLink(url) {
             if (!url) return "";
             let cleanUrl = url.toString().replace(/[\[\]"']/g, "").trim();
             if (!cleanUrl.includes("drive.google.com") && !cleanUrl.includes("docs.google.com")) return "";
-            
+            if (cleanUrl.includes("#REF!") || cleanUrl.includes("에러")) return "";
+
             let fileId = "";
-            const idMatchers = [/id=([a-zA-Z0-9-_]+)/, /\/d\/([a-zA-Z0-9-_]+)/, /\/file\/d\/([a-zA-Z0-9-_]+)/];
+            const idMatchers = [
+                /id=([a-zA-Z0-9-_]+)/,
+                /\/d\/([a-zA-Z0-9-_]+)/,
+                /\/file\/d\/([a-zA-Z0-9-_]+)/
+            ];
+
             for (let matcher of idMatchers) {
                 const match = cleanUrl.match(matcher);
-                if (match && match[1]) { fileId = match[1]; break; }
+                if (match && match[1]) {
+                    fileId = match[1];
+                    break;
+                }
             }
             return fileId ? `https://drive.google.com/thumbnail?id=${fileId}&sz=w1000` : "";
         }
 
-        // 💡 로컬 파일 시스템 호환용 CSV 범용 파서 장착
         async function fetchRankingData() {
+            const jsonUrl = getJsonUrl(GOOGLE_SHEET_URL);
             try {
-                const response = await fetch(GOOGLE_SHEET_URL);
-                const csvText = await response.text();
-                
-                // CSV 행 파싱 함수
-                const lines = csvText.split('\n').map(line => {
-                    // 따옴표 내부 콤마 무시 처리 로직
-                    let result = [];
-                    let current = '';
-                    let inQuotes = false;
-                    for (let char of line) {
-                        if (char === '"') { inQuotes = !inQuotes; }
-                        else if (char === ',' && !inQuotes) { result.push(current); current = ''; }
-                        else { current += char; }
-                    }
-                    result.push(current);
-                    return result;
-                });
+                const response = await fetch(jsonUrl);
+                const text = await response.text();
+
+                const startIdx = text.indexOf('{');
+                const endIdx = text.lastIndexOf('}');
+                if (startIdx === -1 || endIdx === -1) throw new Error("JSON 파싱 실패");
+
+                const json = JSON.parse(text.substring(startIdx, endIdx + 1));
+                const rows = json.table.rows;
 
                 const dataMap = new Map();
 
-                // CSV 첫 헤더 행 제외하고 순회
-                for(let i = 1; i < lines.length; i++) {
-                    const cells = lines[i];
-                    if (!cells || cells.length < 4 || !cells[2]) continue;
+                rows.forEach(row => {
+                    const cells = row.c;
+                    if (!cells || cells.length < 4 || !cells[2] || cells[2].v === null) return;
 
-                    const name = cells[2].replace(/"/g, "").trim();
-                    if (!name) continue;
+                    const name = cells[2].v.toString().trim();
+                    if (!name) return;
 
-                    const level = parseInt(cells[1].replace(/[^0-9]/g, "")) || 0;
-                    const power = parseInt(cells[3].replace(/[^0-9]/g, "")) || 0;
+                    const rawLevel = cells[1] ? (cells[1].f || cells[1].v || "0") : "0";
+                    const cleanLevelStr = rawLevel.toString().includes('.') ? rawLevel.toString().split('.')[0] : rawLevel.toString();
+                    const level = parseInt(cleanLevelStr.replace(/[^0-9]/g, "")) || 0;
+
+                    const rawPower = cells[3] ? (cells[3].f || cells[3].v || "0") : "0";
+                    const cleanPowerStr = rawPower.toString().includes('.') ? rawPower.toString().split('.')[0] : rawPower.toString();
+                    const power = parseInt(cleanPowerStr.replace(/[^0-9]/g, "")) || 0;
 
                     let rawImgUrl = "";
                     let isApproved = false;
                     let isPrivate = false;
 
-                    cells.forEach(cell => {
-                        const val = cell.replace(/"/g, "").trim();
-                        if (val.includes('drive.google.com') || val.includes('docs.google.com')) { rawImgUrl = val; }
-                        if (val.toUpperCase() === 'Y' || val === '승인') { isApproved = true; }
-                        if (val === '비공개') { isPrivate = true; }
+                    cells.forEach((cell) => {
+                        if (!cell || cell.v === null) return;
+                        const cellValue = cell.v.toString().trim();
+
+                        if (cellValue.includes('drive.google.com') || cellValue.includes('docs.google.com')) {
+                            rawImgUrl = cellValue;
+                        }
+                        if (cellValue.toUpperCase() === 'Y' || cellValue === '승인') {
+                            isApproved = true;
+                        }
+                        if (cellValue === '비공개') {
+                            isPrivate = true;
+                        }
                     });
 
                     const img = convertToDirectDriveLink(rawImgUrl);
@@ -638,9 +652,11 @@
                             dataMap.set(name, { level, name, power, img, isPrivate });
                         }
                     }
-                }
+                });
 
-                rankingData = Array.from(dataMap.values()).sort((a, b) => b.power - a.power);
+                const fetchedData = Array.from(dataMap.values());
+                fetchedData.sort((a, b) => b.power - a.power);
+                rankingData = fetchedData;
                 renderRanking();
 
             } catch (error) {
@@ -652,18 +668,25 @@
         function renderRanking() {
             const tbody = document.getElementById('ranking-list');
             tbody.innerHTML = '';
+
             updatePodiumSlots();
 
             const searchTerm = document.getElementById('search-bar').value.trim().toLowerCase();
+
             if (rankingData.length === 0) {
                 tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:#adb5bd; padding:40px 0;">현재 승인되어 등록된 데이터가 없습니다.</td></tr>`;
                 return;
             }
 
             let hasMatch = false;
+
             rankingData.forEach((user, index) => {
                 const rank = index + 1;
-                if (searchTerm && !user.name.toLowerCase().includes(searchTerm)) return;
+
+                if (searchTerm && !user.name.toLowerCase().includes(searchTerm)) {
+                    return;
+                }
+
                 hasMatch = true;
 
                 let rankDisplay = `<span class="badge top-normal">${rank}</span>`;
@@ -708,7 +731,9 @@
                         <button class="btn-view-stats" ${disabledAttr} onclick="openModal('${user.name}', '${user.level}', '${user.power}', '${user.img}')">${btnText}</button>
                     `;
                 } else {
-                    cardContainer.innerHTML = `<div class="podium-empty">${rankNum}등 공석</div>`;
+                    cardContainer.innerHTML = `
+                        <div class="podium-empty">${rankNum}등 공석</div>
+                    `;
                 }
             };
 
@@ -729,10 +754,16 @@
             document.getElementById('modal-img-src').src = '';
         }
 
-        function openNoticeModal() { document.getElementById('notice-modal').style.display = 'flex'; }
-        function closeNoticeModal() { document.getElementById('notice-modal').style.display = 'none'; }
+        function openNoticeModal() {
+            document.getElementById('notice-modal').style.display = 'flex';
+        }
+        function closeNoticeModal() {
+            document.getElementById('notice-modal').style.display = 'none';
+        }
 
-        window.onload = function() { fetchRankingData(); };
+        window.onload = function() {
+            fetchRankingData();
+        };
     </script>
 </body>
 </html>
