@@ -130,7 +130,7 @@
         .main-container {
             display: flex;
             flex-direction: row;
-            align-items: flex-start; /* 단상 늘어짐 방지 고정 */
+            align-items: flex-start; /* 단상 늘어짐 버그 방지 고정 */
             gap: 30px;
             max-width: 1400px;
             width: 100%;
@@ -277,22 +277,20 @@
             border: 1px solid var(--border-color);
             border-radius: 20px;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.03);
-            padding: 24px 24px 16px 24px; /* 패딩 균형 조율 */
+            padding: 30px 24px;
             box-sizing: border-box;
             width: 100%;
             display: flex;
             flex-direction: column;
-            /* 💡 핵심 교정: 기존 space-between을 제거하여 행이 억지로 아래로 찢어지며 늘어나는 버그 수정 */
-            justify-content: flex-start; 
-            height: 580px; /* 단상 박스와 높이 대칭 고정 */
-            max-height: 580px;
+            justify-content: space-between;
+            min-height: 580px; /* 좌측 높이와 완벽 대칭 */
         }
 
         .rank-header-line {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 16px;
+            margin-bottom: 20px;
             padding-bottom: 10px;
             border-bottom: 2px solid var(--table-border);
             gap: 12px;
@@ -346,12 +344,12 @@
             color: var(--text-sub);
             font-size: 13px;
             font-weight: 600;
-            padding: 8px 12px; /* 헤더 두께 슬림 패치 */
+            padding: 10px 12px; /* 패딩 슬림화 */
             border-bottom: 2px solid var(--table-border);
         }
 
         td {
-            padding: 8px 12px; /* 👈 핵심 교정: 셀 패딩을 원래대로 대폭 축소하여 슬림하고 세련된 행 두께 복구 */
+            padding: 10px 12px; /* 👈 두께 버그 수정: 패딩 축소로 정밀 슬림 패치 */
             font-size: 14px;
             color: var(--text-sub);
             border-bottom: 1px solid var(--table-border);
@@ -376,13 +374,13 @@
         [data-theme="dark"] .btn-view-stats:hover { background: #2c2e33; }
         .btn-view-stats:disabled { background: var(--table-th-bg); color: var(--text-muted); cursor: not-allowed; }
 
-        /* 🗂️ 페이지네이션 버튼 하단 바 구역 디자인 */
+        /* 🗂️ [신설] 페이지네이션 버튼 하단 바 구역 디자인 */
         .pagination-container {
             display: flex;
             justify-content: center;
             align-items: center;
             gap: 5px;
-            margin-top: auto; /* 💡 항상 박스 맨 아래에 밀착 고정 */
+            margin-top: 15px;
             padding-top: 10px;
         }
 
@@ -421,7 +419,6 @@
             .podium-card { max-width: 220px !important; flex: 1 !important; padding: 20px 10px !important; }
             .p-1st { height: 340px !important; } .p-2nd { height: 300px !important; } .p-3rd { height: 270px !important; }
             .p-1st .trophy-img { height: 130px !important; } .p-2nd .trophy-img { height: 100px !important; } .p-3rd .trophy-img { height: 85px !important; }
-            .rank-panel { height: auto; max-height: none; }
         }
 
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); display: none; align-items: center; justify-content: center; z-index: 1000; }
@@ -456,7 +453,7 @@
         </div>
 
         <div class="rank-panel">
-            <div style="width: 100%;">
+            <div>
                 <div class="rank-header-line">
                     <div class="title-area">
                         <h2 class="card-title">📊 실시간 리더보드</h2>
@@ -522,8 +519,8 @@
         const GOOGLE_SHEET_URL = "https://docs.google.com/spreadsheets/d/1VxePbQvytvB0bkVxDMxukX9VqB15yemmyqNeJ9Ju5eg/edit?gid=1742833314#gid=1742833314";
 
         let rankingData = [];
-        let currentPage = 1; 
-        const PAGE_SIZE = 10; 
+        let currentPage = 1; // 💡 현재 활성화된 페이지 트랙킹 변수
+        const PAGE_SIZE = 10; // 💡 1페이지당 10명 제한 세팅 고정
 
         function toggleTheme() {
             const currentTheme = document.documentElement.getAttribute('data-theme');
@@ -628,12 +625,136 @@
             const tbody = document.getElementById('ranking-list');
             tbody.innerHTML = '';
             
+            // 시상대는 검색 여부와 무관하게 항상 전체 데이터의 1,2,3등 고정 출력
             updatePodiumSlots();
 
             const searchTerm = document.getElementById('search-bar').value.trim().toLowerCase();
 
+            // 1차 필터링: 검색 결과 걸러내기
             const filteredData = rankingData.map((user, originIndex) => ({ ...user, realRank: originIndex + 1 }))
                                            .filter(user => user.name.toLowerCase().includes(searchTerm));
 
             if (filteredData.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:#adb5bd; padding:40px 0;">검색 결과가 없습니다.</td>
+                tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:#adb5bd; padding:40px 0;">검색 결과가 없습니다.</td></tr>`;
+                document.getElementById('pagination-bar').innerHTML = '';
+                return;
+            }
+
+            // 2차 필터링: 현재 페이지 세그먼트 연산 (10명 단위 쪼개기)
+            const totalRows = filteredData.length;
+            const totalPages = Math.ceil(totalRows / PAGE_SIZE);
+            
+            if (currentPage > totalPages) currentPage = totalPages;
+            if (currentPage < 1) currentPage = 1;
+
+            const startIndex = (currentPage - 1) * PAGE_SIZE;
+            const endIndex = Math.min(startIndex + PAGE_SIZE, totalRows);
+            const pageData = filteredData.slice(startIndex, endIndex);
+
+            pageData.forEach((user) => {
+                const realRank = user.realRank;
+
+                let rankDisplay = `<span class="badge top-normal">${realRank}</span>`;
+                if (realRank === 1) rankDisplay = `<span class="badge top-1">1</span>`;
+                else if (realRank === 2) rankDisplay = `<span class="badge top-2">2</span>`;
+                else if (realRank === 3) rankDisplay = `<span class="badge top-3">3</span>`;
+
+                let disabledAttr = (user.isPrivate || !user.img) ? 'disabled' : '';
+                let btnText = user.isPrivate ? '🔒 비공개' : '📷 스탯보기';
+                let statsBtnHtml = `<button class="btn-view-stats" ${disabledAttr} onclick="openModal('${user.name}', '${user.level}', '${user.power}', '${user.img}')">${btnText}</button>`;
+
+                let tierDisplayHtml = '-'; let rowClassAttr = '';
+                if (realRank >= 1 && realRank <= 5) {
+                    tierDisplayHtml = `<span class="tier-omega-mark">Ω</span>`;
+                    rowClassAttr = 'omega-row';
+                }
+
+                const tr = document.createElement('tr');
+                if (rowClassAttr) tr.className = rowClassAttr;
+                
+                tr.innerHTML = `
+                <td>${rankDisplay}</td>
+                <td>${tierDisplayHtml}</td>
+                <td class="level-text">Lv.${user.level}</td>
+                <td style="font-weight: 600; color: var(--text-name);">${user.name}</td>
+                <td class="power-text" style="text-align: right;">${user.power.toLocaleString()}</td>
+                <td style="text-align: center;">${statsBtnHtml}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            renderPaginationBar(totalPages);
+        }
+
+        // 🗂️ [신설] 페이지네이션 하단 제어 버턴 생성 엔진
+        function renderPaginationBar(totalPages) {
+            const bar = document.getElementById('pagination-bar');
+            bar.innerHTML = '';
+
+            if (totalPages <= 1) return; // 1페이지밖에 없다면 하단 네비게이션 생략
+
+            // [이전] 버튼
+            const prevBtn = document.createElement('button');
+            prevBtn.className = 'pagination-btn';
+            prevBtn.innerText = '이전';
+            prevBtn.disabled = currentPage === 1;
+            prevBtn.onclick = () => { currentPage--; renderRanking(); };
+            bar.appendChild(prevBtn);
+
+            // 숫자 번호 버튼들 생성
+            for (let i = 1; i <= totalPages; i++) {
+                const numBtn = document.createElement('button');
+                numBtn.className = `pagination-btn ${i === currentPage ? 'active' : ''}`;
+                numBtn.innerText = i;
+                numBtn.onclick = () => { currentPage = i; renderRanking(); };
+                bar.appendChild(numBtn);
+            }
+
+            // [다음] 버튼
+            const nextBtn = document.createElement('button');
+            nextBtn.className = 'pagination-btn';
+            nextBtn.innerText = '다음';
+            nextBtn.disabled = currentPage === totalPages;
+            nextBtn.onclick = () => { currentPage++; renderRanking(); };
+            bar.appendChild(nextBtn);
+        }
+
+        function updatePodiumSlots() {
+            const fillSlot = (cardId, user, trophyUrl, rankNum) => {
+                const cardContainer = document.getElementById(cardId);
+                if (!cardContainer) return;
+                if (user) {
+                    let disabledAttr = (user.isPrivate || !user.img) ? 'disabled' : '';
+                    let btnText = user.isPrivate ? '🔒 비공개' : '📷 스탯보기';
+                    let shineLayerHtml = (rankNum === 1) ? '<div class="shine-effect"></div>' : '';
+                    cardContainer.innerHTML = `
+                        ${shineLayerHtml}
+                        <img src="${trophyUrl}" class="trophy-img" alt="${rankNum}등 트로피">
+                        <div class="podium-name">${user.name}</div>
+                        <div class="podium-level">Lv.${user.level}</div>
+                        <div class="podium-power">${user.power.toLocaleString()}</div>
+                        <button class="btn-view-stats" ${disabledAttr} onclick="openModal('${user.name}', '${user.level}', '${user.power}', '${user.img}')">${btnText}</button>
+                    `;
+                } else {
+                    cardContainer.innerHTML = ` <div class="podium-empty">${rankNum}등 공석</div> `;
+                }
+            };
+            fillSlot('podium-1st', rankingData[0], TROPHY_1ST, 1);
+            fillSlot('podium-2nd', rankingData[1], TROPHY_2ND, 2);
+            fillSlot('podium-3rd', rankingData[2], TROPHY_3RD, 3);
+        }
+
+        function openModal(name, level, power, imgUrl) {
+            if (!imgUrl) return;
+            document.getElementById('modal-user-title').innerText = `[Lv.${level}] ${name} 님의 스텟 인증`;
+            document.getElementById('modal-img-src').src = imgUrl;
+            document.getElementById('img-modal').style.display = 'flex';
+        }
+        function closeModal() { document.getElementById('img-modal').style.display = 'none'; document.getElementById('modal-img-src').src = ''; }
+        function openNoticeModal() { document.getElementById('notice-modal').style.display = 'flex'; }
+        function closeNoticeModal() { document.getElementById('notice-modal').style.display = 'none'; }
+
+        window.onload = function() { fetchRankingData(); };
+    </script>
+</body>
+</html>
