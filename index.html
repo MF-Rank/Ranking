@@ -16,7 +16,6 @@
             --text-name: #212529;
             --table-th-bg: #f8f9fa;
             --table-border: #f1f3f5;
-            --omega-bg: rgba(181, 16, 0, 0.12);
         }
 
         /* 🌙 다크모드 변수 세팅 */
@@ -31,14 +30,13 @@
             --text-name: #ffe066;
             --table-th-bg: #25262b;
             --table-border: #2c2e33;
-            --omega-bg: rgba(220, 50, 30, 0.35);
         }
 
         body {
             background-color: var(--bg-body);
             color: var(--text-main);
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            padding: 40px 20px;
+            padding: 40px 20px; /* 상단 여백 밸런스 조정 */
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -130,7 +128,7 @@
         .main-container {
             display: flex;
             flex-direction: row;
-            align-items: flex-start; /* 단상 늘어짐 버그 방지 고정 */
+            align-items: flex-start; /* 단상 늘어짐 버그 원천 차단 */
             gap: 30px;
             max-width: 1400px;
             width: 100%;
@@ -194,6 +192,7 @@
             100% { transform: translateY(0px); }
         }
 
+        /* 🥇 1등 카드 디자인 베이스 */
         .p-1st {
             flex: 1.3;
             height: 520px;
@@ -277,13 +276,14 @@
             border: 1px solid var(--border-color);
             border-radius: 20px;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.03);
-            padding: 30px 24px;
+            padding: 30px 24px 20px 24px;
             box-sizing: border-box;
             width: 100%;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
-            min-height: 580px; /* 좌측 높이와 완벽 대칭 */
+            justify-content: flex-start; /* 세로 쩍벌 현상 수정: 순밀착 정렬 */
+            height: 580px; /* 단상과 완전 평행 대칭 */
+            max-height: 580px;
         }
 
         .rank-header-line {
@@ -344,24 +344,23 @@
             color: var(--text-sub);
             font-size: 13px;
             font-weight: 600;
-            padding: 10px 12px; /* 패딩 슬림화 */
+            padding: 10px 12px;
             border-bottom: 2px solid var(--table-border);
         }
 
         td {
-            padding: 10px 12px; /* 👈 두께 버그 수정: 패딩 축소로 정밀 슬림 패치 */
+            padding: 10px 12px; /* 👈 패딩 수치 복구로 원본의 슬림한 콤팩트 두께 원상복구 */
             font-size: 14px;
             color: var(--text-sub);
             border-bottom: 1px solid var(--table-border);
         }
 
-        .omega-row { background-color: var(--omega-bg) !important; }
-        .tier-omega-mark { color: #b51000; font-weight: 800; font-size: 14px; }
         .badge { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 6px; font-weight: bold; font-size: 13px; }
         .top-1 { background-color: #fff3bf; color: #e67700; }
         .top-2 { background-color: #e9ecef; color: #495057; }
         .top-3 { background-color: #ffe8cc; color: #d9480f; }
         .top-normal { color: var(--text-muted); }
+
         .level-text { color: #4c6ef5; font-weight: 600; font-size: 13px; }
         .power-text { font-weight: 700; color: #b71c1c; }
 
@@ -374,13 +373,13 @@
         [data-theme="dark"] .btn-view-stats:hover { background: #2c2e33; }
         .btn-view-stats:disabled { background: var(--table-th-bg); color: var(--text-muted); cursor: not-allowed; }
 
-        /* 🗂️ [신설] 페이지네이션 버튼 하단 바 구역 디자인 */
+        /* 🗂️ 페이지네이션 버튼 하단 바 구역 디자인 */
         .pagination-container {
             display: flex;
             justify-content: center;
             align-items: center;
             gap: 5px;
-            margin-top: 15px;
+            margin-top: auto; /* 언제나 하단 영역 최하단에 흡착 고정 */
             padding-top: 10px;
         }
 
@@ -419,6 +418,7 @@
             .podium-card { max-width: 220px !important; flex: 1 !important; padding: 20px 10px !important; }
             .p-1st { height: 340px !important; } .p-2nd { height: 300px !important; } .p-3rd { height: 270px !important; }
             .p-1st .trophy-img { height: 130px !important; } .p-2nd .trophy-img { height: 100px !important; } .p-3rd .trophy-img { height: 85px !important; }
+            .rank-panel { height: auto; max-height: none; }
         }
 
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); display: none; align-items: center; justify-content: center; z-index: 1000; }
@@ -453,7 +453,7 @@
         </div>
 
         <div class="rank-panel">
-            <div>
+            <div style="width: 100%;">
                 <div class="rank-header-line">
                     <div class="title-area">
                         <h2 class="card-title">📊 실시간 리더보드</h2>
@@ -467,16 +467,15 @@
                 <table>
                     <thead>
                         <tr>
-                            <th style="width: 10%;">순위</th>
-                            <th style="width: 15%;">티어</th> 
-                            <th style="width: 15%;">레벨</th> 
+                            <th style="width: 12%;">순위</th>
+                            <th style="width: 22%;">레벨</th> 
                             <th>닉네임</th>
-                            <th style="text-align: right; width: 20%;">전투력</th>
-                            <th style="text-align: center; width: 15%;">스탯 이미지</th>
+                            <th style="text-align: right; width: 25%;">전투력</th>
+                            <th style="text-align: center; width: 22%;">스탯 이미지</th>
                         </tr>
                     </thead>
                     <tbody id="ranking-list">
-                        <tr><td colspan="6" style="text-align:center; padding:40px 0; color:#adb5bd;">데이터를 불러오는 중입니다...</td></tr>
+                        <tr><td colspan="5" style="text-align:center; padding:40px 0; color:#adb5bd;">데이터를 불러오는 중입니다...</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -519,8 +518,8 @@
         const GOOGLE_SHEET_URL = "https://docs.google.com/spreadsheets/d/1VxePbQvytvB0bkVxDMxukX9VqB15yemmyqNeJ9Ju5eg/edit?gid=1742833314#gid=1742833314";
 
         let rankingData = [];
-        let currentPage = 1; // 💡 현재 활성화된 페이지 트랙킹 변수
-        const PAGE_SIZE = 10; // 💡 1페이지당 10명 제한 세팅 고정
+        let currentPage = 1; 
+        const PAGE_SIZE = 10; 
 
         function toggleTheme() {
             const currentTheme = document.documentElement.getAttribute('data-theme');
@@ -617,7 +616,7 @@
                 renderRanking();
             } catch (error) {
                 console.error(error);
-                document.getElementById('ranking-list').innerHTML = `<tr><td colspan="6" style="text-align:center; color:#fa5252; padding:40px 0;">데이터 연동 실패</td></tr>`;
+                document.getElementById('ranking-list').innerHTML = `<tr><td colspan="5" style="text-align:center; color:#fa5252; padding:40px 0;">데이터 연동 실패</td></tr>`;
             }
         }
 
@@ -625,22 +624,19 @@
             const tbody = document.getElementById('ranking-list');
             tbody.innerHTML = '';
             
-            // 시상대는 검색 여부와 무관하게 항상 전체 데이터의 1,2,3등 고정 출력
             updatePodiumSlots();
 
             const searchTerm = document.getElementById('search-bar').value.trim().toLowerCase();
 
-            // 1차 필터링: 검색 결과 걸러내기
             const filteredData = rankingData.map((user, originIndex) => ({ ...user, realRank: originIndex + 1 }))
                                            .filter(user => user.name.toLowerCase().includes(searchTerm));
 
             if (filteredData.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:#adb5bd; padding:40px 0;">검색 결과가 없습니다.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:#adb5bd; padding:40px 0;">검색 결과가 없습니다.</td></tr>`;
                 document.getElementById('pagination-bar').innerHTML = '';
                 return;
             }
 
-            // 2차 필터링: 현재 페이지 세그먼트 연산 (10명 단위 쪼개기)
             const totalRows = filteredData.length;
             const totalPages = Math.ceil(totalRows / PAGE_SIZE);
             
@@ -663,18 +659,10 @@
                 let btnText = user.isPrivate ? '🔒 비공개' : '📷 스탯보기';
                 let statsBtnHtml = `<button class="btn-view-stats" ${disabledAttr} onclick="openModal('${user.name}', '${user.level}', '${user.power}', '${user.img}')">${btnText}</button>`;
 
-                let tierDisplayHtml = '-'; let rowClassAttr = '';
-                if (realRank >= 1 && realRank <= 5) {
-                    tierDisplayHtml = `<span class="tier-omega-mark">Ω</span>`;
-                    rowClassAttr = 'omega-row';
-                }
-
                 const tr = document.createElement('tr');
-                if (rowClassAttr) tr.className = rowClassAttr;
                 
                 tr.innerHTML = `
                 <td>${rankDisplay}</td>
-                <td>${tierDisplayHtml}</td>
                 <td class="level-text">Lv.${user.level}</td>
                 <td style="font-weight: 600; color: var(--text-name);">${user.name}</td>
                 <td class="power-text" style="text-align: right;">${user.power.toLocaleString()}</td>
@@ -686,14 +674,12 @@
             renderPaginationBar(totalPages);
         }
 
-        // 🗂️ [신설] 페이지네이션 하단 제어 버턴 생성 엔진
         function renderPaginationBar(totalPages) {
             const bar = document.getElementById('pagination-bar');
             bar.innerHTML = '';
 
-            if (totalPages <= 1) return; // 1페이지밖에 없다면 하단 네비게이션 생략
+            if (totalPages <= 1) return;
 
-            // [이전] 버튼
             const prevBtn = document.createElement('button');
             prevBtn.className = 'pagination-btn';
             prevBtn.innerText = '이전';
@@ -701,7 +687,6 @@
             prevBtn.onclick = () => { currentPage--; renderRanking(); };
             bar.appendChild(prevBtn);
 
-            // 숫자 번호 버튼들 생성
             for (let i = 1; i <= totalPages; i++) {
                 const numBtn = document.createElement('button');
                 numBtn.className = `pagination-btn ${i === currentPage ? 'active' : ''}`;
@@ -710,7 +695,6 @@
                 bar.appendChild(numBtn);
             }
 
-            // [다음] 버튼
             const nextBtn = document.createElement('button');
             nextBtn.className = 'pagination-btn';
             nextBtn.innerText = '다음';
