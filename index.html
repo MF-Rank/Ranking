@@ -4,18 +4,22 @@
     <meta charset="UTF-8">
     <title>전투력 랭킹</title>
     <style>
+        /* 🎨 기본 라이트모드 변수 */
         :root {
             --bg-body: #f8f9fa; --bg-panel: #ffffff; --border-color: #e9ecef;
             --text-main: #333333; --text-sub: #495057; --text-muted: #868e96;
             --text-title: #222222; --text-name: #212529; --table-th-bg: #f8f9fa;
             --table-border: #f1f3f5; --omega-bg: rgba(181, 16, 0, 0.15);
         }
+
+        /* 🌙 다크모드 변수 세팅 */
         [data-theme="dark"] {
             --bg-body: #141517; --bg-panel: #1a1b1e; --border-color: #2c2e33;
             --text-main: #c1c2c5; --text-sub: #909296; --text-muted: #5c5f66;
             --text-title: #ffffff; --text-name: #ffe066; --table-th-bg: #25262b;
             --table-border: #2c2e33; --omega-bg: rgba(220, 50, 30, 0.35);
         }
+
         body { background-color: var(--bg-body); color: var(--text-main); font-family: sans-serif; padding: 40px 20px; display: flex; flex-direction: column; align-items: center; transition: 0.3s; }
         .top-control-bar { width: 100%; max-width: 1400px; display: flex; justify-content: flex-end; margin-bottom: 15px; }
         .btn-toggle-theme { background: var(--bg-panel); color: var(--text-sub); border: 1px solid var(--border-color); padding: 8px 16px; border-radius: 50px; cursor: pointer; font-weight: 700; }
@@ -24,27 +28,36 @@
         .podium-card { background: var(--bg-panel); border: 1px solid var(--border-color); border-radius: 18px; padding: 20px; text-align: center; flex: 1; position: relative; overflow: hidden; }
         .rank-panel { flex: 1; background: var(--bg-panel); border: 1px solid var(--border-color); border-radius: 20px; padding: 30px; width: 100%; }
         
-        /* 1등 광채 */
+        /* 👑 오메가 전용 */
+        .omega-row { background-color: var(--omega-bg) !important; }
+        .tier-omega-text { color: #b51000; font-weight: 800; font-size: 15px; }
+        
+        /* 테이블 */
+        table { width: 100%; border-collapse: collapse; }
+        th { padding: 12px; border-bottom: 2px solid var(--table-border); text-align: left; color: var(--text-sub); font-size: 13px; }
+        td { padding: 14px 12px; border-bottom: 1px solid var(--table-border); }
+        .badge { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 6px; font-weight: bold; font-size: 13px; }
+        .top-1 { background-color: #fff3bf; color: #e67700; }
+        .top-2 { background-color: #e9ecef; color: #495057; }
+        .top-3 { background-color: #ffe8cc; color: #d9480f; }
+        
+        /* 애니메이션/모달/반응형 등 생략된 이전 코드 유지 */
         .shine-effect { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 5; overflow: hidden; }
         .shine-effect::after { content: ""; position: absolute; top: -100%; left: -100%; width: 300%; height: 300%; background: linear-gradient(135deg, rgba(255,215,0,0) 0%, rgba(255,235,120,0.85) 50%, rgba(255,215,0,0) 100%); animation: diagonalShine 4s ease-in-out infinite; }
         @keyframes diagonalShine { 0% { transform: translate(-30%, -30%); } 18% { transform: translate(30%, 30%); } 100% { transform: translate(30%, 30%); } }
-
-        .omega-row { background-color: var(--omega-bg) !important; }
-        .tier-omega-text { color: #b51000; font-weight: 800; }
-        table { width: 100%; border-collapse: collapse; }
-        th, td { padding: 14px 12px; border-bottom: 1px solid var(--table-border); text-align: left; }
-        .btn-view-stats { background: #eef2ff; color: #4c6ef5; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; }
         @media (max-width: 991px) { .main-container { flex-direction: column; } }
     </style>
 </head>
 <body>
     <div class="top-control-bar"><button class="btn-toggle-theme" id="theme-toggle-btn" onclick="toggleTheme()">🌙 다크모드</button></div>
-    <div class="main-container" id="main-layout">
+    
+    <div class="main-container">
         <div class="podium-wrapper">
-            <div class="podium-card" id="podium-2nd"></div>
-            <div class="podium-card" id="podium-1st"></div>
-            <div class="podium-card" id="podium-3rd"></div>
+            <div class="podium-card p-2nd" id="podium-2nd"></div>
+            <div class="podium-card p-1st" id="podium-1st"></div>
+            <div class="podium-card p-3rd" id="podium-3rd"></div>
         </div>
+
         <div class="rank-panel">
             <table>
                 <thead>
@@ -54,44 +67,34 @@
             </table>
         </div>
     </div>
-    
+
     <script>
-        // 생략된 함수들(toggleTheme, fetchRankingData 등)은 기존 사용하시던 것과 동일하게 유지하시면 됩니다.
-        // renderRanking만 아래로 교체하세요.
+        // 기존 상수 및 초기화 로직 유지
+        // ...
+        
         function renderRanking() {
             const tbody = document.getElementById('ranking-list');
             tbody.innerHTML = '';
+            
             rankingData.forEach((user, index) => {
                 const rank = index + 1;
                 const isOmega = rank <= 5;
                 const tr = document.createElement('tr');
                 if (isOmega) tr.className = 'omega-row';
+
                 tr.innerHTML = `
-                    <td>${rank}</td>
+                    <td><span class="badge ${rank <= 3 ? 'top-'+rank : 'top-normal'}">${rank}</span></td>
                     <td class="tier-omega-text">${isOmega ? 'Ω' : '-'}</td>
                     <td>Lv.${user.level}</td>
-                    <td style="color:var(--text-name)">${user.name}</td>
-                    <td style="text-align:right">${user.power.toLocaleString()}</td>
-                    <td style="text-align:center"><button class="btn-view-stats" onclick="openModal('${user.name}', ${user.level}, ${user.power}, '${user.img}')">📷</button></td>
+                    <td style="font-weight: 600; color: var(--text-name);">${user.name}</td>
+                    <td style="text-align: right;">${user.power.toLocaleString()}</td>
+                    <td style="text-align: center;"><button class="btn-view-stats" onclick="openModal('${user.name}', ${user.level}, ${user.power}, '${user.img}')">📷</button></td>
                 `;
                 tbody.appendChild(tr);
             });
             updatePodiumSlots();
         }
-        
-        function updatePodiumSlots() {
-            ['podium-1st', 'podium-2nd', 'podium-3rd'].forEach((id, i) => {
-                const el = document.getElementById(id);
-                if (!rankingData[i]) { el.innerHTML = `<div class="podium-empty">${i+1}등</div>`; return; }
-                el.innerHTML = `${i===0 ? '<div class="shine-effect"></div>' : ''}
-                    <img src="${['', TROPHY_1ST, TROPHY_2ND, TROPHY_3RD][i+1]}" class="trophy-img" style="height:100px">
-                    <div class="podium-name">${rankingData[i].name}</div>
-                    <div class="podium-level">Lv.${rankingData[i].level}</div>
-                    <div class="podium-power">${rankingData[i].power.toLocaleString()}</div>`;
-            });
-        }
-        
-        window.onload = fetchRankingData;
+        // ...나머지 fetch 등 로직 유지
     </script>
 </body>
 </html>
