@@ -36,43 +36,11 @@
             background-color: var(--bg-body);
             color: var(--text-main);
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            padding: 20px 20px 40px 20px;
+            padding: 40px 20px; /* 상단 여백 밸런스 조정 */
             display: flex;
             flex-direction: column;
             align-items: center;
             transition: background-color 0.3s, color 0.3s;
-        }
-
-        /* 🔄 [최상단] 테마 제어 토글 바 */
-        .top-control-bar {
-            width: 100%;
-            max-width: 1400px;
-            display: flex;
-            justify-content: flex-end;
-            margin-bottom: 15px;
-        }
-
-        .btn-toggle-theme {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            background: var(--bg-panel);
-            color: var(--text-sub);
-            font-size: 13px;
-            font-weight: 700;
-            padding: 8px 16px;
-            border-radius: 50px;
-            border: 1px solid var(--border-color);
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
-            transition: all 0.2s ease-in-out;
-            cursor: pointer;
-            outline: none;
-        }
-
-        .btn-toggle-theme:hover {
-            background: var(--table-th-bg);
-            border-color: var(--text-muted);
-            transform: translateY(-1px);
         }
 
         /* 🔝 상단 타이틀 부 */
@@ -168,7 +136,7 @@
             justify-content: flex-end;
             transition: transform 0.2s, box-shadow 0.2s;
             position: relative;
-            overflow: hidden;
+            overflow: hidden; /* 빛줄기가 카드 밖으로 삐져나가지 않도록 잠금 */
         }
 
         .podium-card:hover {
@@ -208,8 +176,8 @@
             left: 0;
             width: 100%;
             height: 100%;
-            pointer-events: none;
-            z-index: 5;
+            pointer-events: none; /* 클릭 이벤트 통과 */
+            z-index: 5; /* 유저 정보 및 트로피보다 위 레이어에 강제 배치 */
             overflow: hidden;
         }
 
@@ -221,20 +189,21 @@
             width: 300%;
             height: 300%;
             background: linear-gradient(
-                135deg,
+                135deg, /* 💡 왼쪽 위에서 오른쪽 아래로 흐르는 메인 각도 */
                 rgba(255, 215, 0, 0) 0%,
                 rgba(255, 215, 0, 0) 40%,
-                rgba(255, 235, 120, 0.85) 50%,
+                rgba(255, 235, 120, 0.85) 50%, /* 영롱한 황금빛 하이라이트 코어 */
                 rgba(255, 215, 0, 0) 60%,
                 rgba(255, 215, 0, 0) 100%
             );
-            animation: diagonalShine 4s ease-in-out infinite;
+            animation: diagonalShine 4s ease-in-out infinite; /* 무한 반복 가동 */
         }
 
+        /* ✨ 대각선 무빙 정밀 교정 키프레임 */
         @keyframes diagonalShine {
             0% { transform: translate(-30%, -30%); }
-            18% { transform: translate(30%, 30%); }
-            100% { transform: translate(30%, 30%); }
+            18% { transform: translate(30%, 30%); } /* 초반 18% 타이밍에 싹 훑고 지나감 */
+            100% { transform: translate(30%, 30%); } /* 나머지 시간 대기 정체 */
         }
 
         .p-1st .trophy-img { height: 280px !important; }
@@ -399,11 +368,8 @@
             cursor: pointer;
             transition: background 0.2s;
         }
-        [data-theme="dark"] .btn-view-stats {
-            background: #25262b;
-            color: #748ffc;
-        }
         .btn-view-stats:hover { background: #dbe4ff; }
+        [data-theme="dark"] .btn-view-stats { background: #25262b; color: #748ffc; }
         [data-theme="dark"] .btn-view-stats:hover { background: #2c2e33; }
         .btn-view-stats:disabled { background: var(--table-th-bg); color: var(--text-muted); cursor: not-allowed; }
 
@@ -529,14 +495,12 @@
     </style>
 </head>
 <body>
-
     <div class="top-control-bar">
-        <button class="btn-toggle-theme" id="theme-toggle-btn" onclick="toggleTheme()">🌙 다크모드 보기</button>
+        <button class="btn-toggle-theme" id="theme-toggle-btn" onclick="toggleTheme()">☀️ 라이트모드</button>
     </div>
 
     <div class="header-area">
-        <img src="https://mblogthumb-phinf.pstatic.net/20140921_272/saiyuki1357_1411272744482CFU6N_GIF/%B0%AD%C7%F53.gif?type=w420"
-             alt="강화 연출" class="header-gif">
+        <img src="https://mblogthumb-phinf.pstatic.net/20140921_272/saiyuki1357_1411272744482CFU6N_GIF/%B0%강화 연출" class="header-gif">
         <h1>클래식 서버 전투력 랭킹</h1>
     </div>
 
@@ -614,11 +578,11 @@
 
         let rankingData = [];
 
-        // 🌓 [추가] 다이내믹 테마 스위칭 및 메모리 엔진
+        // 🌓 다이내믹 테마 스위칭 및 메모리 엔진
         function toggleTheme() {
             const currentTheme = document.documentElement.getAttribute('data-theme');
             const targetTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            
+
             document.documentElement.setAttribute('data-theme', targetTheme);
             localStorage.setItem('theme', targetTheme); // 유저 상태 브라우저 저장
             updateThemeButtonText(targetTheme);
@@ -627,12 +591,12 @@
         function updateThemeButtonText(theme) {
             const btn = document.getElementById('theme-toggle-btn');
             if (!btn) return;
-            btn.innerText = theme === 'dark' ? '☀️ 라이트모드 보기' : '🌙 다크모드 보기';
+            btn.innerText = theme === 'dark' ? '☀️ 라이트모드' : '🌙 다크모드';
         }
 
-        // 초기 테마 로드 시스템 구축
+        // 💡 디폴트값을 'dark'로 지정하여 최초 접속 시 무조건 다크모드로 로드되도록 제어
         (function initTheme() {
-            const savedTheme = localStorage.getItem('theme') || 'light';
+            const savedTheme = localStorage.getItem('theme') || 'dark';
             document.documentElement.setAttribute('data-theme', savedTheme);
             window.addEventListener('DOMContentLoaded', () => updateThemeButtonText(savedTheme));
         })();
