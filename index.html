@@ -4,14 +4,75 @@
     <meta charset="UTF-8">
     <title>전투력 랭킹</title>
     <style>
+        /* 🎨 기본 라이트모드 변수 */
+        :root {
+            --bg-body: #f8f9fa;
+            --bg-panel: #ffffff;
+            --border-color: #e9ecef;
+            --text-main: #333333;
+            --text-sub: #495057;
+            --text-muted: #868e96;
+            --text-title: #222222;
+            --text-name: #212529;
+            --table-th-bg: #f8f9fa;
+            --table-border: #f1f3f5;
+        }
+
+        /* 🌙 다크모드 변수 세팅 */
+        [data-theme="dark"] {
+            --bg-body: #141517;
+            --bg-panel: #1a1b1e;
+            --border-color: #2c2e33;
+            --text-main: #c1c2c5;
+            --text-sub: #909296;
+            --text-muted: #5c5f66;
+            --text-title: #ffffff;
+            --text-name: #ffe066; /* 다크모드 시 닉네임이 골드톤으로 선명하게 보이도록 체인지 */
+            --table-th-bg: #25262b;
+            --table-border: #2c2e33;
+        }
+
         body {
-            background-color: #f8f9fa;
-            color: #333333;
+            background-color: var(--bg-body);
+            color: var(--text-main);
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            padding: 40px 20px; /* 상단 여백 밸런스 조정 */
+            padding: 20px 20px 40px 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        /* 🔄 [최상단] 테마 제어 토글 바 */
+        .top-control-bar {
+            width: 100%;
+            max-width: 1400px;
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 15px;
+        }
+
+        .btn-toggle-theme {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg-panel);
+            color: var(--text-sub);
+            font-size: 13px;
+            font-weight: 700;
+            padding: 8px 16px;
+            border-radius: 50px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+            transition: all 0.2s ease-in-out;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .btn-toggle-theme:hover {
+            background: var(--table-th-bg);
+            border-color: var(--text-muted);
+            transform: translateY(-1px);
         }
 
         /* 🔝 상단 타이틀 부 */
@@ -34,7 +95,7 @@
             font-size: 28px;
             font-weight: 700;
             margin: 10px 0 0 0;
-            color: #222;
+            color: var(--text-title);
         }
 
         /* 🏆 랭킹 등재 신청 버튼 스타일 */
@@ -82,8 +143,8 @@
             align-items: flex-end;
             justify-content: center;
             gap: 16px;
-            background: #ffffff;
-            border: 1px solid #e9ecef;
+            background: var(--bg-panel);
+            border: 1px solid var(--border-color);
             border-radius: 20px;
             padding: 25px 20px 25px 20px;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.03);
@@ -94,8 +155,8 @@
 
         /* 🏛️ 단상 카드 공통 구조 설계 */
         .podium-card {
-            background: #ffffff;
-            border: 1px solid #e9ecef;
+            background: var(--bg-panel);
+            border: 1px solid var(--border-color);
             border-radius: 18px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
             padding: 15px 10px 20px 10px;
@@ -107,7 +168,7 @@
             justify-content: flex-end;
             transition: transform 0.2s, box-shadow 0.2s;
             position: relative;
-            overflow: hidden; /* 빛줄기가 카드 밖으로 삐져나가지 않도록 잠금 */
+            overflow: hidden;
         }
 
         .podium-card:hover {
@@ -136,19 +197,19 @@
             flex: 1.3;
             height: 520px;
             border-top: 6px solid #ffd700;
-            background: linear-gradient(180deg, #fffbeb 0%, #ffffff 40%);
+            background: linear-gradient(180deg, rgba(255,251,235,0.4) 0%, var(--bg-panel) 40%);
             box-shadow: 0 6px 15px rgba(255, 215, 0, 0.1);
         }
 
-        /* ✨ [신설] 자바스크립트 간섭 우회형 무적 광채 오버레이 컨테이너 */
+        /* ✨ 자바스크립트 간섭 우회형 무적 광채 오버레이 컨테이너 */
         .shine-effect {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            pointer-events: none; /* 클릭 이벤트 통과 */
-            z-index: 5; /* 유저 정보 및 트로피보다 위 레이어에 강제 배치 */
+            pointer-events: none;
+            z-index: 5;
             overflow: hidden;
         }
 
@@ -160,21 +221,20 @@
             width: 300%;
             height: 300%;
             background: linear-gradient(
-                135deg, /* 💡 왼쪽 위에서 오른쪽 아래로 흐르는 메인 각도 */
+                135deg,
                 rgba(255, 215, 0, 0) 0%,
                 rgba(255, 215, 0, 0) 40%,
-                rgba(255, 235, 120, 0.9) 50%, /* 영롱한 황금빛 하이라이트 코어 */
+                rgba(255, 235, 120, 0.85) 50%,
                 rgba(255, 215, 0, 0) 60%,
                 rgba(255, 215, 0, 0) 100%
             );
-            animation: diagonalShine 4s ease-in-out infinite; /* 무한 반복 가동 */
+            animation: diagonalShine 4s ease-in-out infinite;
         }
 
-        /* ✨ 대각선 무빙 정밀 교정 키프레임 (이름 통일 완료) */
         @keyframes diagonalShine {
             0% { transform: translate(-30%, -30%); }
-            18% { transform: translate(30%, 30%); } /* 초반 18% 타이밍에 싹 훑고 지나감 */
-            100% { transform: translate(30%, 30%); } /* 나머지 시간 대기 정체 */
+            18% { transform: translate(30%, 30%); }
+            100% { transform: translate(30%, 30%); }
         }
 
         .p-1st .trophy-img { height: 280px !important; }
@@ -185,7 +245,7 @@
             flex: 1;
             height: 430px;
             border-top: 6px solid #c0c0c0;
-            background: linear-gradient(180deg, #f8f9fa 0%, #ffffff 40%);
+            background: linear-gradient(180deg, rgba(248,249,250,0.1) 0%, var(--bg-panel) 40%);
         }
         .p-2nd .trophy-img { height: 190px !important; }
 
@@ -194,14 +254,14 @@
             flex: 0.9;
             height: 380px;
             border-top: 6px solid #cd7f32;
-            background: linear-gradient(180deg, #fffaf5 0%, #ffffff 40%);
+            background: linear-gradient(180deg, rgba(255,250,245,0.1) 0%, var(--bg-panel) 40%);
         }
         .p-3rd .trophy-img { height: 150px !important; }
 
         .podium-name {
             font-weight: 700;
             font-size: 16px;
-            color: #111111;
+            color: var(--text-title);
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -223,7 +283,7 @@
         }
 
         .podium-empty {
-            color: #adb5bd;
+            color: var(--text-muted);
             font-size: 14px;
             margin-bottom: 60px;
         }
@@ -231,8 +291,8 @@
         /* 📊 [우측] 리더보드 순위표 구역 */
         .rank-panel {
             flex: 1;
-            background: #ffffff;
-            border: 1px solid #e9ecef;
+            background: var(--bg-panel);
+            border: 1px solid var(--border-color);
             border-radius: 20px;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.03);
             padding: 30px 24px;
@@ -246,7 +306,7 @@
             align-items: center;
             margin-bottom: 20px;
             padding-bottom: 10px;
-            border-bottom: 2px solid #f1f3f5;
+            border-bottom: 2px solid var(--table-border);
             gap: 12px;
         }
 
@@ -260,7 +320,7 @@
             margin: 0;
             font-size: 18px;
             font-weight: 700;
-            color: #333;
+            color: var(--text-title);
             white-space: nowrap;
         }
 
@@ -275,9 +335,10 @@
             max-width: 160px !important;
             padding: 7px 12px;
             font-size: 13px;
-            border: 1px solid #ced4da;
+            border: 1px solid var(--border-color);
             border-radius: 6px;
-            background-color: #ffffff;
+            background-color: var(--bg-panel);
+            color: var(--text-main);
             outline: none;
             box-sizing: border-box;
         }
@@ -293,19 +354,19 @@
         }
 
         th {
-            background-color: #f8f9fa;
-            color: #495057;
+            background-color: var(--table-th-bg);
+            color: var(--text-sub);
             font-size: 13px;
             font-weight: 600;
             padding: 12px;
-            border-bottom: 2px solid #dee2e6;
+            border-bottom: 2px solid var(--table-border);
         }
 
         td {
             padding: 14px 12px;
             font-size: 14px;
-            color: #495057;
-            border-bottom: 1px solid #f1f3f5;
+            color: var(--text-sub);
+            border-bottom: 1px solid var(--table-border);
         }
 
         .badge {
@@ -322,7 +383,7 @@
         .top-1 { background-color: #fff3bf; color: #e67700; }
         .top-2 { background-color: #e9ecef; color: #495057; }
         .top-3 { background-color: #ffe8cc; color: #d9480f; }
-        .top-normal { color: #868e96; }
+        .top-normal { color: var(--text-muted); }
 
         .level-text { color: #4c6ef5; font-weight: 600; font-size: 13px; }
         .power-text { font-weight: 700; color: #b71c1c; }
@@ -338,8 +399,13 @@
             cursor: pointer;
             transition: background 0.2s;
         }
+        [data-theme="dark"] .btn-view-stats {
+            background: #25262b;
+            color: #748ffc;
+        }
         .btn-view-stats:hover { background: #dbe4ff; }
-        .btn-view-stats:disabled { background: #f1f3f5; color: #adb5bd; cursor: not-allowed; }
+        [data-theme="dark"] .btn-view-stats:hover { background: #2c2e33; }
+        .btn-view-stats:disabled { background: var(--table-th-bg); color: var(--text-muted); cursor: not-allowed; }
 
         /* 📱 모바일 디바이스 자동 감지 레이아웃 브레이크 포인트 */
         @media (max-width: 991px) {
@@ -393,7 +459,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.7);
             display: none;
             align-items: center;
             justify-content: center;
@@ -401,13 +467,14 @@
         }
 
         .modal-card {
-            background: #ffffff;
+            background: var(--bg-panel);
+            border: 1px solid var(--border-color);
             padding: 24px;
             border-radius: 16px;
             max-width: 450px;
             width: 90%;
             max-height: 90%;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -421,26 +488,27 @@
             right: 18px;
             font-size: 22px;
             font-weight: bold;
-            color: #868e96;
+            color: var(--text-muted);
             cursor: pointer;
         }
 
-        .modal-close:hover { color: #212529; }
-        .modal-img { max-width: 100%; max-height: 70vh; object-fit: contain; border-radius: 8px; margin-top: 15px; border: 1px solid #dee2e6; }
-        .modal-user-info { font-weight: 700; font-size: 16px; margin-top: 5px; }
+        .modal-close:hover { color: var(--text-title); }
+        .modal-img { max-width: 100%; max-height: 70vh; object-fit: contain; border-radius: 8px; margin-top: 15px; border: 1px solid var(--border-color); }
+        .modal-user-info { font-weight: 700; font-size: 16px; margin-top: 5px; color: var(--text-title); }
 
         /* 🛑 유의사항 박스 디자인 */
         .notice-box {
             width: 100%;
-            background-color: #fff5f5;
-            border: 1px solid #ffc9c9;
+            background-color: rgba(201, 42, 42, 0.05);
+            border: 1px solid rgba(201, 42, 42, 0.2);
             border-radius: 8px;
             padding: 16px;
             margin: 15px 0;
             box-sizing: border-box;
             text-align: left;
         }
-        .notice-box ul { margin: 0; padding-left: 20px; color: #c92a2a; font-size: 14px; line-height: 1.6; }
+        .notice-box ul { margin: 0; padding-left: 20px; color: #f85149; font-size: 14px; line-height: 1.6; }
+        [data-theme="light"] .notice-box ul { color: #c92a2a; }
         .notice-box li { margin-bottom: 6px; }
 
         .btn-modal-submit {
@@ -461,6 +529,10 @@
     </style>
 </head>
 <body>
+
+    <div class="top-control-bar">
+        <button class="btn-toggle-theme" id="theme-toggle-btn" onclick="toggleTheme()">🌙 다크모드 보기</button>
+    </div>
 
     <div class="header-area">
         <img src="https://mblogthumb-phinf.pstatic.net/20140921_272/saiyuki1357_1411272744482CFU6N_GIF/%B0%AD%C7%F53.gif?type=w420"
@@ -516,7 +588,7 @@
     <div class="modal-overlay" id="notice-modal" onclick="closeNoticeModal()">
         <div class="modal-card" onclick="event.stopPropagation()">
             <span class="modal-close" onclick="closeNoticeModal()">&times;</span>
-            <div class="modal-user-info" style="font-size: 18px; color: #212529;">📢 랭킹 등록 신청 유의사항</div>
+            <div class="modal-user-info" style="font-size: 18px; color: var(--text-title);">📢 랭킹 등록 신청 유의사항</div>
 
             <div class="notice-box">
                 <ul>
@@ -541,6 +613,29 @@
         const GOOGLE_SHEET_URL = "https://docs.google.com/spreadsheets/d/1VxePbQvytvB0bkVxDMxukX9VqB15yemmyqNeJ9Ju5eg/edit?gid=1742833314#gid=1742833314";
 
         let rankingData = [];
+
+        // 🌓 [추가] 다이내믹 테마 스위칭 및 메모리 엔진
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const targetTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            document.documentElement.setAttribute('data-theme', targetTheme);
+            localStorage.setItem('theme', targetTheme); // 유저 상태 브라우저 저장
+            updateThemeButtonText(targetTheme);
+        }
+
+        function updateThemeButtonText(theme) {
+            const btn = document.getElementById('theme-toggle-btn');
+            if (!btn) return;
+            btn.innerText = theme === 'dark' ? '☀️ 라이트모드 보기' : '🌙 다크모드 보기';
+        }
+
+        // 초기 테마 로드 시스템 구축
+        (function initTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            window.addEventListener('DOMContentLoaded', () => updateThemeButtonText(savedTheme));
+        })();
 
         function getJsonUrl(url) {
             const matches = url.match(/\/d\/([a-zA-Z0-9-_]+)/);
@@ -677,7 +772,7 @@
                 tr.innerHTML = `
                 <td>${rankDisplay}</td>
                 <td class="level-text">Lv.${user.level}</td>
-                <td style="font-weight: 600; color:#212529;">${user.name}</td>
+                <td style="font-weight: 600; color: var(--text-name);">${user.name}</td>
                 <td class="power-text" style="text-align: right;">${user.power.toLocaleString()}</td>
                 <td style="text-align: center;">${statsBtnHtml}</td>
                 `;
@@ -697,8 +792,6 @@
                 if (user) {
                     let disabledAttr = (user.isPrivate || !user.img) ? 'disabled' : '';
                     let btnText = user.isPrivate ? '🔒 비공개' : '📷 스탯보기';
-
-                    // 💡 핵심 교정: 자바스크립트가 내부 껍데기를 밀어버려도 광채 오버레이 박스가 유지되도록 추가
                     let shineLayerHtml = (rankNum === 1) ? '<div class="shine-effect"></div>' : '';
 
                     cardContainer.innerHTML = `
