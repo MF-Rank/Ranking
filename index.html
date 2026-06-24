@@ -36,7 +36,7 @@
             background-color: var(--bg-body);
             color: var(--text-main);
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            padding: 40px 20px; /* 상단 여백 밸런스 조정 */
+            padding: 40px 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -128,7 +128,7 @@
         .main-container {
             display: flex;
             flex-direction: row;
-            align-items: flex-start; /* 단상 늘어짐 버그 원천 차단 */
+            align-items: flex-start;
             gap: 30px;
             max-width: 1400px;
             width: 100%;
@@ -192,7 +192,6 @@
             100% { transform: translateY(0px); }
         }
 
-        /* 🥇 1등 카드 디자인 베이스 */
         .p-1st {
             flex: 1.3;
             height: 520px;
@@ -281,9 +280,18 @@
             width: 100%;
             display: flex;
             flex-direction: column;
-            justify-content: flex-start; /* 세로 쩍벌 현상 수정: 순밀착 정렬 */
-            height: 580px; /* 단상과 완전 평행 대칭 */
+            justify-content: flex-start; 
+            height: 580px; 
             max-height: 580px;
+            overflow: hidden; /* 👈 핵심 교정: 라운드 박스 밖으로 탈출하는 흐트러짐 원천 잠금 */
+        }
+
+        /* 💡 [신설] 테이블 내부 요소 유격 격리 및 고정 높이 제어 장치 */
+        .table-inner-box {
+            width: 100%;
+            height: 440px;
+            max-height: 440px;
+            overflow: hidden;
         }
 
         .rank-header-line {
@@ -349,7 +357,7 @@
         }
 
         td {
-            padding: 10px 12px; /* 👈 패딩 수치 복구로 원본의 슬림한 콤팩트 두께 원상복구 */
+            padding: 10px 12px; 
             font-size: 14px;
             color: var(--text-sub);
             border-bottom: 1px solid var(--table-border);
@@ -379,7 +387,7 @@
             justify-content: center;
             align-items: center;
             gap: 5px;
-            margin-top: auto; /* 언제나 하단 영역 최하단에 흡착 고정 */
+            margin-top: auto; 
             padding-top: 10px;
         }
 
@@ -418,7 +426,8 @@
             .podium-card { max-width: 220px !important; flex: 1 !important; padding: 20px 10px !important; }
             .p-1st { height: 340px !important; } .p-2nd { height: 300px !important; } .p-3rd { height: 270px !important; }
             .p-1st .trophy-img { height: 130px !important; } .p-2nd .trophy-img { height: 100px !important; } .p-3rd .trophy-img { height: 85px !important; }
-            .rank-panel { height: auto; max-height: none; }
+            .rank-panel { height: auto; max-height: none; overflow: visible; }
+            .table-inner-box { height: auto; max-height: none; }
         }
 
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); display: none; align-items: center; justify-content: center; z-index: 1000; }
@@ -453,7 +462,7 @@
         </div>
 
         <div class="rank-panel">
-            <div style="width: 100%;">
+            <div class="table-inner-box">
                 <div class="rank-header-line">
                     <div class="title-area">
                         <h2 class="card-title">📊 실시간 리더보드</h2>
@@ -480,11 +489,13 @@
                 </table>
             </div>
 
+            <!-- 하단 페이지 버튼 생성 구역 -->
             <div class="pagination-container" id="pagination-bar"></div>
         </div>
 
     </div>
 
+    <!-- 이미지 확인 모달 -->
     <div class="modal-overlay" id="img-modal" onclick="closeModal()">
         <div class="modal-card" onclick="event.stopPropagation()">
             <span class="modal-close" onclick="closeModal()">&times;</span>
@@ -493,6 +504,7 @@
         </div>
     </div>
 
+    <!-- 유의사항 모달 -->
     <div class="modal-overlay" id="notice-modal" onclick="closeNoticeModal()">
         <div class="modal-card" onclick="event.stopPropagation()">
             <span class="modal-close" onclick="closeNoticeModal()">&times;</span>
