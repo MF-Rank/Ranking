@@ -129,7 +129,7 @@
             100% { transform: translateY(0px); }
         }
 
-        /* 🥇 1등 카드: 빛이 싹 지나가는 Shine 애니메이션 탑재 */
+        /* 🥇 1등 카드: 사선 방향 빛 가속 셰이더 적용 */
         .p-1st {
             flex: 1.3;
             height: 520px;
@@ -137,35 +137,36 @@
             background: linear-gradient(180deg, #fffbeb 0%, #ffffff 40%);
             box-shadow: 0 6px 15px rgba(255, 215, 0, 0.1);
             position: relative;
-            overflow: hidden;
+            overflow: hidden; /* 빛줄기가 튀어나가지 않게 잠금 */
         }
 
-        /* ✨ 1등 가상 요소: 가로지르는 광채 생성 */
+        /* ✨ 1등 가상 요소: 왼쪽 위에서 사선으로 떨어지는 황금 광채 기획 */
         .p-1st::after {
             content: "";
             position: absolute;
-            top: -50%;
-            left: -150%;
-            width: 200%;
-            height: 200%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background: linear-gradient(
-                to right,
-                rgba(255, 255, 255, 0) 0%,
-                rgba(255, 255, 255, 0) 30%,
-                rgba(255, 255, 255, 0.7) 50%,
-                rgba(255, 255, 255, 0) 70%,
-                rgba(255, 255, 255, 0) 100%
+                135deg, /* 💡 왼쪽 위 -> 오른쪽 아래 방향 축 고정 */
+                rgba(255, 215, 0, 0) 0%,
+                rgba(255, 215, 0, 0) 35%,
+                rgba(255, 225, 100, 0.85) 50%, /* 🎨 고급스러운 황금빛 하이라이트 코어 */
+                rgba(255, 215, 0, 0) 65%,
+                rgba(255, 215, 0, 0) 100
             );
-            transform: rotate(-30deg);
-            animation: shineAnimation 4s ease-in-out infinite;
+            background-size: 300% 300%; /* 대각선 가속 이동을 위한 영역 스케일업 */
+            background-position: -150% -150%;
+            animation: diagonalShine 4s ease-in-out infinite; /* 무한 루프 가동 */
             pointer-events: none;
         }
 
-        /* ✨ 빛줄기 이동 경로 애니메이션 */
-        @keyframes shineAnimation {
-            0% { left: -150%; }
-            15% { left: 150%; }
-            100% { left: 150%; }
+        /* ✨ 완벽한 대각선 흐름을 연출하는 키프레임 (수정 완료) */
+        @keyframes diagonalShine {
+            0% { background-position: -150% -150%; }
+            20% { background-position: 150% 150%; } /* 초반 20% 속도로 싹 지나감 */
+            100% { background-position: 150% 150%; } /* 나머지 시간 여운 유지 */
         }
 
         .p-1st .trophy-img { height: 280px !important; }
@@ -461,14 +462,12 @@
 
     <div class="main-container" id="main-layout">
 
-        <!-- 🏛️ [좌측 반반 영역] 대형 시상대 구역 -->
         <div class="podium-wrapper">
             <div class="podium-card p-2nd" id="podium-2nd"></div>
             <div class="podium-card p-1st" id="podium-1st"></div>
             <div class="podium-card p-3rd" id="podium-3rd"></div>
         </div>
 
-        <!-- 📊 [우측 반반 영역] 실시간 리더보드 순위표 -->
         <div class="rank-panel">
             <div class="rank-header-line">
                 <div class="title-area">
@@ -498,7 +497,6 @@
 
     </div>
 
-    <!-- 이미지 확인 모달 -->
     <div class="modal-overlay" id="img-modal" onclick="closeModal()">
         <div class="modal-card" onclick="event.stopPropagation()">
             <span class="modal-close" onclick="closeModal()">&times;</span>
@@ -507,7 +505,6 @@
         </div>
     </div>
 
-    <!-- 유의사항 및 신청 링크 모달 -->
     <div class="modal-overlay" id="notice-modal" onclick="closeNoticeModal()">
         <div class="modal-card" onclick="event.stopPropagation()">
             <span class="modal-close" onclick="closeNoticeModal()">&times;</span>
@@ -529,7 +526,6 @@
     </div>
 
     <script>
-        // 🏆 안전한 변수 선언 구역
         const TROPHY_1ST = "https://raw.githubusercontent.com/MF-Rank/Ranking/main/images/S1-1st.png";
         const TROPHY_2ND = "https://raw.githubusercontent.com/MF-Rank/Ranking/main/images/S1-2nd.png";
         const TROPHY_3RD = "https://raw.githubusercontent.com/MF-Rank/Ranking/main/images/S1-3rd.png";
