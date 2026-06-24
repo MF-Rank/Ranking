@@ -41,11 +41,11 @@
             outline: none;
         }
 
-        .btn-apply-ranking:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(76, 110, 245, 0.4);
-            background: linear-gradient(135deg, #5c7cfa 0%, #3b5bdb 100%);
-        }
+            .btn-apply-ranking:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 6px 20px rgba(76, 110, 245, 0.4);
+                background: linear-gradient(135deg, #5c7cfa 0%, #3b5bdb 100%);
+            }
 
         /* 🏛️ 시상대(Podium) 레이아웃 스타일 */
         .podium-container {
@@ -72,15 +72,60 @@
             transition: transform 0.2s;
         }
 
-        .podium-card:hover { transform: translateY(-4px); }
-        .p-1st { height: 210px; border-top: 5px solid #ffd700; background: linear-gradient(180deg, #fffbeb 0%, #ffffff 40%); }
-        .p-2nd { height: 180px; border-top: 5px solid #c0c0c0; }
-        .p-3rd { height: 160px; border-top: 5px solid #cd7f32; }
-        .podium-medal { font-size: 26px; margin-bottom: 8px; }
-        .podium-name { font-weight: 700; font-size: 15px; color: #212529; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 4px; }
-        .podium-level { font-size: 12px; color: #4c6ef5; font-weight: 600; margin-bottom: 8px; }
-        .podium-power { font-weight: 800; font-size: 14px; color: #b71c1c; margin-bottom: 6px; }
-        .podium-empty { color: #adb5bd; font-size: 13px; margin-top: 30px; }
+            .podium-card:hover {
+                transform: translateY(-4px);
+            }
+
+        .p-1st {
+            height: 210px;
+            border-top: 5px solid #ffd700;
+            background: linear-gradient(180deg, #fffbeb 0%, #ffffff 40%);
+        }
+
+        .p-2nd {
+            height: 180px;
+            border-top: 5px solid #c0c0c0;
+        }
+
+        .p-3rd {
+            height: 160px;
+            border-top: 5px solid #cd7f32;
+        }
+
+        .podium-medal {
+            font-size: 26px;
+            margin-bottom: 8px;
+        }
+
+        .podium-name {
+            font-weight: 700;
+            font-size: 15px;
+            color: #212529;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-bottom: 4px;
+        }
+
+        .podium-level {
+            font-size: 12px;
+            color: #4c6ef5;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .podium-power {
+            font-weight: 800;
+            font-size: 14px;
+            color: #b71c1c;
+            margin-bottom: 6px;
+        }
+
+        .podium-empty {
+            color: #adb5bd;
+            font-size: 13px;
+            margin-top: 30px;
+        }
 
         .dashboard {
             display: flex;
@@ -109,9 +154,13 @@
             gap: 15px;
         }
 
-        .rank-header-line .card-title {
-            margin: 0; font-size: 16px; font-weight: 600; color: #495057; white-space: nowrap;
-        }
+            .rank-header-line .card-title {
+                margin: 0;
+                font-size: 16px;
+                font-weight: 600;
+                color: #495057;
+                white-space: nowrap;
+            }
 
         .search-input {
             width: 150px !important;
@@ -126,37 +175,158 @@
             text-align: left;
         }
 
-        .search-input:focus { border-color: #4c6ef5; }
-        .rank-panel { flex: 1; width: 100%; }
-        table { width: 100%; border-collapse: collapse; text-align: left; }
-        th { background-color: #f8f9fa; color: #495057; font-size: 13px; font-weight: 600; padding: 12px; border-bottom: 2px solid #dee2e6; }
-        td { padding: 14px 12px; font-size: 14px; color: #495057; border-bottom: 1px solid #f1f3f5; }
+            .search-input:focus {
+                border-color: #4c6ef5;
+            }
 
-        .badge { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 6px; font-weight: bold; font-size: 13px; }
-        .top-1 { background-color: #fff3bf; color: #e67700; }
-        .top-2 { background-color: #e9ecef; color: #495057; }
-        .top-3 { background-color: #ffe8cc; color: #d9480f; }
-        .top-normal { color: #868e96; }
+        .rank-panel {
+            flex: 1;
+            width: 100%;
+        }
 
-        /* ✔️, ❌ 인증 배지 디자인 */
-        .status-badge { font-size: 15px; display: inline-block; vertical-align: middle; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
 
-        .level-text { color: #4c6ef5; font-weight: 600; font-size: 13px; }
-        .power-text { font-weight: 700; color: #b71c1c; }
+        th {
+            background-color: #f8f9fa;
+            color: #495057;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 12px;
+            border-bottom: 2px solid #dee2e6;
+        }
+
+        td {
+            padding: 14px 12px;
+            font-size: 14px;
+            color: #495057;
+            border-bottom: 1px solid #f1f3f5;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        .top-1 {
+            background-color: #fff3bf;
+            color: #e67700;
+        }
+
+        .top-2 {
+            background-color: #e9ecef;
+            color: #495057;
+        }
+
+        .top-3 {
+            background-color: #ffe8cc;
+            color: #d9480f;
+        }
+
+        .top-normal {
+            color: #868e96;
+        }
+
+        .level-text {
+            color: #4c6ef5;
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        .power-text {
+            font-weight: 700;
+            color: #b71c1c;
+        }
 
         .btn-view-stats {
-            background: #eef2ff; color: #4c6ef5; border: none; padding: 4px 8px; font-size: 12px; font-weight: 600; border-radius: 6px; cursor: pointer; width: auto; transition: background 0.2s;
+            background: #eef2ff;
+            color: #4c6ef5;
+            border: none;
+            padding: 6px 12px;
+            font-size: 12px;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            width: auto;
+            transition: background 0.2s;
         }
-        .btn-view-stats:hover { background: #dbe4ff; }
-        .btn-view-stats:disabled { background: #f1f3f5; color: #adb5bd; cursor: not-allowed; }
+
+            .btn-view-stats:hover {
+                background: #dbe4ff;
+            }
+
+            .btn-view-stats:disabled {
+                background: #f1f3f5;
+                color: #adb5bd;
+                cursor: not-allowed;
+            }
 
         /* 🖼️ 공통 모달 팝업 스타일 */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); display: none; align-items: center; justify-content: center; z-index: 1000; }
-        .modal-card { background: #ffffff; padding: 24px; border-radius: 16px; max-width: 450px; width: 90%; max-height: 90%; box-shadow: 0 10px 25px rgba(0,0,0,0.2); display: flex; flex-direction: column; align-items: center; position: relative; box-sizing: border-box; }
-        .modal-close { position: absolute; top: 14px; right: 18px; font-size: 22px; font-weight: bold; color: #868e96; cursor: pointer; }
-        .modal-close:hover { color: #212529; }
-        .modal-img { max-width: 100%; max-height: 70vh; object-fit: contain; border-radius: 8px; margin-top: 15px; border: 1px solid #dee2e6; }
-        .modal-user-info { font-weight: 700; font-size: 16px; margin-top: 5px; }
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal-card {
+            background: #ffffff;
+            padding: 24px;
+            border-radius: 16px;
+            max-width: 450px;
+            width: 90%;
+            max-height: 90%;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            box-sizing: border-box;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 14px;
+            right: 18px;
+            font-size: 22px;
+            font-weight: bold;
+            color: #868e96;
+            cursor: pointer;
+        }
+
+            .modal-close:hover {
+                color: #212529;
+            }
+
+        .modal-img {
+            max-width: 100%;
+            max-height: 70vh;
+            object-fit: contain;
+            border-radius: 8px;
+            margin-top: 15px;
+            border: 1px solid #dee2e6;
+        }
+
+        .modal-user-info {
+            font-weight: 700;
+            font-size: 16px;
+            margin-top: 5px;
+        }
 
         /* 🛑 유의사항 박스 디자인 */
         .notice-box {
@@ -169,15 +339,42 @@
             box-sizing: border-box;
             text-align: left;
         }
-        .notice-box ul { margin: 0; padding-left: 20px; color: #c92a2a; font-size: 14px; line-height: 1.6; }
-        .notice-box li { margin-bottom: 6px; }
-        .notice-box li:last-child { margin-bottom: 0; }
+
+            .notice-box ul {
+                margin: 0;
+                padding-left: 20px;
+                color: #c92a2a;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+
+            .notice-box li {
+                margin-bottom: 6px;
+            }
+
+                .notice-box li:last-child {
+                    margin-bottom: 0;
+                }
 
         /* 모달 안의 구글 폼 이동 버튼 */
         .btn-modal-submit {
-            background: #228be6; color: #fff; border: none; padding: 10px 24px; font-size: 14px; font-weight: 600; border-radius: 8px; cursor: pointer; transition: background 0.2s; text-decoration: none; display: inline-block; margin-top: 10px;
+            background: #228be6;
+            color: #fff;
+            border: none;
+            padding: 10px 24px;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 10px;
         }
-        .btn-modal-submit:hover { background: #1c7ed6; }
+
+            .btn-modal-submit:hover {
+                background: #1c7ed6;
+            }
     </style>
 </head>
 <body>
@@ -215,16 +412,15 @@
             <table>
                 <thead>
                     <tr>
-                        <th style="width: 8%;">순위</th>
-                        <th style="width: 12%;">레벨</th>
+                        <th style="width: 10%;">순위</th>
+                        <th style="width: 15%;">레벨</th>
                         <th>닉네임</th>
-                        <th style="text-align: right; width: 20%;">전투력</th>
-                        <th style="text-align: center; width: 12%;">인증</th>
-                        <th style="text-align: center; width: 15%;">스탯</th>
+                        <th style="text-align: right; width: 25%;">전투력</th>
+                        <th style="text-align: center; width: 20%;">스탯 이미지</th>
                     </tr>
                 </thead>
                 <tbody id="ranking-list">
-                    <tr><td colspan="6" style="text-align:center; padding:40px 0; color:#adb5bd;">데이터를 불러오는 중입니다...</td></tr>
+                    <tr><td colspan="5" style="text-align:center; padding:40px 0; color:#adb5bd;">데이터를 불러오는 중입니다...</td></tr>
                 </tbody>
             </table>
         </div>
@@ -246,7 +442,7 @@
             <div class="notice-box">
                 <ul>
                     <li>반드시 본인의 <b>정확한 캐릭터 닉네임</b>을 입력해 주세요.</li>
-                    <li>[U]캐릭터정보 <b>스크린샷 파일 제출은 자유이며,</b> 관리자 검수 및 스텟 보기 기능 외에 사용하지 않습니다.</li>
+                    <li>캐릭터정보 <b>스크린샷 파일 제출은 필수</b>이며, 미첨부 시 랭킹에서 제외됩니다.</li>
                     <li>악의적으로 거짓 된 정보를 제출 할 경우 등재되지 않으며, <b>해당 폼 제출 계정은 블랙리스트에 등록됩니다.</b></li>
                     <li><b>자동 갱신 시스템이 아닙니다. </b>관리자 검수 및 승인 처리까지 최대 7일이 소요될 수 있습니다.</li>
                 </ul>
@@ -264,202 +460,203 @@
         let rankingData = [];
 
         function getJsonUrl(url) {
-            const matches = url.match(/\/d\/([a-zA-Z0-9-_]+)/);
-            if (!matches) return null;
-            return `https://docs.google.com/spreadsheets/d/${matches[1]}/gviz/tq?tqx=out:json&gid=1742833314`;
+        const matches = url.match(/\/d\/([a-zA-Z0-9-_]+)/);
+        if (!matches) return null;
+        return `https://docs.google.com/spreadsheets/d/${matches[1]}/gviz/tq?tqx=out:json&gid=1742833314`;
         }
 
-        // 💡 [구글 최신 보안 우회 패치] 외부 호출을 허용하는 프록시 썸네일 엔진 적용 (&sz=w1000 옵션으로 고화질 강제 변환)
         function convertToDirectDriveLink(url) {
-            if (!url) return "";
-            
-            let cleanUrl = url.toString().replace(/[\[\]"']/g, "").trim();
-            
-            if (!cleanUrl.includes("drive.google.com") && !cleanUrl.includes("docs.google.com")) return "";
-            if (cleanUrl.includes("#REF!") || cleanUrl.includes("에러")) return "";
-            
-            let fileId = "";
-            const idMatchers = [
-                /id=([a-zA-Z0-9-_]+)/,
-                /\/d\/([a-zA-Z0-9-_]+)/,
-                /\/file\/d\/([a-zA-Z0-9-_]+)/
-            ];
-            
-            for (let matcher of idMatchers) {
-                const match = cleanUrl.match(matcher);
-                if (match && match[1]) {
-                    fileId = match[1];
-                    break;
-                }
-            }
-            
-            // 💡 핵심 교정: 외부 웹사이트 임베딩 제한을 우회하는 썸네일 노출형 무적 주소 포맷 적용
-            return fileId ? `https://drive.google.com/thumbnail?id=${fileId}&sz=w1000` : "";
+        if (!url) return "";
+        let cleanUrl = url.toString().replace(/[\[\]"']/g, "").trim();
+        if (!cleanUrl.includes("drive.google.com") && !cleanUrl.includes("docs.google.com")) return "";
+        if (cleanUrl.includes("#REF!") || cleanUrl.includes("에러")) return "";
+
+        let fileId = "";
+        const idMatchers = [
+        /id=([a-zA-Z0-9-_]+)/,
+        /\/d\/([a-zA-Z0-9-_]+)/,
+        /\/file\/d\/([a-zA-Z0-9-_]+)/
+        ];
+
+        for (let matcher of idMatchers) {
+        const match = cleanUrl.match(matcher);
+        if (match && match[1]) {
+        fileId = match[1];
+        break;
+        }
+        }
+        return fileId ? `https://drive.google.com/thumbnail?id=${fileId}&sz=w1000` : "";
         }
 
         async function fetchRankingData() {
-            const jsonUrl = getJsonUrl(GOOGLE_SHEET_URL);
-            try {
-                const response = await fetch(jsonUrl);
-                const text = await response.text();
+        const jsonUrl = getJsonUrl(GOOGLE_SHEET_URL);
+        try {
+        const response = await fetch(jsonUrl);
+        const text = await response.text();
 
-                const startIdx = text.indexOf('{');
-                const endIdx = text.lastIndexOf('}');
-                if (startIdx === -1 || endIdx === -1) throw new Error("JSON 파싱 실패");
-                
-                const json = JSON.parse(text.substring(startIdx, endIdx + 1));
-                const rows = json.table.rows;
+        const startIdx = text.indexOf('{');
+        const endIdx = text.lastIndexOf('}');
+        if (startIdx === -1 || endIdx === -1) throw new Error("JSON 파싱 실패");
 
-                const dataMap = new Map();
+        const json = JSON.parse(text.substring(startIdx, endIdx + 1));
+        const rows = json.table.rows;
 
-                rows.forEach(row => {
-                    const cells = row.c;
-                    if (!cells || cells.length < 4 || !cells[2] || cells[2].v === null) return;
+        const dataMap = new Map();
 
-                    const name = cells[2].v.toString().trim();
-                    if (!name) return;
+        rows.forEach(row => {
+        const cells = row.c;
+        if (!cells || cells.length < 4 || !cells[2] || cells[2].v === null) return;
 
-                    // 레벨 파싱
-                    const rawLevel = cells[1] ? (cells[1].f || cells[1].v || "0") : "0";
-                    const cleanLevelStr = rawLevel.toString().includes('.') ? rawLevel.toString().split('.')[0] : rawLevel.toString();
-                    const level = parseInt(cleanLevelStr.replace(/[^0-9]/g, "")) || 0;
+        const name = cells[2].v.toString().trim();
+        if (!name) return;
 
-                    // 전투력 파싱
-                    const rawPower = cells[3] ? (cells[3].f || cells[3].v || "0") : "0";
-                    const cleanPowerStr = rawPower.toString().includes('.') ? rawPower.toString().split('.')[0] : rawPower.toString();
-                    const power = parseInt(cleanPowerStr.replace(/[^0-9]/g, "")) || 0;
-                    
-                    let rawImgUrl = "";
-                    let isApproved = "";
+        // 레벨 파싱
+        const rawLevel = cells[1] ? (cells[1].f || cells[1].v || "0") : "0";
+        const cleanLevelStr = rawLevel.toString().includes('.') ? rawLevel.toString().split('.')[0] : rawLevel.toString();
+        const level = parseInt(cleanLevelStr.replace(/[^0-9]/g, "")) || 0;
 
-                    // 행의 모든 데이터를 스캔하여 주소 및 마크 검출
-                    cells.forEach((cell) => {
-                        if (!cell || cell.v === null) return;
-                        const cellValue = cell.v.toString().trim();
+        // 전투력 파싱
+        const rawPower = cells[3] ? (cells[3].f || cells[3].v || "0") : "0";
+        const cleanPowerStr = rawPower.toString().includes('.') ? rawPower.toString().split('.')[0] : rawPower.toString();
+        const power = parseInt(cleanPowerStr.replace(/[^0-9]/g, "")) || 0;
 
-                        if (cellValue.includes('drive.google.com') || cellValue.includes('docs.google.com')) {
-                            rawImgUrl = cellValue;
-                        }
-                        if (cellValue.toUpperCase() === 'Y' || cellValue === '승인') {
-                            isApproved = 'Y';
-                        }
-                    });
+        let rawImgUrl = "";
+        let isApproved = false;
+        let isPrivate = false; // 🔒 비공개 여부 체크용 변수
 
-                    const img = convertToDirectDriveLink(rawImgUrl);
+        // 행 전체 데이터 순회하며 값 분석
+        cells.forEach((cell) => {
+        if (!cell || cell.v === null) return;
+        const cellValue = cell.v.toString().trim();
 
-                    if (isApproved === 'Y') {
-                        if (!dataMap.has(name) || dataMap.get(name).power < power) {
-                            dataMap.set(name, { level, name, power, img });
-                        }
-                    }
-                });
+        if (cellValue.includes('drive.google.com') || cellValue.includes('docs.google.com')) {
+        rawImgUrl = cellValue;
+        }
+        if (cellValue.toUpperCase() === 'Y' || cellValue === '승인') {
+        isApproved = true;
+        }
+        if (cellValue === '비공개') {
+        isPrivate = true;
+        }
+        });
 
-                const fetchedData = Array.from(dataMap.values());
-                fetchedData.sort((a, b) => b.power - a.power);
-                rankingData = fetchedData;
-                renderRanking();
+        const img = convertToDirectDriveLink(rawImgUrl);
 
-            } catch (error) {
-                console.error("데이터 로드 실패:", error);
-                document.getElementById('ranking-list').innerHTML = `<tr><td colspan="6" style="text-align:center; color:#fa5252; padding:40px 0;">데이터 연동 실패 (시트 설정 및 주소를 확인해 주세요)</td></tr>`;
-            }
+        // 승인이 완료된 데이터만 등록
+        if (isApproved) {
+        if (!dataMap.has(name) || dataMap.get(name).power < power) {
+        dataMap.set(name, { level, name, power, img, isPrivate });
+        }
+        }
+        });
+
+        const fetchedData = Array.from(dataMap.values());
+        fetchedData.sort((a, b) => b.power - a.power);
+        rankingData = fetchedData;
+        renderRanking();
+
+        } catch (error) {
+        console.error("데이터 로드 실패:", error);
+        document.getElementById('ranking-list').innerHTML = `<tr><td colspan="5" style="text-align:center; color:#fa5252; padding:40px 0;">데이터 연동 실패 (시트 설정 및 주소를 확인해 주세요)</td></tr>`;
+        }
         }
 
         function renderRanking() {
-            const tbody = document.getElementById('ranking-list');
-            tbody.innerHTML = '';
+        const tbody = document.getElementById('ranking-list');
+        tbody.innerHTML = '';
 
-            updatePodiumSlots();
+        updatePodiumSlots();
 
-            const searchTerm = document.getElementById('search-bar').value.trim().toLowerCase();
+        const searchTerm = document.getElementById('search-bar').value.trim().toLowerCase();
 
-            if (rankingData.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:#adb5bd; padding:40px 0;">현재 승인되어 등록된 데이터가 없습니다.</td></tr>`;
-                return;
-            }
+        if (rankingData.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:#adb5bd; padding:40px 0;">현재 승인되어 등록된 데이터가 없습니다.</td></tr>`;
+        return;
+        }
 
-            let hasMatch = false;
+        let hasMatch = false;
 
-            rankingData.forEach((user, index) => {
-                const rank = index + 1;
+        rankingData.forEach((user, index) => {
+        const rank = index + 1;
 
-                if (searchTerm && !user.name.toLowerCase().includes(searchTerm)) {
-                    return;
-                }
+        if (searchTerm && !user.name.toLowerCase().includes(searchTerm)) {
+        return;
+        }
 
-                hasMatch = true;
+        hasMatch = true;
 
-                let rankDisplay = `<span class="badge top-normal">${rank}</span>`;
-                if (rank === 1) rankDisplay = `<span class="badge top-1">1</span>`;
-                else if (rank === 2) rankDisplay = `<span class="badge top-2">2</span>`;
-                else if (rank === 3) rankDisplay = `<span class="badge top-3">3</span>`;
+        let rankDisplay = `<span class="badge top-normal">${rank}</span>`;
+        if (rank === 1) rankDisplay = `<span class="badge top-1">1</span>`;
+        else if (rank === 2) rankDisplay = `<span class="badge top-2">2</span>`;
+        else if (rank === 3) rankDisplay = `<span class="badge top-3">3</span>`;
 
-                let statusBadgeHtml = user.img ? '<span class="status-badge" style="color: #2b8a3e;">✔️</span>' : '<span class="status-badge" style="color: #c92a2a;">❌</span>';
+        // 🔒 비공개 요청 유저는 버튼을 완전히 비활성화(disabled) 시키고 텍스트 변경
+        let disabledAttr = (user.isPrivate || !user.img) ? 'disabled' : '';
+        let btnText = user.isPrivate ? '🔒 비공개' : '📷 스탯보기';
+        let statsBtnHtml = `<button class="btn-view-stats" ${disabledAttr} onclick="openModal('${user.name}', '${user.level}', '${user.power}', '${user.img}')">${btnText}</button>`;
 
-                let disabledAttr = user.img ? '' : 'disabled';
-                let statsBtnHtml = `<button class="btn-view-stats" ${disabledAttr} onclick="openModal('${user.name}', '${user.level}', '${user.power}', '${user.img}')">📷 스탯보기</button>`;
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+        <td>${rankDisplay}</td>
+        <td class="level-text">Lv.${user.level}</td>
+        <td style="font-weight: 600; color:#212529;">${user.name}</td>
+        <td class="power-text" style="text-align: right;">${user.power.toLocaleString()}</td>
+        <td style="text-align: center;">${statsBtnHtml}</td>
+        `;
+        tbody.appendChild(tr);
+        });
 
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td>${rankDisplay}</td>
-                    <td class="level-text">Lv.${user.level}</td>
-                    <td style="font-weight: 600; color:#212529;">${user.name}</td>
-                    <td class="power-text" style="text-align: right;">${user.power.toLocaleString()}</td>
-                    <td style="text-align: center;">${statusBadgeHtml}</td>
-                    <td style="text-align: center;">${statsBtnHtml}</td>
-                `;
-                tbody.appendChild(tr);
-            });
-
-            if (!hasMatch) {
-                tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:#adb5bd; padding:40px 0;">'${searchTerm}' 유저를 찾을 수 없습니다.</td></tr>`;
-            }
+        if (!hasMatch) {
+        tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:#adb5bd; padding:40px 0;">'${searchTerm}' 유저를 찾을 수 없습니다.</td></tr>`;
+        }
         }
 
         function updatePodiumSlots() {
-            const fillSlot = (id, user) => {
-                const container = document.getElementById(id);
-                if (user) {
-                    let btnHtml = user.img ? `<button class="btn-view-stats" style="margin-top:6px;" onclick="openModal('${user.name}', '${user.level}', '${user.power}', '${user.img}')">📷 스탯보기</button>` : '';
-                    container.innerHTML = `
-                        <div class="podium-name">${user.name}</div>
-                        <div class="podium-level">Lv.${user.level}</div>
-                        <div class="podium-power">${user.power.toLocaleString()}</div>
-                        <div style="margin-top: 4px;">${user.img ? '<span class="status-badge" style="color: #2b8a3e; font-size:13px;">✔️ 인증완료</span>' : '<span class="status-badge" style="color: #c92a2a; font-size:13px;">❌ 미인증</span>'}</div>
-                        ${btnHtml}
-                    `;
-                } else {
-                    const num = id.charAt(1);
-                    container.innerHTML = `<div class="podium-empty">${num}등 공석</div>`;
-                }
-            };
+        const fillSlot = (id, user) => {
+        const container = document.getElementById(id);
+        if (user) {
+        let disabledAttr = (user.isPrivate || !user.img) ? 'disabled' : '';
+        let btnText = user.isPrivate ? '🔒 비공개' : '📷 스탯보기';
+        let btnHtml = `<button class="btn-view-stats" style="margin-top:6px;" ${disabledAttr} onclick="openModal('${user.name}', '${user.level}', '${user.power}', '${user.img}')">${btnText}</button>`;
 
-            fillSlot('p1-content', rankingData[0]);
-            fillSlot('p2-content', rankingData[1]);
-            fillSlot('p3-content', rankingData[2]);
+        container.innerHTML = `
+        <div class="podium-name">${user.name}</div>
+        <div class="podium-level">Lv.${user.level}</div>
+        <div class="podium-power">${user.power.toLocaleString()}</div>
+        ${btnHtml}
+        `;
+        } else {
+        const num = id.charAt(1);
+        container.innerHTML = `<div class="podium-empty">${num}등 공석</div>`;
+        }
+        };
+
+        fillSlot('p1-content', rankingData[0]);
+        fillSlot('p2-content', rankingData[1]);
+        fillSlot('p3-content', rankingData[2]);
         }
 
         function openModal(name, level, power, imgUrl) {
-            if (!imgUrl) return;
-            document.getElementById('modal-user-title').innerText = `[Lv.${level}] ${name} 님의 스텟 인증`;
-            document.getElementById('modal-img-src').src = imgUrl;
-            document.getElementById('img-modal').style.display = 'flex';
+        if (!imgUrl) return;
+        document.getElementById('modal-user-title').innerText = `[Lv.${level}] ${name} 님의 스텟 인증`;
+        document.getElementById('modal-img-src').src = imgUrl;
+        document.getElementById('img-modal').style.display = 'flex';
         }
 
         function closeModal() {
-            document.getElementById('img-modal').style.display = 'none';
-            document.getElementById('modal-img-src').src = '';
+        document.getElementById('img-modal').style.display = 'none';
+        document.getElementById('modal-img-src').src = '';
         }
 
         function openNoticeModal() {
-            document.getElementById('notice-modal').style.display = 'flex';
+        document.getElementById('notice-modal').style.display = 'flex';
         }
         function closeNoticeModal() {
-            document.getElementById('notice-modal').style.display = 'none';
+        document.getElementById('notice-modal').style.display = 'none';
         }
 
         window.onload = function() {
-            fetchRankingData();
+        fetchRankingData();
         };
     </script>
 </body>
