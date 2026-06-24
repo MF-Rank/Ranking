@@ -117,7 +117,7 @@
             background: #ffffff;
             border: 1px solid #e9ecef;
             border-radius: 20px;
-            padding: 40px 24px 40px 24px;
+            padding: 25px 20px 25px 20px; /* 웅장함을 위해 외부 여백 긴밀하게 압축 */
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.03);
             box-sizing: border-box;
             min-height: 580px;
@@ -130,7 +130,7 @@
             border: 1px solid #e9ecef;
             border-radius: 18px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
-            padding: 24px 12px;
+            padding: 15px 10px 20px 10px; /* 내부 패딩을 줄여 공간 효율 극대화 */
             text-align: center;
             box-sizing: border-box;
             display: flex;
@@ -150,45 +150,45 @@
             width: auto;
             max-width: 100%;
             object-fit: contain;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             filter: drop-shadow(0 6px 12px rgba(0,0,0,0.12));
             animation: floatAnimation 3s ease-in-out infinite;
         }
 
         @keyframes floatAnimation {
             0% { transform: translateY(0px); }
-            50% { transform: translateY(-8px); }
+            50% { transform: translateY(-6px); }
             100% { transform: translateY(0px); }
         }
 
         /* 🥇 1등 카드: 가장 넓고 가장 높으며, 가장 웅장하게 고정 */
         .p-1st {
-            flex: 1.3; /* 폭을 넓혀 웅장한 가로 볼륨감 선사 */
-            height: 490px;
+            flex: 1.3; /* 가로 폭 확장 */
+            height: 520px; /* 세로 높이 상향 */
             border-top: 6px solid #ffd700;
             background: linear-gradient(180deg, #fffbeb 0%, #ffffff 40%);
             box-shadow: 0 6px 15px rgba(255, 215, 0, 0.1);
         }
-        .p-1st .trophy-img { height: 210px !important; } /* 1등 트로피 스케일 업 */
-        .p-1st .podium-name { font-size: 19px; font-weight: 800; }
+        .p-1st .trophy-img { height: 280px !important; } /* 1등 트로피 파격 확대 */
+        .p-1st .podium-name { font-size: 20px; font-weight: 800; } /* 이름 크게 */
 
-        /* 🥈 2등 카드: 표준 규격 유지 */
+        /* 🥈 2등 카드 */
         .p-2nd {
             flex: 1;
-            height: 410px;
+            height: 430px;
             border-top: 6px solid #c0c0c0;
             background: linear-gradient(180deg, #f8f9fa 0%, #ffffff 40%);
         }
-        .p-2nd .trophy-img { height: 150px !important; } /* 2등 트로피 중간 규격 */
+        .p-2nd .trophy-img { height: 190px !important; } /* 2등 트로피 벌크업 */
 
-        /* 🥉 3등 카드: 가장 슬림하고 컴팩트하게 */
+        /* 🥉 3등 카드 */
         .p-3rd {
-            flex: 0.9; /* 3등은 좀 더 슬림하게 축소 */
-            height: 360px;
+            flex: 0.9;
+            height: 380px;
             border-top: 6px solid #cd7f32;
             background: linear-gradient(180deg, #fffaf5 0%, #ffffff 40%);
         }
-        .p-3rd .trophy-img { height: 125px !important; } /* 3등 트로피 미니멀화 */
+        .p-3rd .trophy-img { height: 150px !important; } /* 3등 트로피 벌크업 */
 
         /* 간략화 버전(Simple Mode) 시 강제 규격 리셋 안전장치 */
         .main-container.simple-mode .p-1st,
@@ -211,21 +211,21 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
         }
 
         .podium-level {
             font-size: 13px;
             color: #4c6ef5;
             font-weight: 700;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
 
         .podium-power {
             font-weight: 800;
-            font-size: 16px;
+            font-size: 18px; /* 수치 가독성 스케일 업 */
             color: #b71c1c;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
 
         .podium-empty {
@@ -496,12 +496,14 @@
 
     <div class="main-container" id="main-layout">
 
+        <!-- 🏛️ [좌측 반반 영역] 대형 시상대 구역 -->
         <div class="podium-wrapper">
             <div class="podium-card p-2nd" id="podium-2nd"></div>
             <div class="podium-card p-1st" id="podium-1st"></div>
             <div class="podium-card p-3rd" id="podium-3rd"></div>
         </div>
 
+        <!-- 📊 [우측 반반 영역] 실시간 리더보드 순위표 -->
         <div class="rank-panel">
             <div class="rank-header-line">
                 <div class="title-area">
@@ -531,6 +533,7 @@
 
     </div>
 
+    <!-- 이미지 확인 모달 -->
     <div class="modal-overlay" id="img-modal" onclick="closeModal()">
         <div class="modal-card" onclick="event.stopPropagation()">
             <span class="modal-close" onclick="closeModal()">&times;</span>
@@ -539,6 +542,7 @@
         </div>
     </div>
 
+    <!-- 유의사항 및 신청 링크 모달 -->
     <div class="modal-overlay" id="notice-modal" onclick="closeNoticeModal()">
         <div class="modal-card" onclick="event.stopPropagation()">
             <span class="modal-close" onclick="closeNoticeModal()">&times;</span>
