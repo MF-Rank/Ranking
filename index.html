@@ -8,48 +8,16 @@
             background-color: #f8f9fa;
             color: #333333;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            padding: 20px 20px 40px 20px;
+            padding: 40px 20px; /* 상단 여백 밸런스 조정 */
             display: flex;
             flex-direction: column;
             align-items: center;
         }
 
-        /* 🔄 [최상단] 버전 전환 버튼 구역 */
-        .top-control-bar {
-            width: 100%;
-            max-width: 1400px;
-            display: flex;
-            justify-content: flex-end;
-            margin-bottom: 15px;
-        }
-
-        .btn-toggle-mode {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            background: #ffffff;
-            color: #495057;
-            font-size: 14px;
-            font-weight: 700;
-            padding: 8px 20px;
-            border-radius: 50px;
-            border: 1px solid #ced4da;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
-            transition: all 0.2s ease-in-out;
-            cursor: pointer;
-            outline: none;
-        }
-
-        .btn-toggle-mode:hover {
-            background: #f1f3f5;
-            border-color: #adb5bd;
-            transform: translateY(-1px);
-        }
-
         /* 🔝 상단 타이틀 부 */
         .header-area {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             width: 100%;
             max-width: 1400px;
         }
@@ -117,7 +85,7 @@
             background: #ffffff;
             border: 1px solid #e9ecef;
             border-radius: 20px;
-            padding: 25px 20px 25px 20px; /* 웅장함을 위해 외부 여백 긴밀하게 압축 */
+            padding: 25px 20px 25px 20px;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.03);
             box-sizing: border-box;
             min-height: 580px;
@@ -130,7 +98,7 @@
             border: 1px solid #e9ecef;
             border-radius: 18px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
-            padding: 15px 10px 20px 10px; /* 내부 패딩을 줄여 공간 효율 극대화 */
+            padding: 15px 10px 20px 10px;
             text-align: center;
             box-sizing: border-box;
             display: flex;
@@ -163,14 +131,14 @@
 
         /* 🥇 1등 카드: 가장 넓고 가장 높으며, 가장 웅장하게 고정 */
         .p-1st {
-            flex: 1.3; /* 가로 폭 확장 */
-            height: 520px; /* 세로 높이 상향 */
+            flex: 1.3;
+            height: 520px;
             border-top: 6px solid #ffd700;
             background: linear-gradient(180deg, #fffbeb 0%, #ffffff 40%);
             box-shadow: 0 6px 15px rgba(255, 215, 0, 0.1);
         }
-        .p-1st .trophy-img { height: 280px !important; } /* 1등 트로피 파격 확대 */
-        .p-1st .podium-name { font-size: 20px; font-weight: 800; } /* 이름 크게 */
+        .p-1st .trophy-img { height: 280px !important; }
+        .p-1st .podium-name { font-size: 20px; font-weight: 800; }
 
         /* 🥈 2등 카드 */
         .p-2nd {
@@ -179,7 +147,7 @@
             border-top: 6px solid #c0c0c0;
             background: linear-gradient(180deg, #f8f9fa 0%, #ffffff 40%);
         }
-        .p-2nd .trophy-img { height: 190px !important; } /* 2등 트로피 벌크업 */
+        .p-2nd .trophy-img { height: 190px !important; }
 
         /* 🥉 3등 카드 */
         .p-3rd {
@@ -188,21 +156,7 @@
             border-top: 6px solid #cd7f32;
             background: linear-gradient(180deg, #fffaf5 0%, #ffffff 40%);
         }
-        .p-3rd .trophy-img { height: 150px !important; } /* 3등 트로피 벌크업 */
-
-        /* 간략화 버전(Simple Mode) 시 강제 규격 리셋 안전장치 */
-        .main-container.simple-mode .p-1st,
-        .main-container.simple-mode .p-2nd,
-        .main-container.simple-mode .p-3rd {
-            flex: 1 !important;
-            max-width: 220px !important;
-            padding: 20px 10px !important;
-        }
-        .main-container.simple-mode .p-1st { height: 340px !important; }
-        .main-container.simple-mode .p-2nd { height: 300px !important; }
-        .main-container.simple-mode .p-3rd { height: 270px !important; }
-        .main-container.simple-mode .trophy-img { height: 100px !important; margin-bottom: 10px !important; }
-        .main-container.simple-mode .podium-name { font-size: 14px !important; }
+        .p-3rd .trophy-img { height: 150px !important; }
 
         .podium-name {
             font-weight: 700;
@@ -223,7 +177,7 @@
 
         .podium-power {
             font-weight: 800;
-            font-size: 18px; /* 수치 가독성 스케일 업 */
+            font-size: 18px;
             color: #b71c1c;
             margin-bottom: 10px;
         }
@@ -232,24 +186,6 @@
             color: #adb5bd;
             font-size: 14px;
             margin-bottom: 60px;
-        }
-
-        /* 📉 간략화 버전 전체 레이아웃 체인저 */
-        .main-container.simple-mode {
-            flex-direction: column !important;
-            align-items: center !important;
-            max-width: 1000px;
-        }
-
-        .main-container.simple-mode .podium-wrapper {
-            flex: none;
-            max-width: 100% !important;
-            width: 100%;
-            background: none;
-            border: none;
-            box-shadow: none;
-            padding: 10px 0;
-            min-height: auto;
         }
 
         /* 📊 [우측] 리더보드 순위표 구역 */
@@ -365,7 +301,7 @@
         .btn-view-stats:hover { background: #dbe4ff; }
         .btn-view-stats:disabled { background: #f1f3f5; color: #adb5bd; cursor: not-allowed; }
 
-        /* 📱 모바일 디바이스 레이아웃 스위칭 */
+        /* 📱 모바일 디바이스 자동 감지 레이아웃 브레이크 포인트 (자동 대전환 장치) */
         @media (max-width: 991px) {
             .main-container {
                 flex-direction: column !important;
@@ -403,7 +339,9 @@
             .p-1st { height: 340px !important; }
             .p-2nd { height: 300px !important; }
             .p-3rd { height: 270px !important; }
-            .trophy-img { height: 100px !important; margin-bottom: 10px !important; }
+            .p-1st .trophy-img { height: 130px !important; } /* 모바일 가독성 맞춤형 스케일 */
+            .p-2nd .trophy-img { height: 100px !important; }
+            .p-3rd .trophy-img { height: 85px !important; }
             .podium-name { font-size: 14px !important; }
             .podium-power { font-size: 13px; }
         }
@@ -483,10 +421,6 @@
     </style>
 </head>
 <body>
-
-    <div class="top-control-bar">
-        <button class="btn-toggle-mode" id="toggle-btn" onclick="toggleLayoutMode()">🔄 간략화 버전 보기</button>
-    </div>
 
     <div class="header-area">
         <img src="https://mblogthumb-phinf.pstatic.net/20140921_272/saiyuki1357_1411272744482CFU6N_GIF/%B0%AD%C7%F53.gif?type=w420"
@@ -571,19 +505,6 @@
         const GOOGLE_SHEET_URL = "https://docs.google.com/spreadsheets/d/1VxePbQvytvB0bkVxDMxukX9VqB15yemmyqNeJ9Ju5eg/edit?gid=1742833314#gid=1742833314";
 
         let rankingData = [];
-
-        function toggleLayoutMode() {
-            const layout = document.getElementById('main-layout');
-            const btn = document.getElementById('toggle-btn');
-
-            if (layout.classList.contains('simple-mode')) {
-                layout.classList.remove('simple-mode');
-                btn.innerText = "🔄 간략화 버전 보기";
-            } else {
-                layout.classList.add('simple-mode');
-                btn.innerText = "🔄 일반 버전 보기";
-            }
-        }
 
         function getJsonUrl(url) {
             const matches = url.match(/\/d\/([a-zA-Z0-9-_]+)/);
