@@ -16,6 +16,7 @@
             --text-name: #212529;
             --table-th-bg: #f8f9fa;
             --table-border: #f1f3f5;
+            --omega-bg: rgba(181, 16, 0, 0.08); /* 라이트모드 오메가 반투명 배경 */
         }
 
         /* 🌙 다크모드 변수 세팅 */
@@ -27,9 +28,10 @@
             --text-sub: #909296;
             --text-muted: #5c5f66;
             --text-title: #ffffff;
-            --text-name: #ffe066; /* 다크모드 시 닉네임이 골드톤으로 선명하게 보이도록 체인지 */
+            --text-name: #ffe066;
             --table-th-bg: #25262b;
             --table-border: #2c2e33;
+            --omega-bg: rgba(181, 16, 0, 0.2); /* 다크모드 오메가 반투명 배경 (가독성 상향) */
         }
 
         body {
@@ -168,7 +170,7 @@
             justify-content: flex-end;
             transition: transform 0.2s, box-shadow 0.2s;
             position: relative;
-            overflow: hidden; /* 빛줄기가 카드 밖으로 삐져나가지 않도록 잠금 */
+            overflow: hidden;
         }
 
         .podium-card:hover {
@@ -240,7 +242,7 @@
         .p-1st .trophy-img { height: 280px !important; }
         .p-1st .podium-name { font-size: 20px; font-weight: 800; }
 
-        /* 🥈 2등 카드 */
+        /* 2등 카드 */
         .p-2nd {
             flex: 1;
             height: 430px;
@@ -249,7 +251,7 @@
         }
         .p-2nd .trophy-img { height: 190px !important; }
 
-        /* 🥉 3등 카드 */
+        /* 3등 카드 */
         .p-3rd {
             flex: 0.9;
             height: 380px;
@@ -367,6 +369,19 @@
             font-size: 14px;
             color: var(--text-sub);
             border-bottom: 1px solid var(--table-border);
+        }
+
+        /* 👑 [신설] 오메가 등급 유저 전용 행 디자인 클래스 */
+        .omega-row {
+            background-color: var(--omega-bg) !important;
+        }
+
+        /* 👑 [신설] 오메가 Ω 티어 마크 디자인 스타일 */
+        .tier-omega-mark {
+            color: #b51000;
+            font-weight: 800;
+            font-size: 14px;
+            margin-right: 4px;
         }
 
         .badge {
@@ -559,8 +574,7 @@
                 <thead>
                     <tr>
                         <th style="width: 12%;">순위</th>
-                        <th style="width: 18%;">레벨</th>
-                        <th>닉네임</th>
+                        <th style="width: 22%;">레벨</th> <th>닉네임</th>
                         <th style="text-align: right; width: 25%;">전투력</th>
                         <th style="text-align: center; width: 22%;">스탯 이미지</th>
                     </tr>
@@ -588,9 +602,9 @@
 
             <div class="notice-box">
                 <ul>
-                    <li>구글 로그인은 파일 첨부와 관련된 사항으로, <br><b>관리자의 목적과 관련이 없습니다.</b></br> </li>
-                    <li>캐릭터정보 <b>스크린샷 파일 제출은 필수</b>이며, <br>관리자의 검수 및 공개 기능 외 사용되지 않습니다.</br></li>
-                    <li>악의적으로 거짓 된 정보를 제출 할 경우 등재되지 않으며, <b>해당 유저는 블랙리스트에 등록됩니다.</b></li>
+                    <li>반드시 본인의 <b>정확한 캐릭터 닉네임</b>을 입력해 주세요.</li>
+                    <li>캐릭터정보 <b>스크린샷 파일 제출은 필수</b>이며, 미첨부 시 랭킹에서 제외됩니다.</li>
+                    <li>악의적으로 거짓 된 정보를 제출 할 경우 등재되지 않으며, <b>해당 폼 제출 계정은 블랙리스트에 등록됩니다.</b></li>
                     <li><b>자동 갱신 시스템이 아닙니다. </b>관리자 검수 및 승인 처리까지 최대 7일이 소요될 수 있습니다.</li>
                 </ul>
             </div>
@@ -616,7 +630,7 @@
             const targetTheme = currentTheme === 'dark' ? 'light' : 'dark';
 
             document.documentElement.setAttribute('data-theme', targetTheme);
-            localStorage.setItem('theme', targetTheme); // 유저 상태 브라우저 저장
+            localStorage.setItem('theme', targetTheme);
             updateThemeButtonText(targetTheme);
         }
 
@@ -626,7 +640,6 @@
             btn.innerText = theme === 'dark' ? '☀️ 라이트모드' : '🌙 다크모드';
         }
 
-        // 💡 디폴트값을 'dark'로 지정하여 최초 접속 시 무조건 다크모드로 로드되도록 제어
         (function initTheme() {
             const savedTheme = localStorage.getItem('theme') || 'dark';
             document.documentElement.setAttribute('data-theme', savedTheme);
@@ -746,8 +759,9 @@
 
             let hasMatch = false;
 
+            // 검색어 유무와 상관없이 원래 데이터셋(rankingData) 기준의 등수를 매기기 위해 인덱스 활용
             rankingData.forEach((user, index) => {
-                const rank = index + 1;
+                const realRank = index + 1; // 검색 필터와 무관한 실제 서버 등수
 
                 if (searchTerm && !user.name.toLowerCase().includes(searchTerm)) {
                     return;
@@ -755,19 +769,30 @@
 
                 hasMatch = true;
 
-                let rankDisplay = `<span class="badge top-normal">${rank}</span>`;
-                if (rank === 1) rankDisplay = `<span class="badge top-1">1</span>`;
-                else if (rank === 2) rankDisplay = `<span class="badge top-2">2</span>`;
-                else if (rank === 3) rankDisplay = `<span class="badge top-3">3</span>`;
+                let rankDisplay = `<span class="badge top-normal">${realRank}</span>`;
+                if (realRank === 1) rankDisplay = `<span class="badge top-1">1</span>`;
+                else if (realRank === 2) rankDisplay = `<span class="badge top-2">2</span>`;
+                else if (rankDisplay === 3 || realRank === 3) rankDisplay = `<span class="badge top-3">3</span>`;
 
                 let disabledAttr = (user.isPrivate || !user.img) ? 'disabled' : '';
                 let btnText = user.isPrivate ? '🔒 비공개' : '📷 스탯보기';
                 let statsBtnHtml = `<button class="btn-view-stats" ${disabledAttr} onclick="openModal('${user.name}', '${user.level}', '${user.power}', '${user.img}')">${btnText}</button>`;
 
+                // 👑 [추가] 1~5등(오메가 티어) 유저 판별 시스템 및 마크 주입
+                let omegaMarkHtml = '';
+                let rowClassAttr = '';
+                
+                if (realRank >= 1 && realRank <= 5) {
+                    omegaMarkHtml = `<span class="tier-omega-mark">Ω</span>`;
+                    rowClassAttr = `class="omega-row"`; // 행 배경색 입히기 코드 타겟팅
+                }
+
                 const tr = document.createElement('tr');
+                if (rowClassAttr) tr.className = "omega-row"; // 오메가 변수 주입
+                
                 tr.innerHTML = `
                 <td>${rankDisplay}</td>
-                <td class="level-text">Lv.${user.level}</td>
+                <td class="level-text">${omegaMarkHtml}Lv.${user.level}</td>
                 <td style="font-weight: 600; color: var(--text-name);">${user.name}</td>
                 <td class="power-text" style="text-align: right;">${user.power.toLocaleString()}</td>
                 <td style="text-align: center;">${statsBtnHtml}</td>
