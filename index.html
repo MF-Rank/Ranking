@@ -128,7 +128,7 @@
         .main-container {
             display: flex;
             flex-direction: row;
-            align-items: flex-start; /* 단상 늘어짐 방지 원천 고정 */
+            align-items: flex-start;
             gap: 30px;
             max-width: 1400px;
             width: 100%;
@@ -281,12 +281,11 @@
             display: flex;
             flex-direction: column;
             justify-content: flex-start; 
-            /* 💡 핵심 교정: 10등까지 다 표현되도록 박스 크기 제한 제한 해제 */
-            min-height: 580px; 
+            height: 580px; 
+            max-height: 580px;
             overflow: hidden;
         }
 
-        /* 💡 [핵심 교정] 10명이 잘림 없이 딱 완벽하게 다 노출되도록 내부 가이드 높이 대폭 확장 */
         .table-inner-box {
             width: 100%;
             height: 560px;
@@ -386,7 +385,7 @@
             justify-content: center;
             align-items: center;
             gap: 5px;
-            margin-top: 15px; 
+            margin-top: auto; 
             padding-top: 10px;
         }
 
@@ -419,12 +418,22 @@
             opacity: 0.5;
         }
 
+        /* 📱 모바일 디바이스 자동 감지 레이아웃 브레이크 포인트 */
         @media (max-width: 991px) {
             .main-container { flex-direction: column !important; align-items: center !important; }
-            .podium-wrapper { flex: none; max-width: 100% !important; width: 100%; height: auto; max-height: none; padding: 10px 0; }
+            .podium-wrapper { flex: none; max-width: 100% !important; width: 100%; height: auto; max-height: none; padding: 15px 0; }
             .podium-card { max-width: 220px !important; flex: 1 !important; padding: 20px 10px !important; }
-            .p-1st { height: 340px !important; } .p-2nd { height: 300px !important; } .p-3rd { height: 270px !important; }
-            .p-1st .trophy-img { height: 130px !important; } .p-2nd .trophy-img { height: 100px !important; } .p-3rd .trophy-img { height: 85px !important; }
+            
+            /* 모바일 단상 전체 카드 높이 밸런스 확장 조정 */
+            .p-1st { height: 420px !important; } 
+            .p-2nd { height: 370px !important; } 
+            .p-3rd { height: 330px !important; }
+            
+            /* 💡 [핵심 교정] 모바일 화면에서 트로피가 작아 보이지 않도록 높이를 시원하게 버프(확장) */
+            .p-1st .trophy-img { height: 210px !important; } 
+            .p-2nd .trophy-img { height: 160px !important; } 
+            .p-3rd .trophy-img { height: 130px !important; }
+            
             .rank-panel { height: auto; max-height: none; overflow: visible; }
             .table-inner-box { height: auto; max-height: none; }
         }
@@ -507,10 +516,10 @@
             <div class="modal-user-info" style="font-size: 18px; color: var(--text-title);">📢 랭킹 등록 신청 유의사항</div>
             <div class="notice-box">
                 <ul>
-                    <li>구글 로그인은 구글 폼 작성시 필요한 사항이므로,<br><b>관리자에게 수집되지 않습니다.</b></br></li>
-                    <li>캐릭터정보 <b>스크린샷 파일 제출은 필수</b>이며, 관리자 검수 <br>및 공개 기능 외 사용되지 않습니다.</br></li>
-                    <li>악의적으로 설문을 작성하거나 거짓된 정보로 신청 할 경우 <br><b>신청이 반려될 수 있습니다. </b></br></li>
-                    <li><b>자동 갱신 시스템이 아닙니다. </b>관리자 검수 및 승인 처리까지 <br>최대 7일이 소요될 수 있습니다.</br></li>
+                    <li>반드시 본인의 <b>정확한 캐릭터 닉네임</b>을 입력해 주세요.</li>
+                    <li>캐릭터정보 <b>스크린샷 파일 제출은 필수</b>이며, 미첨부 시 랭킹에서 제외됩니다.</li>
+                    <li>악의적으로 거짓 된 정보를 제출 할 경우 등재되지 않으며, <b>해당 폼 제출 계정은 블랙리스트에 등록됩니다.</b></li>
+                    <li><b>자동 갱신 시스템이 아닙니다. </b>관리자 검수 및 승인 처리까지 최대 7일이 소요될 수 있습니다.</li>
                 </ul>
             </div>
             <a href="https://forms.gle/2AeXVbuECiLms4bcA" target="_blank" class="btn-modal-submit" onclick="closeNoticeModal()">
