@@ -106,8 +106,8 @@
             width: 100%;
             max-width: 1400px;
             display: flex;
-            flex-direction: row; /* 세로에서 가로 정렬로 변경 */
-            justify-content: space-between; /* 시계는 왼쪽 끝, 버튼은 오른쪽 끝 */
+            flex-direction: row; 
+            justify-content: space-between; 
             align-items: center;
             margin-bottom: 20px;
         }
@@ -465,7 +465,8 @@
             .p-3rd .trophy-img { height: 130px !important; }
             .rank-panel { height: auto; max-height: none; overflow: visible; }
             .table-inner-box { height: auto; max-height: none; }
-            .top-control-bar { flex-direction: column; align-items: center; } /* 모바일에서는 다시 수직 중앙정렬 */
+            /* 💡 핵심 교정: 모바일에서도 수직 정렬로 깨지지 않고 양끝 배치 가로 정렬 강제 유지 */
+            .top-control-bar { flex-direction: row !important; justify-content: space-between !important; align-items: center !important; }
         }
 
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); display: none; align-items: center; justify-content: center; z-index: 1000; }
