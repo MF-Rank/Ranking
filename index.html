@@ -261,7 +261,7 @@
             box-shadow: 0 0 30px var(--glow-1st), 0 12px 24px rgba(255, 215, 0, 0.15);
         }
 
-        /* 💡 [황금 광채 엔진 복구] 레이어 마운트 및 애니메이션 가동 연동 스크립트 */
+        /* 황금 광채 효과 */
         .shine-effect {
             position: absolute;
             top: 0;
@@ -614,6 +614,23 @@
         .hall-text-level { font-size: 12px; color: #4c6ef5; font-weight: 700; margin-bottom: 4px; }
         .hall-text-power { font-size: 15px; font-weight: 800; color: #b71c1c; margin-bottom: 10px; }
 
+        /* 💡 [수정] 오메가 전당 진행 중(Lock) 안내 레이아웃 폰트 가독성 버그 교정 */
+        .hall-locked-message {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--text-title) !important; /* 👈 다크모드/라이트모드 변수와 결착하여 글씨 색상 상시 또렷하게 노출 */
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            align-items: center;
+            line-height: 1.5;
+        }
+        /* 서브 가이드 문구 가독성 추가 매칭 */
+        .hall-locked-message span:last-child {
+            color: var(--text-sub) !important;
+        }
+
         /* 📱 모바일 및 스마트폰 해상도 전용 리디자인 격리 패치 구역 */
         @media (max-width: 991px) {
             .main-container { flex-direction: column !important; align-items: center !important; }
@@ -637,10 +654,10 @@
             .p-2nd { height: 410px !important; } 
             .p-3rd { height: 370px !important; }
             
-            /* 💡 [교정 완료] 모바일 2등과 3등의 서열 크기 역전 버그 완벽 수정 (2등을 확실하게 더 크게 빌드) */
+            /* 모바일 전용 트로피 이미지 크기 세팅 */
             .p-1st .trophy-img { height: 300px !important; min-height: 300px !important; margin-bottom: 10px; } 
-            .p-2nd .trophy-img { height: 200px !important; min-height: 200px !important; margin-bottom: 10px; } /* 👈 3등보다 더 크게 고정 */
-            .p-3rd .trophy-img { height: 170px !important; min-height: 170px !important; margin-bottom: 10px; } /* 👈 2등보다 컴팩트하게 정렬 */
+            .p-2nd .trophy-img { height: 200px !important; min-height: 200px !important; margin-bottom: 10px; } 
+            .p-3rd .trophy-img { height: 170px !important; min-height: 170px !important; margin-bottom: 10px; }
             
             /* 모바일 표준 단상 텍스트 스펙 조율 */
             .podium-card .podium-name { font-size: 13px !important; font-weight: 700 !important; margin-bottom: 3px; }
@@ -968,7 +985,6 @@
             }
         }
 
-        // 💡 자바스크립트로 HTML 동적 생성 시 1등 광채 구조체(`<div class="shine-effect"></div>`)가 소멸하지 않도록 템플릿 유지 연산 보정 완료
         function renderRanking() {
             const tbody = document.getElementById('ranking-list');
             tbody.innerHTML = '';
