@@ -324,20 +324,6 @@
         }
         .p-3rd .trophy-img { height: 130px !important; }
 
-        .podium-name {
-            font-weight: 700;
-            font-size: 16px;
-            color: var(--text-title);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            margin-bottom: 4px;
-        }
-
-        .podium-level { font-size: 13px; color: #4c6ef5; font-weight: 700; margin-bottom: 8px; }
-        .podium-power { font-weight: 800; font-size: 18px; color: #b71c1c; margin-bottom: 10px; }
-        .podium-empty { color: var(--text-muted); font-size: 14px; margin-bottom: 60px; }
-
         .podium-divider {
             width: 100%;
             height: 1px;
@@ -349,8 +335,8 @@
         /* 👑 명예의 전당 버튼 스타일 */
         .btn-omega-hall {
             width: 100%;
-            padding: 10px;
-            font-size: 18px !important; /* 💡 PC/모바일 규격 18px 강력 고정 */
+            padding: 12px;
+            font-size: 18px !important; /* 💡 PC/모바일 언제나 크고 또렷하게 고정 */
             font-weight: bold;
             text-align: center;
             color: #c90202;
@@ -477,7 +463,7 @@
         [data-theme="dark"] .btn-view-stats:hover { background: #2c2e33; }
         .btn-view-stats:disabled { background: var(--table-th-bg); color: var(--text-muted); cursor: not-allowed; }
 
-        /* 🗂️ 페이지네이션 */
+        /* 🗂️ 페이지네이션 버튼 하단 바 구역 디자인 */
         .pagination-container {
             display: flex;
             justify-content: center;
@@ -625,40 +611,49 @@
         @media (max-width: 991px) {
             .main-container { flex-direction: column !important; align-items: center !important; }
             
-            /* 좌측 시상대 래퍼 조정 */
-            .podium-wrapper { flex: none; max-width: 100% !important; width: 100%; height: auto; max-height: none; padding: 20px 15px 15px 15px; }
+            /* 💡 교정 1: 모바일 아래쪽 빈 공간 레이아웃을 완전히 활용하도록 시상대 외부 프레임 세로폭 파격 확장 */
+            .podium-wrapper { 
+                flex: none; 
+                max-width: 100% !important; 
+                width: 100%; 
+                height: 540px !important; /* 👈 세로 한계치를 기존 420px에서 540px로 넉넉하게 대폭 체계적 확장 */
+                max-height: 540px !important; 
+                padding: 22px 12px 16px 12px; 
+            }
             
-            /* 💡 교정 1: 모바일에서 단상 카드가 비정상적으로 길어지지 않도록 고정 높이(Fixed Height) 강제 세팅 및 패딩 리셋 */
-            .podium-cards-inner { gap: 8px !important; align-items: flex-end; margin-bottom: 5px; }
-            .podium-card { max-width: 32% !important; flex: 1 !important; padding: 12px 4px 14px 4px !important; height: auto !important; }
+            /* 💡 교정 2: 내부 카드들이 납작하게 구겨지지 않고 웅장하게 서있을 수 있도록 고정 높이 비율 수립 */
+            .podium-cards-inner { gap: 10px !important; align-items: flex-end; margin-bottom: 5px; }
+            .podium-card { max-width: 32% !important; flex: 1 !important; padding: 16px 4px 18px 4px !important; }
             
-            /* 이미지 비율 및 폰트 유격 역조율로 뚱뚱해지는 버그 원천 진압 */
-            .p-1st { height: 240px !important; } 
-            .p-2nd { height: 210px !important; } 
-            .p-3rd { height: 190px !important; }
-            .p-1st .trophy-img { height: 95px !important; margin-bottom: 6px; } 
-            .p-2nd .trophy-img { height: 75px !important; margin-bottom: 6px; } 
-            .p-3rd .trophy-img { height: 65px !important; margin-bottom: 6px; }
-            .podium-name { font-size: 12px !important; margin-bottom: 2px; }
-            .podium-level { font-size: 11px !important; margin-bottom: 2px; }
-            .podium-power { font-size: 12px !important; margin-bottom: 6px; }
-            .btn-view-stats { font-size: 10px !important; padding: 3px 6px !important; border-radius: 4px; }
+            /* 💡 교정 3: [핵심 해결] 모바일 하단 확장된 공간에 맞춰 트로피 이미지 크기를 대대적으로 버프(벌크업) */
+            .p-1st { height: 390px !important; } 
+            .p-2nd { height: 340px !important; } 
+            .p-3rd { height: 310px !important; }
+            
+            .p-1st .trophy-img { height: 180px !important; margin-bottom: 8px; } /* 👈 95px에서 180px로 대폭 뻥튀기 */
+            .p-2nd .trophy-img { height: 140px !important; margin-bottom: 8px; } /* 👈 75px에서 140px로 대폭 뻥튀기 */
+            .p-3rd .trophy-img { height: 115px !important; margin-bottom: 8px; } /* 👈 65px에서 115px로 대폭 뻥튀기 */
+            
+            .podium-name { font-size: 14px !important; margin-bottom: 3px; font-weight: 800; }
+            .podium-level { font-size: 12px !important; margin-bottom: 3px; }
+            .podium-power { font-size: 14px !important; margin-bottom: 8px; }
+            .podium-card .btn-view-stats { font-size: 11px !important; padding: 4px 8px !important; }
 
-            /* 💡 교정 2: 모바일 구분선 보존 및 오메가 전당 버튼 폰트 18px 사수 고정 */
-            .podium-divider { display: block !important; margin: 10px 0; }
-            .btn-omega-hall { font-size: 18px !important; padding: 8px !important; border-radius: 6px; }
+            /* 모바일 구분선 및 버튼 간격 최적화 */
+            .podium-divider { display: block !important; margin: 12px 0 8px 0; }
+            .btn-omega-hall { font-size: 18px !important; padding: 10px !important; border-radius: 8px; }
 
             .rank-panel { height: auto; max-height: none; overflow: visible; }
             .table-inner-box { height: auto; max-height: none; }
             .top-control-bar { flex-direction: row !important; justify-content: space-between !important; align-items: center !important; }
             
-            /* 💡 교정 3: 모바일 팝업창 전용 컴팩트 모드 뷰포트 배치 */
-            .omega-hall-card { flex-direction: column !important; height: auto; max-height: 90vh; overflow-y: auto; padding: 24px 16px; }
-            .hall-sidebar { width: 100% !important; flex-direction: row !important; border-right: none !important; border-bottom: 1px solid var(--border-color); padding-right: 0; padding-bottom: 10px; overflow-x: auto; }
+            /* 모바일 전용 전당 UI 팝업 구조 정렬 */
+            .omega-hall-card { flex-direction: column !important; height: auto; max-height: 85vh; overflow-y: auto; padding: 20px 16px; gap: 16px; }
+            .hall-sidebar { width: 100% !important; flex-direction: row !important; border-right: none !important; border-bottom: 1px solid var(--border-color); padding-right: 0; padding-bottom: 10px; overflow-x: auto; white-space: nowrap; align-items: center; }
             .hall-sidebar-title { font-size: 13px; margin-bottom: 0; margin-right: 10px; }
             .hall-tab-btn { width: auto !important; padding: 6px 12px !important; font-size: 12px !important; display: inline-block; }
             .hall-main-content { width: 100%; min-height: 200px; display: flex; align-items: center; justify-content: center; }
-            .hall-locked-message { font-size: 14px !important; padding: 20px 0; }
+            .hall-locked-message { font-size: 15px !important; padding: 20px 0; }
             .hall-podium-view { padding-top: 10px; gap: 8px !important; }
         }
 
@@ -695,7 +690,7 @@
                 <div class="podium-card p-3rd" id="podium-3rd"></div>
             </div>
             <hr class="podium-divider">
-            <button class="btn-omega-hall" onclick="openOmegaModal()">[Ω] 오메가 전당 </button>
+            <button class="btn-omega-hall" onclick="openOmegaModal()">[Ω] 오메가 전당</button>
         </div>
 
         <div class="rank-panel">
