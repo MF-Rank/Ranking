@@ -324,22 +324,22 @@
         }
         .p-3rd .trophy-img { height: 130px !important; }
 
-        /* 💡 단상 내 타이포그래피 설정 및 선택자 교정 완료 */
+        /* 💡 단상 내 타이포그래피 구조화 */
         .podium-name { font-weight: 700; font-size: 16px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 4px; }
         .podium-level { font-size: 13px; font-weight: 700; margin-bottom: 8px; }
         
-        /* 💡 [수정] 전투력 수치는 가독성을 사수하기 위해 원래의 시그니처 레드(#b71c1c)로 완벽 환원 고정 */
+        /* 💡 [수정 완료] 단상 위에 노출되는 모든 전투력 수치 글씨 색상을 메탈릭 컬러에서 원래의 붉은색 계열 컬러(#b71c1c)로 강제 지정 고정 */
         .podium-power { font-weight: 800; font-size: 18px; color: #b71c1c !important; margin-bottom: 10px; }
 
-        /* 🥇 1등 이름/레벨 골드 매칭 */
+        /* 🥇 1등 이름/레벨 골드 매칭 (전투력 제외) */
         .p-1st .podium-name { color: #ffe066 !important; } 
         .p-1st .podium-level { color: rgba(255, 224, 102, 0.8) !important; }
 
-        /* 🥈 2등 이름/레벨 실버 매칭 */
+        /* 🥈 2등 이름/레벨 실버 매칭 (전투력 제외) */
         .p-2nd .podium-name { color: #e9ecef !important; } 
         .p-2nd .podium-level { color: rgba(233, 236, 239, 0.8) !important; }
 
-        /* 🥉 3등 이름/레벨 브론즈 매칭 */
+        /* 🥉 3등 이름/레벨 브론즈 매칭 (전투력 제외) */
         .p-3rd .podium-name { color: #e59866 !important; } 
         .p-3rd .podium-level { color: rgba(229, 152, 102, 0.8) !important; }
 
@@ -615,18 +615,6 @@
         .hall-text-level { font-size: 12px; color: #4c6ef5; font-weight: 700; margin-bottom: 4px; }
         .hall-text-power { font-size: 15px; font-weight: 800; color: #b71c1c; margin-bottom: 10px; }
 
-        .hall-locked-message {
-            font-size: 18px;
-            font-weight: 800;
-            color: var(--text-muted);
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            align-items: center;
-            line-height: 1.5;
-        }
-
         /* 📱 모바일 및 스마트폰 해상도 전용 리디자인 격리 패치 구역 */
         @media (max-width: 991px) {
             .main-container { flex-direction: column !important; align-items: center !important; }
@@ -641,7 +629,7 @@
                 padding: 22px 12px 16px 12px; 
             }
             
-            /* 모바일 1~3등 단상 좌우 간격을 16px로 대칭 확장 */
+            /* 모바일 1~3등 단상 좌우 간격 세팅 */
             .podium-cards-inner { gap: 16px !important; align-items: flex-end; margin-bottom: 5px; }
             .podium-card { max-width: 32% !important; flex: 1 !important; padding: 16px 4px 18px 4px !important; height: auto !important; }
             
@@ -650,7 +638,7 @@
             .p-2nd { height: 410px !important; } 
             .p-3rd { height: 370px !important; }
             
-            /* 모바일 전용 트로피 이미지 크기 하드웨어 파격적 벌크업 */
+            /* 모바일 전용 트로피 이미지 크기 세팅 */
             .p-1st .trophy-img { height: 300px !important; min-height: 300px !important; margin-bottom: 10px; } 
             .p-2nd .trophy-img { height: 200px !important; min-height: 200px !important; margin-bottom: 10px; } 
             .p-3rd .trophy-img { height: 170px !important; min-height: 170px !important; margin-bottom: 10px; }
@@ -658,9 +646,10 @@
             /* 모바일 표준 단상 텍스트 스펙 조율 */
             .podium-card .podium-name { font-size: 13px !important; font-weight: 700 !important; margin-bottom: 3px; }
             .podium-card .podium-level { font-size: 11px !important; margin-bottom: 3px; }
-            .podium-card .podium-power { font-size: 13px !important; margin-bottom: 8px; color: #b71c1c !important; } /* 레드 강력 복구 */
+            /* 모바일 단상 전투력 붉은색 격리 고정 */
+            .podium-card .podium-power { font-size: 13px !important; font-weight: 800 !important; margin-bottom: 8px; color: #b71c1c !important; } 
             
-            /* 1등 리워드 강조를 위해 모바일 환경에서 닉네임과 전투력 폰트를 대형 크기로 확장 고정 */
+            /* 1등 리워드 모바일 타이포 확장 세팅 */
             .p-1st .podium-name { font-size: 16px !important; font-weight: 900 !important; }
             .p-1st .podium-power { font-size: 16px !important; font-weight: 900 !important; color: #b71c1c !important; }
 
@@ -900,6 +889,7 @@
             });
         })();
 
+        // 구글 시트 연동 주소 파싱
         function getJsonUrl(url) {
             const matches = url.match(/\/d\/([a-zA-Z0-9-_]+)/);
             if (!matches) return null;
