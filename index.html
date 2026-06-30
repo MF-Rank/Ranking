@@ -22,7 +22,7 @@
             --text-clock: #000000; 
             --shadow-clock: rgba(0, 0, 0, 0.4);
 
-            /* 순위별 백라이트 컬러 (라이트모드용 은은한 광채) */
+            /* 순위별 백라이트 컬러 */
             --glow-1st: rgba(255, 215, 0, 0.25);
             --glow-2nd: rgba(192, 192, 192, 0.25);
             --glow-3rd: rgba(205, 127, 50, 0.2);
@@ -45,7 +45,7 @@
             --text-clock: #ffffff; 
             --shadow-clock: rgba(255, 255, 255, 0.6);
 
-            /* 순위별 백라이트 컬러 (다크모드용 강렬한 네온 광채) */
+            /* 순위별 백라이트 컬러 (다크모드 네온 광채) */
             --glow-1st: rgba(255, 215, 0, 0.35);
             --glow-2nd: rgba(192, 192, 192, 0.3);
             --glow-3rd: rgba(205, 127, 50, 0.25);
@@ -182,7 +182,7 @@
             transition: all 0.3s ease-in-out;
         }
 
-        /* 🏛️ [좌측] 웅장한 시상대 구역 */
+        /* 🏛️ [좌측] 시상대 구역 (PC 표준 높이 복구) */
         .podium-wrapper {
             display: flex;
             flex-direction: column; 
@@ -197,8 +197,8 @@
             box-sizing: border-box;
             width: 100%;
             max-width: 680px;
-            height: 720px; /* 💡 트로피 크기 벌크업에 맞춰서 외부 래퍼 높이도 640px -> 720px 확장 */
-            max-height: 720px;
+            height: 640px;  /* 👈 PC 전체 세로높이 640px 복구 */
+            max-height: 640px;
             transition: all 0.3s ease-in-out;
         }
 
@@ -249,10 +249,10 @@
             100% { transform: translateY(0px); }
         }
 
-        /* 🥇 1등 카드 PC 디자인 */
+        /* 🥇 1등 카드 디자인 (카드 크기는 유지, 트로피만 대폭 벌크업) */
         .p-1st {
             flex: 1.3;
-            height: 540px; /* 💡 트로피 확장을 수용하기 위해 카드 높이 460px -> 540px 확장 */
+            height: 460px; /* 👈 오리지널 최적의 카드 높이 복구 */
             border-top: 6px solid #ffd700;
             background: linear-gradient(180deg, rgba(255,251,235,0.4) 0%, var(--bg-panel) 40%);
             box-shadow: 0 0 20px var(--glow-1st), 0 6px 15px rgba(255, 215, 0, 0.05);
@@ -260,50 +260,13 @@
         .p-1st:hover {
             box-shadow: 0 0 30px var(--glow-1st), 0 12px 24px rgba(255, 215, 0, 0.15);
         }
+        /* 💡 1등 트로피 크기만 영리하게 카드 윗공간에 가득 차도록 키움 */
+        .p-1st .trophy-img { height: 265px !important; }
 
-        .shine-effect {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 5;
-            overflow: hidden;
-        }
-
-        .shine-effect::after {
-            content: "";
-            position: absolute;
-            top: -100%;
-            left: -100%;
-            width: 300%;
-            height: 300%;
-            background: linear-gradient(
-                135deg,
-                rgba(255, 215, 0, 0) 0%,
-                rgba(255, 215, 0, 0) 40%,
-                rgba(255, 235, 120, 0.85) 50%,
-                rgba(255, 215, 0, 0) 60%,
-                rgba(255, 215, 0, 0) 100%
-            );
-            animation: diagonalShine 4s ease-in-out infinite;
-        }
-
-        @keyframes diagonalShine {
-            0% { transform: translate(-30%, -30%); }
-            18% { transform: translate(30%, 30%); }
-            100% { transform: translate(30%, 30%); }
-        }
-
-        /* 💡 요구사항 반영: PC 1등 트로피 크기 280px로 버프 */
-        .p-1st .trophy-img { height: 280px !important; }
-        .p-1st .podium-name { font-size: 20px; font-weight: 800; }
-
-        /* 🥈 2등 카드 PC 디자인 */
+        /* 🥈 2등 카드 디자인 (카드 크기 유지, 트로피만 키움) */
         .p-2nd {
             flex: 1;
-            height: 450px; /* 💡 트로피 확장을 수용하기 위해 카드 높이 390px -> 450px 오픈 */
+            height: 390px; /* 👈 오리지널 최적의 카드 높이 복구 */
             border-top: 6px solid #c0c0c0;
             background: linear-gradient(180deg, rgba(248,249,250,0.1) 0%, var(--bg-panel) 40%);
             box-shadow: 0 0 15px var(--glow-2nd);
@@ -311,13 +274,13 @@
         .p-2nd:hover {
             box-shadow: 0 0 25px var(--glow-2nd), 0 12px 24px rgba(0, 0, 0, 0.06);
         }
-        /* 💡 요구사항 반영: PC 2등 트로피 크기 210px로 버프 */
-        .p-2nd .trophy-img { height: 210px !important; }
+        /* 💡 2등 트로피 크기만 카드 윗공간에 가득 차도록 키움 */
+        .p-2nd .trophy-img { height: 205px !important; }
 
-        /* 🥉 3등 카드 PC 디자인 */
+        /* 🥉 3등 카드 디자인 (카드 크기 유지, 트로피만 키움) */
         .p-3rd {
             flex: 0.9;
-            height: 410px; /* 💡 트로피 확장을 수용하기 위해 카드 높이 340px -> 410px 오픈 */
+            height: 340px; /* 👈 오리지널 최적의 카드 높이 복구 */
             border-top: 6px solid #cd7f32;
             background: linear-gradient(180deg, rgba(255,250,245,0.1) 0%, var(--bg-panel) 40%);
             box-shadow: 0 0 15px var(--glow-3rd);
@@ -325,14 +288,12 @@
         .p-3rd:hover {
             box-shadow: 0 0 25px var(--glow-3rd), 0 12px 24px rgba(0, 0, 0, 0.06);
         }
-        /* 💡 요구사항 반영: PC 3등 트로피 크기 180px로 버프 */
-        .p-3rd .trophy-img { height: 180px !important; }
+        /* 💡 3등 트로피 크기만 카드 윗공간에 가득 차도록 키움 */
+        .p-3rd .trophy-img { height: 170px !important; }
 
-        /* 💡 순위별 텍스트 색상 및 서체 사수 */
+        /* 💡 순위별 텍스트 및 서체 복구 */
         .podium-name { font-weight: 700; font-size: 16px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 4px; }
         .podium-level { font-size: 13px; font-weight: 700; margin-bottom: 8px; }
-        
-        /* 💡 전투력 수치는 원래의 붉은색 계열 컬러(#b71c1c) 유지 */
         .podium-power { font-weight: 800; font-size: 18px; color: #b71c1c !important; margin-bottom: 10px; }
 
         /* 🥇 1등 이름/레벨 골드 매칭 */
@@ -390,15 +351,15 @@
             display: flex;
             flex-direction: column;
             justify-content: flex-start; 
-            height: 720px;  /* 💡 우측 패널 높이도 단상 높이 매칭하여 640px -> 720px 세로 완벽 평행 대칭 정렬 */
-            max-height: 720px;
+            height: 640px;  /* 👈 PC 전체 세로높이 640px 복구 */
+            max-height: 640px;
             overflow: hidden;
         }
 
         .table-inner-box {
             width: 100%;
-            height: 620px; /* 💡 스크롤 내부 박스 영역도 균형감 있게 소폭 연장 */
-            max-height: 620px;
+            height: 540px; /* 👈 내부 테이블 스크롤 영역 복구 */
+            max-height: 540px;
             overflow: hidden;
         }
 
@@ -488,7 +449,7 @@
         [data-theme="dark"] .btn-view-stats:hover { background: #2c2e33; }
         .btn-view-stats:disabled { background: var(--table-th-bg); color: var(--text-muted); cursor: not-allowed; }
 
-        /* 🗂️ 페이지네이션 버튼 하단 바 구역 디자인 */
+        /* 🗂️ 페이지네이션 */
         .pagination-container {
             display: flex;
             justify-content: center;
@@ -527,7 +488,7 @@
             opacity: 0.5;
         }
 
-        /* 🏛️ 명예의 전당 모달 팝업 내부 2분할 뷰 포트 레이아웃 CSS */
+        /* 🏛️ 명예의 전당 모달 팝업 내부 CSS */
         .omega-hall-card {
             background: var(--bg-panel);
             border: 1px solid var(--border-color);
@@ -587,7 +548,6 @@
             position: relative;
         }
 
-        /* 전당 내부 텍스트 베이스 전용 미니 단상 아키텍처 */
         .hall-podium-view {
             display: flex;
             align-items: flex-end;
@@ -655,7 +615,7 @@
             .p-2nd { height: 410px !important; } 
             .p-3rd { height: 370px !important; }
             
-            /* 모바일 전용 트로피 이미지 크기 하드웨어 파격적 컴팩트 벌크업 */
+            /* 모바일 전용 트로피 이미지 크기 세팅 */
             .p-1st .trophy-img { height: 300px !important; min-height: 300px !important; margin-bottom: 10px; } 
             .p-2nd .trophy-img { height: 200px !important; min-height: 200px !important; margin-bottom: 10px; } 
             .p-3rd .trophy-img { height: 170px !important; min-height: 170px !important; margin-bottom: 10px; }
@@ -663,6 +623,7 @@
             /* 모바일 표준 단상 텍스트 스펙 조율 */
             .podium-card .podium-name { font-size: 13px !important; font-weight: 700 !important; margin-bottom: 3px; }
             .podium-card .podium-level { font-size: 11px !important; margin-bottom: 3px; }
+            /* 모바일 단상 전투력 붉은색 격리 고정 */
             .podium-card .podium-power { font-size: 13px !important; font-weight: 800 !important; margin-bottom: 8px; color: #b71c1c !important; } 
             
             /* 1등 리워드 모바일 타이포 확장 세팅 */
