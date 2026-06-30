@@ -324,23 +324,24 @@
         }
         .p-3rd .trophy-img { height: 130px !important; }
 
-        /* 💡 순위별 텍스트 색상 및 서체 인프라 구축 (PC 규격 표준화) */
+        /* 💡 단상 내 타이포그래피 설정 및 선택자 교정 완료 */
         .podium-name { font-weight: 700; font-size: 16px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 4px; }
         .podium-level { font-size: 13px; font-weight: 700; margin-bottom: 8px; }
-        .podium-power { font-weight: 800; font-size: 18px; margin-bottom: 10px; }
+        
+        /* 💡 [수정] 전투력 수치는 가독성을 사수하기 위해 원래의 시그니처 레드(#b71c1c)로 완벽 환원 고정 */
+        .podium-power { font-weight: 800; font-size: 18px; color: #b71c1c !important; margin-bottom: 10px; }
 
-        /* 👑 [신설] 각 단상 카드별 폰트 컬러 매칭 설계 */
-        .p-1st .podium-name { color: #ffe066 !important; } /* 영롱한 골드 */
+        /* 🥇 1등 이름/레벨 골드 매칭 */
+        .p-1st .podium-name { color: #ffe066 !important; } 
         .p-1st .podium-level { color: rgba(255, 224, 102, 0.8) !important; }
-        .p-1st .podium-power { color: #ffd700 !important; }
 
-        .p-2nd .podium-name { color: #e9ecef !important; } /* 메탈릭 실버 */
+        /* 🥈 2등 이름/레벨 실버 매칭 */
+        .p-2nd .podium-name { color: #e9ecef !important; } 
         .p-2nd .podium-level { color: rgba(233, 236, 239, 0.8) !important; }
-        .p-2nd .podium-power { color: #ced4da !important; }
 
-        .p-3rd .podium-name { color: #e59866 !important; } /* 안티크 브론즈 */
+        /* 🥉 3등 이름/레벨 브론즈 매칭 */
+        .p-3rd .podium-name { color: #e59866 !important; } 
         .p-3rd .podium-level { color: rgba(229, 152, 102, 0.8) !important; }
-        .p-3rd .podium-power { color: #d35400 !important; }
 
         .podium-empty { color: var(--text-muted); font-size: 14px; margin-bottom: 60px; }
 
@@ -483,7 +484,7 @@
         [data-theme="dark"] .btn-view-stats:hover { background: #2c2e33; }
         .btn-view-stats:disabled { background: var(--table-th-bg); color: var(--text-muted); cursor: not-allowed; }
 
-        /* 🗂️ 페이지네이션 버튼 하단 바 구역 디자인 */
+        /* 🗂️ 페이지네이션 */
         .pagination-container {
             display: flex;
             justify-content: center;
@@ -522,7 +523,7 @@
             opacity: 0.5;
         }
 
-        /* 🏛️ 명예의 전당 모달 팝업 내부 2분할 뷰 포트 레이아웃 CSS */
+        /* 🏛️ 명예의 전당 모달 팝업 내부 CSS */
         .omega-hall-card {
             background: var(--bg-panel);
             border: 1px solid var(--border-color);
@@ -582,7 +583,6 @@
             position: relative;
         }
 
-        /* 전당 내부 텍스트 베이스 전용 미니 단상 아키텍처 */
         .hall-podium-view {
             display: flex;
             align-items: flex-end;
@@ -641,7 +641,7 @@
                 padding: 22px 12px 16px 12px; 
             }
             
-            /* 💡 교정 1: 모바일 1~3등 단상 좌우 간격을 16px로 대칭 확장 */
+            /* 모바일 1~3등 단상 좌우 간격을 16px로 대칭 확장 */
             .podium-cards-inner { gap: 16px !important; align-items: flex-end; margin-bottom: 5px; }
             .podium-card { max-width: 32% !important; flex: 1 !important; padding: 16px 4px 18px 4px !important; height: auto !important; }
             
@@ -658,11 +658,11 @@
             /* 모바일 표준 단상 텍스트 스펙 조율 */
             .podium-card .podium-name { font-size: 13px !important; font-weight: 700 !important; margin-bottom: 3px; }
             .podium-card .podium-level { font-size: 11px !important; margin-bottom: 3px; }
-            .podium-card .podium-power { font-size: 13px !important; margin-bottom: 8px; }
+            .podium-card .podium-power { font-size: 13px !important; margin-bottom: 8px; color: #b71c1c !important; } /* 레드 강력 복구 */
             
-            /* 💡 교정 2: 1등의 리워드 강조를 위해 모바일 환경에서 닉네임과 전투력 폰트를 16px 초대형 크기로 확장 고정 */
+            /* 1등 리워드 강조를 위해 모바일 환경에서 닉네임과 전투력 폰트를 대형 크기로 확장 고정 */
             .p-1st .podium-name { font-size: 16px !important; font-weight: 900 !important; }
-            .p-1st .podium-power { font-size: 16px !important; font-weight: 900 !important; }
+            .p-1st .podium-power { font-size: 16px !important; font-weight: 900 !important; color: #b71c1c !important; }
 
             .podium-card .btn-view-stats { font-size: 11px !important; padding: 4px 8px !important; border-radius: 4px; }
 
