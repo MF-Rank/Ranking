@@ -346,14 +346,14 @@
             border: none;
         }
 
-        /* 👑 오메가 전당 버튼 스타일 */
+        /* 👑 명예의 전당 버튼 스타일 */
         .btn-omega-hall {
             width: 100%;
             padding: 10px;
-            font-size: 18px;
+            font-size: 18px !important; /* 💡 PC/모바일 규격 18px 강력 고정 */
             font-weight: bold;
             text-align: center;
-            color: #e50e0e;
+            color: #c90202;
             background: linear-gradient(135deg, #edd070 0%, #9d6e01 100%); 
             border: none;
             border-radius: 8px;
@@ -477,7 +477,7 @@
         [data-theme="dark"] .btn-view-stats:hover { background: #2c2e33; }
         .btn-view-stats:disabled { background: var(--table-th-bg); color: var(--text-muted); cursor: not-allowed; }
 
-        /* 🗂️ 페이지네이션 버튼 하단 바 구역 디자인 */
+        /* 🗂️ 페이지네이션 */
         .pagination-container {
             display: flex;
             justify-content: center;
@@ -628,34 +628,37 @@
             /* 좌측 시상대 래퍼 조정 */
             .podium-wrapper { flex: none; max-width: 100% !important; width: 100%; height: auto; max-height: none; padding: 20px 15px 15px 15px; }
             
-            /* 💡 교정 1: 모바일에서 단상 카드가 비정상적으로 구겨지지 않도록 간격과 내부 패딩 세밀 조율 */
-            .podium-cards-inner { gap: 10px !important; align-items: flex-end; margin-bottom: 5px; }
-            .podium-card { max-width: 32% !important; flex: 1 !important; padding: 12px 6px 15px 6px !important; }
+            /* 💡 교정 1: 모바일에서 단상 카드가 비정상적으로 길어지지 않도록 고정 높이(Fixed Height) 강제 세팅 및 패딩 리셋 */
+            .podium-cards-inner { gap: 8px !important; align-items: flex-end; margin-bottom: 5px; }
+            .podium-card { max-width: 32% !important; flex: 1 !important; padding: 12px 4px 14px 4px !important; height: auto !important; }
             
-            .p-1st { height: 330px !important; } 
-            .p-2nd { height: 290px !important; } 
-            .p-3rd { height: 260px !important; }
-            .p-1st .trophy-img { height: 140px !important; } 
-            .p-2nd .trophy-img { height: 110px !important; } 
-            .p-3rd .trophy-img { height: 95px !important; }
-            .podium-name { font-size: 13px !important; }
-            .podium-power { font-size: 14px !important; }
+            /* 이미지 비율 및 폰트 유격 역조율로 뚱뚱해지는 버그 원천 진압 */
+            .p-1st { height: 240px !important; } 
+            .p-2nd { height: 210px !important; } 
+            .p-3rd { height: 190px !important; }
+            .p-1st .trophy-img { height: 95px !important; margin-bottom: 6px; } 
+            .p-2nd .trophy-img { height: 75px !important; margin-bottom: 6px; } 
+            .p-3rd .trophy-img { height: 65px !important; margin-bottom: 6px; }
+            .podium-name { font-size: 12px !important; margin-bottom: 2px; }
+            .podium-level { font-size: 11px !important; margin-bottom: 2px; }
+            .podium-power { font-size: 12px !important; margin-bottom: 6px; }
+            .btn-view-stats { font-size: 10px !important; padding: 3px 6px !important; border-radius: 4px; }
 
-            /* 💡 교정 2: 모바일에서 사라지던 중간 구분선 복구 및 전당 입장 버튼 크기 컴팩트 슬림 패치 */
+            /* 💡 교정 2: 모바일 구분선 보존 및 오메가 전당 버튼 폰트 18px 사수 고정 */
             .podium-divider { display: block !important; margin: 10px 0; }
-            .btn-omega-hall { font-size: 13px !important; padding: 7px !important; border-radius: 6px; }
+            .btn-omega-hall { font-size: 18px !important; padding: 8px !important; border-radius: 6px; }
 
             .rank-panel { height: auto; max-height: none; overflow: visible; }
             .table-inner-box { height: auto; max-height: none; }
             .top-control-bar { flex-direction: row !important; justify-content: space-between !important; align-items: center !important; }
             
-            /* 💡 교정 3: 모바일에서 붕괴되던 전당 내부 UI 2분할 가로 스크롤 및 세로 구조로 완전 재재단 */
-            .omega-hall-card { flex-direction: column !important; height: auto; max-height: 85vh; overflow-y: auto; padding: 20px 16px; gap: 16px; }
-            .hall-sidebar { width: 100% !important; flex-direction: row !important; border-right: none !important; border-bottom: 1px solid var(--border-color); padding-right: 0; padding-bottom: 10px; overflow-x: auto; white-space: nowrap; align-items: center; }
+            /* 💡 교정 3: 모바일 팝업창 전용 컴팩트 모드 뷰포트 배치 */
+            .omega-hall-card { flex-direction: column !important; height: auto; max-height: 90vh; overflow-y: auto; padding: 24px 16px; }
+            .hall-sidebar { width: 100% !important; flex-direction: row !important; border-right: none !important; border-bottom: 1px solid var(--border-color); padding-right: 0; padding-bottom: 10px; overflow-x: auto; }
             .hall-sidebar-title { font-size: 13px; margin-bottom: 0; margin-right: 10px; }
             .hall-tab-btn { width: auto !important; padding: 6px 12px !important; font-size: 12px !important; display: inline-block; }
             .hall-main-content { width: 100%; min-height: 200px; display: flex; align-items: center; justify-content: center; }
-            .hall-locked-message { font-size: 15px !important; padding: 20px 0; }
+            .hall-locked-message { font-size: 14px !important; padding: 20px 0; }
             .hall-podium-view { padding-top: 10px; gap: 8px !important; }
         }
 
