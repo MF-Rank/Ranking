@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>비욘드-전투력 랭킹</title>
+    <title>전투력 랭킹</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
     <style>
         /* 🎨 기본 라이트모드 변수 */
@@ -21,6 +21,11 @@
             --bg-clock: #c7c7c7;
             --text-clock: #000000; 
             --shadow-clock: rgba(0, 0, 0, 0.4);
+
+            /* 순위별 백라이트 컬러 (라이트모드용 은은한 광채) */
+            --glow-1st: rgba(255, 215, 0, 0.25);
+            --glow-2nd: rgba(192, 192, 192, 0.25);
+            --glow-3rd: rgba(205, 127, 50, 0.2);
         }
 
         /* 🌙 다크모드 변수 세팅 */
@@ -39,6 +44,11 @@
             --bg-clock: #111214;
             --text-clock: #ffffff; 
             --shadow-clock: rgba(255, 255, 255, 0.6);
+
+            /* 순위별 백라이트 컬러 (다크모드용 강렬한 네온 광채) */
+            --glow-1st: rgba(255, 215, 0, 0.35);
+            --glow-2nd: rgba(192, 192, 192, 0.3);
+            --glow-3rd: rgba(205, 127, 50, 0.25);
         }
 
         body {
@@ -101,7 +111,7 @@
             background: linear-gradient(135deg, #5c7cfa 0%, #3b5bdb 100%);
         }
 
-        /* 🏛️ [최상단] 테마 제어 토글 바 양끝 정렬 교정 */
+        /* 🏛 eclipse 테마 제어 토글 바 양끝 정렬 */
         .top-control-bar {
             width: 100%;
             max-width: 1400px;
@@ -174,20 +184,31 @@
 
         /* 🏛️ [좌측] 웅장한 시상대 구역 */
         .podium-wrapper {
-            flex: 1;
             display: flex;
-            align-items: flex-end;
-            justify-content: center;
+            flex-direction: column; 
+            align-items: center;
+            justify-content: space-between;
             gap: 16px;
             background: var(--bg-panel);
             border: 1px solid var(--border-color);
             border-radius: 20px;
-            padding: 25px 20px 25px 20px;
+            padding: 25px 20px 20px 20px;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.03);
             box-sizing: border-box;
-            height: 580px;
-            max-height: 580px;
+            width: 100%;
+            max-width: 680px;
+            height: 640px; 
+            max-height: 640px;
             transition: all 0.3s ease-in-out;
+        }
+
+        .podium-cards-inner {
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 24px; 
+            width: 100%;
+            flex: 1;
         }
 
         /* 🏛️ 단상 카드 공통 구조 설계 */
@@ -210,7 +231,6 @@
 
         .podium-card:hover {
             transform: translateY(-6px);
-            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.06);
         }
 
         .trophy-img {
@@ -228,12 +248,16 @@
             100% { transform: translateY(0px); }
         }
 
+        /* 🥇 1등 카드 업그레이드 (강렬한 황금 네온 광채) */
         .p-1st {
             flex: 1.3;
-            height: 520px;
+            height: 460px;
             border-top: 6px solid #ffd700;
             background: linear-gradient(180deg, rgba(255,251,235,0.4) 0%, var(--bg-panel) 40%);
-            box-shadow: 0 6px 15px rgba(255, 215, 0, 0.1);
+            box-shadow: 0 0 20px var(--glow-1st), 0 6px 15px rgba(255, 215, 0, 0.05);
+        }
+        .p-1st:hover {
+            box-shadow: 0 0 30px var(--glow-1st), 0 12px 24px rgba(255, 215, 0, 0.15);
         }
 
         .shine-effect {
@@ -271,24 +295,34 @@
             100% { transform: translate(30%, 30%); }
         }
 
-        .p-1st .trophy-img { height: 280px !important; }
+        .p-1st .trophy-img { height: 230px !important; }
         .p-1st .podium-name { font-size: 20px; font-weight: 800; }
 
+        /* 🥈 2등 카드 (은은한 실버 네온 백라이트) */
         .p-2nd {
             flex: 1;
-            height: 430px;
+            height: 390px;
             border-top: 6px solid #c0c0c0;
             background: linear-gradient(180deg, rgba(248,249,250,0.1) 0%, var(--bg-panel) 40%);
+            box-shadow: 0 0 15px var(--glow-2nd);
         }
-        .p-2nd .trophy-img { height: 190px !important; }
+        .p-2nd:hover {
+            box-shadow: 0 0 25px var(--glow-2nd), 0 12px 24px rgba(0, 0, 0, 0.06);
+        }
+        .p-2nd .trophy-img { height: 160px !important; }
 
+        /* 🥉 3등 카드 (은은한 브론즈 네온 백라이트) */
         .p-3rd {
             flex: 0.9;
-            height: 380px;
+            height: 340px;
             border-top: 6px solid #cd7f32;
             background: linear-gradient(180deg, rgba(255,250,245,0.1) 0%, var(--bg-panel) 40%);
+            box-shadow: 0 0 15px var(--glow-3rd);
         }
-        .p-3rd .trophy-img { height: 150px !important; }
+        .p-3rd:hover {
+            box-shadow: 0 0 25px var(--glow-3rd), 0 12px 24px rgba(0, 0, 0, 0.06);
+        }
+        .p-3rd .trophy-img { height: 130px !important; }
 
         .podium-name {
             font-weight: 700;
@@ -304,6 +338,34 @@
         .podium-power { font-weight: 800; font-size: 18px; color: #b71c1c; margin-bottom: 10px; }
         .podium-empty { color: var(--text-muted); font-size: 14px; margin-bottom: 60px; }
 
+        .podium-divider {
+            width: 100%;
+            height: 1px;
+            background-color: var(--border-color);
+            margin: 5px 0;
+            border: none;
+        }
+
+        /* 👑 명예의 전당 버튼 스타일 */
+        .btn-omega-hall {
+            width: 100%;
+            padding: 10px;
+            font-size: 15px;
+            font-weight: bold;
+            text-align: center;
+            color: #c90202;
+            background: linear-gradient(135deg, #edd070 0%, #9d6e01 100%); 
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(212, 175, 55, 0.2);
+            transition: all 0.2s ease-in-out;
+        }
+        .btn-omega-hall:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 14px rgba(212, 175, 55, 0.35);
+        }
+
         /* 📊 [우측] 리더보드 순위표 구역 */
         .rank-panel {
             flex: 1;
@@ -317,14 +379,15 @@
             display: flex;
             flex-direction: column;
             justify-content: flex-start; 
-            min-height: 580px; 
+            height: 640px; 
+            max-height: 640px;
             overflow: hidden;
         }
 
         .table-inner-box {
             width: 100%;
-            height: 580px;
-            max-height: 580px;
+            height: 540px;
+            max-height: 540px;
             overflow: hidden;
         }
 
@@ -453,20 +516,126 @@
             opacity: 0.5;
         }
 
+        /* 🏛️ 명예의 전당 모달 팝업 내부 2분할 뷰 포트 레이아웃 CSS */
+        .omega-hall-card {
+            background: var(--bg-panel);
+            border: 1px solid var(--border-color);
+            padding: 30px 24px;
+            border-radius: 20px;
+            max-width: 900px; 
+            width: 90%;
+            height: 520px;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.4);
+            display: flex;
+            flex-direction: row; 
+            position: relative;
+            box-sizing: border-box;
+            gap: 24px;
+        }
+
+        .hall-sidebar {
+            width: 180px;
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding-right: 16px;
+        }
+
+        .hall-sidebar-title {
+            font-size: 15px;
+            font-weight: 800;
+            margin-bottom: 10px;
+            color: var(--text-title);
+        }
+
+        .hall-tab-btn {
+            width: 100%;
+            text-align: left;
+            padding: 10px 14px;
+            font-size: 13px;
+            font-weight: 700;
+            background: var(--table-th-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-sub);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .hall-tab-btn:hover, .hall-tab-btn.active {
+            background: #4c6ef5;
+            color: #ffffff;
+            border-color: #4c6ef5;
+        }
+
+        .hall-main-content {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        /* 전당 내부 텍스트 베이스 전용 미니 단상 아키텍처 */
+        .hall-podium-view {
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 12px;
+            width: 100%;
+            height: 100%;
+        }
+
+        .hall-card {
+            background: var(--bg-body);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 12px;
+            text-align: center;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+        }
+        .h-1st { height: 380px; border-top: 4px solid #ffd700; }
+        .h-2nd { height: 320px; border-top: 4px solid #c0c0c0; }
+        .h-3rd { height: 280px; border-top: 4px solid #cd7f32; }
+
+        .hall-trophy { height: 110px !important; margin-bottom: 8px; }
+        .h-1st .hall-trophy { height: 160px !important; }
+
+        .hall-text-name { font-size: 15px; font-weight: bold; color: var(--text-title); margin-bottom: 2px;}
+        .hall-text-level { font-size: 12px; color: #4c6ef5; font-weight: 700; margin-bottom: 4px; }
+        .hall-text-power { font-size: 15px; font-weight: 800; color: #b71c1c; margin-bottom: 10px; }
+
+        .hall-locked-message {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--text-muted);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            align-items: center;
+            line-height: 1.5;
+        }
+
         @media (max-width: 991px) {
             .main-container { flex-direction: column !important; align-items: center !important; }
             .podium-wrapper { flex: none; max-width: 100% !important; width: 100%; height: auto; max-height: none; padding: 15px 0; }
+            .podium-cards-inner { gap: 12px !important; }
             .podium-card { max-width: 220px !important; flex: 1 !important; padding: 20px 10px !important; }
-            .p-1st { height: 420px !important; } 
-            .p-2nd { height: 370px !important; } 
-            .p-3rd { height: 330px !important; }
-            .p-1st .trophy-img { height: 210px !important; } 
-            .p-2nd .trophy-img { height: 160px !important; } 
-            .p-3rd .trophy-img { height: 130px !important; }
+            .p-1st { height: 420px !important; } .p-2nd { height: 370px !important; } .p-3rd { height: 330px !important; }
+            .p-1st .trophy-img { height: 210px !important; } .p-2nd .trophy-img { height: 160px !important; } .p-3rd .trophy-img { height: 130px !important; }
             .rank-panel { height: auto; max-height: none; overflow: visible; }
             .table-inner-box { height: auto; max-height: none; }
-            /* 💡 핵심 교정: 모바일에서도 수직 정렬로 깨지지 않고 양끝 배치 가로 정렬 강제 유지 */
             .top-control-bar { flex-direction: row !important; justify-content: space-between !important; align-items: center !important; }
+            .omega-hall-card { flex-direction: column; height: auto; max-height: 90vh; overflow-y: auto; }
+            .hall-sidebar { width: 100%; flex-direction: row; border-right: none; border-bottom: 1px solid var(--border-color); padding-right: 0; padding-bottom: 10px; overflow-x: auto; }
+            .hall-tab-btn { white-space: nowrap; width: auto; }
+            .hall-podium-view { padding-top: 20px; gap: 10px !important; }
+            .podium-divider { display: none; }
         }
 
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); display: none; align-items: center; justify-content: center; z-index: 1000; }
@@ -496,9 +665,13 @@
     <div class="main-container" id="main-layout">
 
         <div class="podium-wrapper">
-            <div class="podium-card p-2nd" id="podium-2nd"></div>
-            <div class="podium-card p-1st" id="podium-1st"></div>
-            <div class="podium-card p-3rd" id="podium-3rd"></div>
+            <div class="podium-cards-inner">
+                <div class="podium-card p-2nd" id="podium-2nd"></div>
+                <div class="podium-card p-1st" id="podium-1st"></div>
+                <div class="podium-card p-3rd" id="podium-3rd"></div>
+            </div>
+            <hr class="podium-divider">
+            <button class="btn-omega-hall" onclick="openOmegaModal()">[Ω] 오메가 전당</button>
         </div>
 
         <div class="rank-panel">
@@ -532,6 +705,19 @@
             <div class="pagination-container" id="pagination-bar"></div>
         </div>
 
+    </div>
+
+    <div class="modal-overlay" id="omega-hall-modal" onclick="closeOmegaModal()">
+        <div class="omega-hall-card" onclick="event.stopPropagation()">
+            <span class="modal-close" onclick="closeOmegaModal()">&times;</span>
+            
+            <div class="hall-sidebar">
+                <div class="hall-sidebar-title">🏅 역대 시즌</div>
+                <button class="hall-tab-btn active" id="btn-tab-beyond" onclick="switchHallSeason('beyond')">비욘드(프리시즌)</button>
+            </div>
+            
+            <div class="hall-main-content" id="hall-main-viewport"></div>
+        </div>
     </div>
 
     <div class="modal-overlay" id="img-modal" onclick="closeModal()">
@@ -570,17 +756,78 @@
         let currentPage = 1; 
         const PAGE_SIZE = 10; 
 
+        /* 💡 '시즌 1' 관련 트리거 데이터베이스 및 탭 제어 로직 완전 소멸 완료 */
+        const OMEGA_HALL_DATABASE = {
+            beyond: {
+                status: "running"
+            }
+        };
+
+        function openOmegaModal() {
+            document.getElementById('omega-hall-modal').style.display = 'flex';
+            switchHallSeason('beyond');
+        }
+
+        function closeOmegaModal() {
+            document.getElementById('omega-hall-modal').style.display = 'none';
+        }
+
+        function switchHallSeason(seasonKey) {
+            document.querySelectorAll('.hall-tab-btn').forEach(btn => btn.classList.remove('active'));
+            if(seasonKey === 'beyond') document.getElementById('btn-tab-beyond').classList.add('active');
+
+            const viewport = document.getElementById('hall-main-viewport');
+            const data = OMEGA_HALL_DATABASE[seasonKey];
+
+            if (data.status === "running") {
+                viewport.innerHTML = `
+                    <div class="hall-locked-message">
+                        <span>⚔️ 현재 해당 시즌이 뜨겁게 진행 중입니다.</span>
+                        <span style="font-size:14px; font-weight:normal;">과연 어떤 유저가 이 전당의 차지할 수 있을지, 리더보드에서 확인하세요.</span>
+                    </div>
+                `;
+                return;
+            }
+
+            const d1 = data["1st"];
+            const d2 = data["2nd"];
+            const d3 = data["3rd"];
+
+            viewport.innerHTML = `
+                <div class="hall-podium-view">
+                    <div class="hall-card h-2nd">
+                        <img src="${TROPHY_2ND}" class="hall-trophy">
+                        <div class="hall-text-name">${d2.name}</div>
+                        <div class="hall-text-level">Lv.${d2.level}</div>
+                        <div class="hall-text-power">${d2.power.toLocaleString()}</div>
+                        <button class="btn-view-stats" ${!d2.img ? 'disabled':''} onclick="openModal('${d2.name}', '${d2.level}', '${d2.power}', '${d2.img}')">${d2.img ? '📷 인증보기' : '🔒 비공개'}</button>
+                    </div>
+                    <div class="hall-card h-1st">
+                        <img src="${TROPHY_1ST}" class="hall-trophy">
+                        <div class="hall-text-name">${d1.name}</div>
+                        <div class="hall-text-level">Lv.${d1.level}</div>
+                        <div class="hall-text-power">${d1.power.toLocaleString()}</div>
+                        <button class="btn-view-stats" ${!d1.img ? 'disabled':''} onclick="openModal('${d1.name}', '${d1.level}', '${d1.power}', '${d1.img}')">${d1.img ? '📷 인증보기' : '🔒 비공개'}</button>
+                    </div>
+                    <div class="hall-card h-3rd">
+                        <img src="${TROPHY_3RD}" class="hall-trophy">
+                        <div class="hall-text-name">${d3.name}</div>
+                        <div class="hall-text-level">Lv.${d3.level}</div>
+                        <div class="hall-text-power">${d3.power.toLocaleString()}</div>
+                        <button class="btn-view-stats" ${!d3.img ? 'disabled':''} onclick="openModal('${d3.name}', '${d3.level}', '${d3.power}', '${d3.img}')">${d3.img ? '📷 인증보기' : '🔒 비공개'}</button>
+                    </div>
+                </div>
+            `;
+        }
+
         function updateClock() {
             const clockEl = document.getElementById('live-clock');
             if (!clockEl) return;
-
             const now = new Date();
             const options = { timeZone: 'Asia/Seoul', hour12: true, hour: '2-digit', minute: '2-digit', second: '2-digit' };
             const rawTimeString = now.toLocaleTimeString('ko-KR', options);
-            
             const isPM = rawTimeString.includes('오후');
             const cleanTime = rawTimeString.replace('오전', '').replace('오후', '').trim();
-            
             clockEl.innerHTML = `<span class="ampm">${isPM ? 'PM' : 'AM'}</span>${cleanTime}`;
         }
         setInterval(updateClock, 1000);
