@@ -211,7 +211,7 @@
             flex: 1;
         }
 
-        /* 🏛️ 단상 카드 공통 구조 설계 */
+        /* 🏛️ 단상 카드 공통 구조 설계 (PC 표준) */
         .podium-card {
             background: var(--bg-panel);
             border: 1px solid var(--border-color);
@@ -227,6 +227,7 @@
             transition: transform 0.2s, box-shadow 0.2s;
             position: relative;
             overflow: hidden;
+            width: auto;
         }
 
         .podium-card:hover {
@@ -248,7 +249,7 @@
             100% { transform: translateY(0px); }
         }
 
-        /* 🥇 1등 카드 업그레이드 (강렬한 황금 네온 광채) */
+        /* 🥇 1등 카드 PC 디자인 */
         .p-1st {
             flex: 1.3;
             height: 460px;
@@ -298,7 +299,7 @@
         .p-1st .trophy-img { height: 230px !important; }
         .p-1st .podium-name { font-size: 20px; font-weight: 800; }
 
-        /* 🥈 2등 카드 (은은한 실버 네온 백라이트) */
+        /* 🥈 2등 카드 PC 디자인 */
         .p-2nd {
             flex: 1;
             height: 390px;
@@ -311,7 +312,7 @@
         }
         .p-2nd .trophy-img { height: 160px !important; }
 
-        /* 🥉 3등 카드 (은은한 브론즈 네온 백라이트) */
+        /* 🥉 3등 카드 PC 디자인 */
         .p-3rd {
             flex: 0.9;
             height: 340px;
@@ -324,6 +325,21 @@
         }
         .p-3rd .trophy-img { height: 130px !important; }
 
+        /* 💡 폰트 가독성 핵심 수치 지정 (PC 표준 복구) */
+        .podium-name {
+            font-weight: 700;
+            font-size: 16px;
+            color: var(--text-title);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-bottom: 4px;
+        }
+
+        .podium-level { font-size: 13px; color: #4c6ef5; font-weight: 700; margin-bottom: 8px; }
+        .podium-power { font-weight: 800; font-size: 18px; color: #b71c1c; margin-bottom: 10px; }
+        .podium-empty { color: var(--text-muted); font-size: 14px; margin-bottom: 60px; }
+
         .podium-divider {
             width: 100%;
             height: 1px;
@@ -335,8 +351,8 @@
         /* 👑 명예의 전당 버튼 스타일 */
         .btn-omega-hall {
             width: 100%;
-            padding: 12px;
-            font-size: 18px !important; /* 💡 PC/모바일 언제나 크고 또렷하게 고정 */
+            padding: 10px;
+            font-size: 18px !important; 
             font-weight: bold;
             text-align: center;
             color: #c90202;
@@ -607,39 +623,41 @@
             line-height: 1.5;
         }
 
-        /* 📱 모바일 및 스마트폰 해상도 전용 리디자인 구역 */
+        /* 📱 [수정] 모바일 및 스마트폰 해상도 전용 리디자인 격리 패치 구역 */
         @media (max-width: 991px) {
             .main-container { flex-direction: column !important; align-items: center !important; }
             
-            /* 💡 교정 1: 모바일 아래쪽 빈 공간 레이아웃을 완전히 활용하도록 시상대 외부 프레임 세로폭 파격 확장 */
+            /* 모바일 아래쪽 빈 공간 레이아웃 완전 확보를 위한 프레임 스케일업 */
             .podium-wrapper { 
                 flex: none; 
                 max-width: 100% !important; 
                 width: 100%; 
-                height: 540px !important; /* 👈 세로 한계치를 기존 420px에서 540px로 넉넉하게 대폭 체계적 확장 */
+                height: 540px !important; 
                 max-height: 540px !important; 
                 padding: 22px 12px 16px 12px; 
             }
             
-            /* 💡 교정 2: 내부 카드들이 납작하게 구겨지지 않고 웅장하게 서있을 수 있도록 고정 높이 비율 수립 */
+            /* 모바일 카드 찌그러짐 원천 봉쇄 및 비율 정렬 */
             .podium-cards-inner { gap: 10px !important; align-items: flex-end; margin-bottom: 5px; }
             .podium-card { max-width: 32% !important; flex: 1 !important; padding: 16px 4px 18px 4px !important; }
             
-            /* 💡 교정 3: [핵심 해결] 모바일 하단 확장된 공간에 맞춰 트로피 이미지 크기를 대대적으로 버프(벌크업) */
+            /* 💡 [완벽 교정] 모바일 카드 확장 높이값 수립 */
             .p-1st { height: 390px !important; } 
             .p-2nd { height: 340px !important; } 
             .p-3rd { height: 310px !important; }
             
-            .p-1st .trophy-img { height: 180px !important; margin-bottom: 8px; } /* 👈 95px에서 180px로 대폭 뻥튀기 */
-            .p-2nd .trophy-img { height: 140px !important; margin-bottom: 8px; } /* 👈 75px에서 140px로 대폭 뻥튀기 */
-            .p-3rd .trophy-img { height: 115px !important; margin-bottom: 8px; } /* 👈 65px에서 115px로 대폭 뻥튀기 */
+            /* 💡 [완벽 교정] 모바일 전용 트로피 이미지 크기 하드웨어 벌크업 매칭 */
+            .p-1st .trophy-img { height: 180px !important; min-height: 180px !important; margin-bottom: 8px; } 
+            .p-2nd .trophy-img { height: 140px !important; min-height: 140px !important; margin-bottom: 8px; } 
+            .p-3rd .trophy-img { height: 115px !important; min-height: 115px !important; margin-bottom: 8px; }
             
-            .podium-name { font-size: 14px !important; margin-bottom: 3px; font-weight: 800; }
+            /* 모바일 텍스트 및 전용 스펙 지정 */
+            .podium-name { font-size: 14px !important; font-weight: 800 !important; margin-bottom: 3px; }
             .podium-level { font-size: 12px !important; margin-bottom: 3px; }
             .podium-power { font-size: 14px !important; margin-bottom: 8px; }
             .podium-card .btn-view-stats { font-size: 11px !important; padding: 4px 8px !important; }
 
-            /* 모바일 구분선 및 버튼 간격 최적화 */
+            /* 모바일 구분선 보존 및 오메가 전당 폰트 18px 고정 */
             .podium-divider { display: block !important; margin: 12px 0 8px 0; }
             .btn-omega-hall { font-size: 18px !important; padding: 10px !important; border-radius: 8px; }
 
