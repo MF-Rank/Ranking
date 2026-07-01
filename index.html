@@ -390,10 +390,11 @@
             overflow: hidden;
         }
 
+        /* 💡 [교정 완료] 리더보드 10등 잘림 버그 완벽 패치 */
         .table-inner-box {
             width: 100%;
-            height: 540px; 
-            max-height: 540px;
+            height: 565px; /* 👈 내부 컨텐츠가 찌그러지지 않고 10개 행이 한눈에 출력되도록 540px에서 565px로 확장 */
+            max-height: 565px;
             overflow: hidden;
         }
 
@@ -614,11 +615,11 @@
         .hall-text-level { font-size: 12px; color: #4c6ef5; font-weight: 700; margin-bottom: 4px; }
         .hall-text-power { font-size: 15px; font-weight: 800; color: #b71c1c; margin-bottom: 10px; }
 
-        /* 💡 [수정] 오메가 전당 진행 중(Lock) 안내 레이아웃 폰트 가독성 버그 교정 */
+        /* 오메가 전당 진행 중 안내 레이아웃 폰트 가독성 */
         .hall-locked-message {
             font-size: 18px;
             font-weight: 800;
-            color: var(--text-title) !important; /* 👈 다크모드/라이트모드 변수와 결착하여 글씨 색상 상시 또렷하게 노출 */
+            color: var(--text-title) !important; 
             text-align: center;
             display: flex;
             flex-direction: column;
@@ -626,7 +627,6 @@
             align-items: center;
             line-height: 1.5;
         }
-        /* 서브 가이드 문구 가독성 추가 매칭 */
         .hall-locked-message span:last-child {
             color: var(--text-sub) !important;
         }
@@ -865,7 +865,7 @@
                         <div class="hall-text-name">${d3.name}</div>
                         <div class="hall-text-level">Lv.${d3.level}</div>
                         <div class="hall-text-power">${d3.power.toLocaleString()}</div>
-                        <button class="btn-view-stats" ${!d3.img ? 'disabled':''} onclick="openModal('${d3.name}', '${d3.level}', '${d3.power}', '${d3.img}')">${d3.img ? '📷 인증보기' : '🔒 비공개'}</button>
+                        <button class="btn-view-stats" ${!d3.img ? 'disabled':''} onclick="openModal('${d3.name}', '${d3.level}', Tribb_idx, '${d3.power}', '${d3.img}')">${d3.img ? '📷 인증보기' : '🔒 비공개'}</button>
                     </div>
                 </div>
             `;
