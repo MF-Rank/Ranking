@@ -390,13 +390,12 @@
             overflow: hidden;
         }
 
-        /* 💡 왼쪽 구분선과 수평을 맞추기 위해 테이블 박스를 미세 하향 정렬 */
         .table-inner-box {
             width: 100%;
-            height: 520px; /* 👈 10등 구분선의 정확한 Y축 위치 싱크를 위해 525px -> 520px로 조정 */
+            height: 520px; 
             max-height: 520px;
             overflow: hidden;
-            margin-top: 14px; /* 👈 순위들의 위치를 아래로 살짝 내려 수평 정렬을 이루는 황금 키(Key) */
+            margin-top: 14px; 
         }
 
         .rank-header-line {
@@ -600,10 +599,6 @@
         .hall-trophy { height: 110px !important; margin-bottom: 8px; }
         .h-1st .hall-trophy { height: 160px !important; }
 
-        .hall-text-name { font-size: 15px; font-weight: bold; color: var(--text-title); margin-bottom: 2px;}
-        .hall-text-level { font-size: 12px; color: #4c6ef5; font-weight: 700; margin-bottom: 4px; }
-        .hall-text-power { font-size: 15px; font-weight: 800; color: #b71c1c; margin-bottom: 10px; }
-
         /* 오메가 전당 진행 중 안내 레이아웃 폰트 가독성 */
         .hall-locked-message {
             font-size: 18px;
@@ -623,7 +618,7 @@
         /* 📱 모바일 및 스마트폰 해상도 전용 리디자인 격리 패치 구역 */
         @media (max-width: 991px) {
             .main-container { flex-direction: column !important; align-items: center !important; }
-            .table-inner-box { margin-top: 0px !important; } /* 모바일에서는 수평 정렬을 위해 줬던 상단 여백 제거 */
+            .table-inner-box { margin-top: 0px !important; } 
             
             .podium-wrapper { 
                 flex: none; 
@@ -645,6 +640,18 @@
             .p-2nd .trophy-img { height: 200px !important; min-height: 200px !important; margin-bottom: 10px; } 
             .p-3rd .trophy-img { height: 170px !important; min-height: 170px !important; margin-bottom: 10px; }
             
+            /* 💡 [교정 완료] 모바일 버전에서 리더보드 하단 유저수 가변에 따른 박스 쪼그라듦 현상 완벽 조율 */
+            .rank-panel { 
+                height: auto; 
+                max-height: none; 
+                min-height: 520px !important; /* 👈 마지막 페이지에서도 일정한 프레임 볼륨을 유지하도록 최소 높이 방어선 지정 */
+                overflow: visible; 
+                padding-bottom: 30px !important; /* 👈 맨 아랫줄 유저와 페이지 버튼 사이에 쾌적하고 조화로운 숨구멍 여백 확보 */
+            }
+            
+            .table-inner-box { height: auto; max-height: none; }
+            .top-control-bar { flex-direction: row !important; justify-content: space-between !important; align-items: center !important; }
+            
             .podium-card .podium-name { font-size: 13px !important; font-weight: 700 !important; margin-bottom: 3px; }
             .podium-card .podium-level { font-size: 11px !important; margin-bottom: 3px; }
             .podium-card .podium-power { font-size: 13px !important; font-weight: 800 !important; margin-bottom: 8px; color: #b71c1c !important; } 
@@ -656,10 +663,6 @@
 
             .podium-divider { display: block !important; margin: 12px 0 8px 0; }
             .btn-omega-hall { font-size: 18px !important; padding: 10px !important; border-radius: 8px; }
-
-            .rank-panel { height: auto; max-height: none; overflow: visible; }
-            .table-inner-box { height: auto; max-height: none; }
-            .top-control-bar { flex-direction: row !important; justify-content: space-between !important; align-items: center !important; }
             
             .omega-hall-card { flex-direction: column !important; height: auto; max-height: 85vh; overflow-y: auto; padding: 20px 16px; gap: 16px; }
             .hall-sidebar { width: 100% !important; flex-direction: row !important; border-right: none !important; border-bottom: 1px solid var(--border-color); padding-right: 0; padding-bottom: 10px; overflow-x: auto; white-space: nowrap; align-items: center; }
