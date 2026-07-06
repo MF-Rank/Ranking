@@ -239,7 +239,6 @@
             max-width: 100%;
             object-fit: contain;
             margin-bottom: 12px;
-            filter: drop-shadow(0 6px 12px rgba(0,0,0,0.12));
             animation: floatAnimation 3s ease-in-out infinite;
         }
 
@@ -297,7 +296,11 @@
             100% { transform: translate(30%, 30%); }
         }
 
-        .p-1st .trophy-img { height: 230px !important; }
+        /* 🥇 1등 황금 트로피 후광 이미지 필터 적용 */
+        .p-1st .trophy-img { 
+            height: 230px !important; 
+            filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.6)) drop-shadow(0 6px 12px rgba(0,0,0,0.12)); 
+        }
 
         /* 🥈 2등 카드 PC 디자인 */
         .p-2nd {
@@ -310,7 +313,11 @@
         .p-2nd:hover {
             box-shadow: 0 0 25px var(--glow-2nd), 0 12px 24px rgba(0, 0, 0, 0.06);
         }
-        .p-2nd .trophy-img { height: 160px !important; }
+        /* 🥈 2등 실버 트로피 후광 이미지 필터 적용 */
+        .p-2nd .trophy-img { 
+            height: 160px !important; 
+            filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.5)) drop-shadow(0 6px 12px rgba(0,0,0,0.12)); 
+        }
 
         /* 🥉 3등 카드 PC 디자인 */
         .p-3rd {
@@ -323,7 +330,11 @@
         .p-3rd:hover {
             box-shadow: 0 0 25px var(--glow-3rd), 0 12px 24px rgba(0, 0, 0, 0.06);
         }
-        .p-3rd .trophy-img { height: 130px !important; }
+        /* 🥉 3등 브론즈 트로피 후광 이미지 필터 적용 */
+        .p-3rd .trophy-img { 
+            height: 130px !important; 
+            filter: drop-shadow(0 0 10px rgba(205, 127, 50, 0.5)) drop-shadow(0 6px 12px rgba(0,0,0,0.12)); 
+        }
 
         /* 💡 순위별 텍스트 및 서체 설정 */
         .podium-name { font-weight: 700; font-size: 16px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 4px; }
@@ -636,17 +647,18 @@
             .p-2nd { height: 410px !important; } 
             .p-3rd { height: 370px !important; }
             
-            .p-1st .trophy-img { height: 300px !important; min-height: 300px !important; margin-bottom: 10px; } 
-            .p-2nd .trophy-img { height: 200px !important; min-height: 200px !important; margin-bottom: 10px; } 
-            .p-3rd .trophy-img { height: 170px !important; min-height: 170px !important; margin-bottom: 10px; }
+            /* 💡 모바일 트로피에도 고유 드롭 섀도우 후광 정밀 반사 적용 */
+            .p-1st .trophy-img { height: 300px !important; min-height: 300px !important; margin-bottom: 10px; filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.55)); } 
+            .p-2nd .trophy-img { height: 200px !important; min-height: 200px !important; margin-bottom: 10px; filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.45)); } 
+            .p-3rd .trophy-img { height: 170px !important; min-height: 170px !important; margin-bottom: 10px; filter: drop-shadow(0 0 10px rgba(205, 127, 50, 0.45)); }
             
-            /* 💡 [교정 완료] 모바일 버전에서 리더보드 하단 유저수 가변에 따른 박스 쪼그라듦 현상 완벽 조율 */
+            /* 모바일 하단 여백 및 크기 유지 보정 고정 */
             .rank-panel { 
                 height: auto; 
                 max-height: none; 
-                min-height: 520px !important; /* 👈 마지막 페이지에서도 일정한 프레임 볼륨을 유지하도록 최소 높이 방어선 지정 */
+                min-height: 520px !important; 
                 overflow: visible; 
-                padding-bottom: 30px !important; /* 👈 맨 아랫줄 유저와 페이지 버튼 사이에 쾌적하고 조화로운 숨구멍 여백 확보 */
+                padding-bottom: 30px !important; 
             }
             
             .table-inner-box { height: auto; max-height: none; }
