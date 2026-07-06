@@ -533,7 +533,7 @@
             width: 90%;
             height: 520px;
             box-shadow: 0 12px 30px rgba(0,0,0,0.4);
-            display: fixed;
+            display: flex;
             flex-direction: row; 
             position: relative;
             box-sizing: border-box;
@@ -641,31 +641,30 @@
                 padding: 22px 12px 16px 12px; 
             }
             
-            /* 💡 [황금 비율 미세 조정 완료] 퍼지던 32% 배분을 깨고 31% : 34% : 31% 슬림 볼륨 매칭 */
+            /* 💡 [요구사항 반영] 모바일 가로폭을 25% : 34% : 25% 비율로 세팅하여 슬림핏 극대화 */
             .podium-cards-inner { gap: 12px !important; align-items: flex-end; margin-bottom: 5px; justify-content: center; }
             
-            .p-1st { height: 470px !important; max-width: 34% !important; flex: 1.1 !important; padding: 15px 6px 20px 6px !important; } 
-            .p-2nd { height: 410px !important; max-width: 31% !important; flex: 1 !important; padding: 15px 6px 20px 6px !important; } 
-            .p-3rd { height: 370px !important; max-width: 31% !important; flex: 1 !important; padding: 15px 6px 20px 6px !important; }
+            .p-1st { height: 470px !important; max-width: 34% !important; flex: 1.1 !important; padding: 15px 4px 20px 4px !important; } 
+            .p-2nd { height: 410px !important; max-width: 25% !important; flex: 1 !important; padding: 15px 4px 20px 4px !important; } 
+            .p-3rd { height: 370px !important; max-width: 25% !important; flex: 1 !important; padding: 15px 4px 20px 4px !important; }
             
-            /* 💡 모바일 트로피 볼륨 웅장하게 롤백 완료 */
+            /* 💡 [요구사항 반영] 카드 가로폭 감소에 맞춰 2등(240px), 3등(200px) 트로피 크기 파격 벌크업 이식 완료 */
             .p-1st .trophy-img { height: 300px !important; min-height: 300px !important; margin-bottom: 10px; filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.25)); } 
-            .p-2nd .trophy-img { height: 200px !important; min-height: 200px !important; margin-bottom: 10px; filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.2)); } 
-            .p-3rd .trophy-img { height: 170px !important; min-height: 170px !important; margin-bottom: 10px; filter: drop-shadow(0 0 10px rgba(205, 127, 50, 0.25)); }
+            .p-2nd .trophy-img { height: 240px !important; min-height: 240px !important; margin-bottom: 10px; filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.2)); } 
+            .p-3rd .trophy-img { height: 200px !important; min-height: 200px !important; margin-bottom: 10px; filter: drop-shadow(0 0 10px rgba(205, 127, 50, 0.25)); }
             
-            /* 💡 모바일 타이포 가독성 크기 원래대로 정상 복구 */
-            .podium-card .podium-name { font-size: 13px !important; font-weight: 700 !important; margin-bottom: 3px; }
-            .podium-card .podium-level { font-size: 11px !important; margin-bottom: 3px; }
-            .podium-card .podium-power { font-size: 13px !important; font-weight: 800 !important; margin-bottom: 8px; color: #b71c1c !important; } 
+            /* 모바일 타이포 크기 슬림 구조 연동 (박스 안 깨지게 조율) */
+            .podium-card .podium-name { font-size: 11px !important; font-weight: 700 !important; margin-bottom: 3px; }
+            .podium-card .podium-level { font-size: 10px !important; margin-bottom: 3px; }
+            .podium-card .podium-power { font-size: 11px !important; font-weight: 800 !important; margin-bottom: 8px; color: #b71c1c !important; } 
             
-            /* 1등 및 3등 고유 포인트 컬러 결착 */
-            .p-1st .podium-name { font-size: 16px !important; font-weight: 900 !important; color: #ebd47d !important; }
-            .p-1st .podium-power { font-size: 16px !important; font-weight: 900 !important; color: #b71c1c !important; }
+            .p-1st .podium-name { font-size: 14px !important; font-weight: 900 !important; color: #ebd47d !important; }
+            .p-1st .podium-power { font-size: 14px !important; font-weight: 900 !important; color: #b71c1c !important; }
             .p-3rd .podium-name { color: #caa37a !important; }
 
-            .podium-card .btn-view-stats { font-size: 11px !important; padding: 5px 10px !important; border-radius: 6px; }
+            .podium-card .btn-view-stats { font-size: 10px !important; padding: 4px 6px !important; border-radius: 4px; }
 
-            /* 모바일 하단 여백 및 가변 높이 버그 철벽 가드 */
+            /* 모바일 하단 여백 유지 보정 */
             .rank-panel { 
                 height: auto; 
                 max-height: none; 
