@@ -80,7 +80,7 @@
             height: auto;
             margin-bottom: -10px;
             object-fit: contain;
-            display: inline-block !important; /* 👈 절대 소멸되지 않도록 강제 출력 세팅 */
+            display: inline-block !important;
         }
 
         h1 {
@@ -239,7 +239,7 @@
             transform: translateY(-6px);
         }
 
-        /* 💡 트로피 정렬 상자 (바닥 기준 레이아웃 고정 홀더) */
+        /* 💡 트로피 정렬 상자 */
         .trophy-box-holder {
             width: 100%;
             height: 280px;
@@ -252,7 +252,7 @@
 
         .trophy-img {
             width: auto;
-            max-width: 100%;
+            max-width: 115%; /* 가로 제한에 걸리지 않도록 살짝 확장 허용 */
             object-fit: contain;
             margin: 0;
             padding: 0;
@@ -293,9 +293,9 @@
         .p-2nd:hover {
             box-shadow: 0 0 25px var(--glow-2nd), 0 12px 24px rgba(0, 0, 0, 0.06);
         }
-        .p-2nd .trophy-box-holder { height: 210px; }
+        .p-2nd .trophy-box-holder { height: 240px; } /* 💡 가로 한계 락을 해제하기 위해 높이 홀더 스케일업 */
         .p-2nd .trophy-img { 
-            height: 210px !important; 
+            height: 240px !important; /* 💡 가로와 매칭하여 실물 크기 웅장하게 벌크업 완료 */
             filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.2)) drop-shadow(0 6px 12px rgba(0,0,0,0.12)); 
         }
 
@@ -310,10 +310,11 @@
         .p-3rd:hover {
             box-shadow: 0 0 25px var(--glow-3rd), 0 12px 24px rgba(0, 0, 0, 0.06);
         }
-        .p-3rd .trophy-box-holder { height: 210px; }
+        .p-3rd .trophy-box-holder { height: 240px; } 
+        /* 💡 가로 락 해제된 크기 비율에 맞춰 210px로 최적화 후, 바닥선을 2등과 칼같이 동기화하는 오프셋 마진(-13px) 부여 */
         .p-3rd .trophy-img { 
-            height: 180px !important; 
-            margin-bottom: 15px !important; 
+            height: 210px !important; 
+            margin-bottom: -13px !important; /* 👈 투명 공백을 흡수하여 2등 각인선과 정밀 수평선 완결 */
             filter: drop-shadow(0 0 10px rgba(205, 127, 50, 0.2)) drop-shadow(0 6px 12px rgba(0,0,0,0.12)); 
         }
 
@@ -612,7 +613,6 @@
             .main-container { flex-direction: column !important; align-items: center !important; }
             .table-inner-box { margin-top: 0px !important; } 
             
-            /* 💡 모바일에서 움짤 레이아웃이 짓눌려 깨지는 현상 원천 차단 */
             .header-area { display: flex !important; flex-direction: column !important; }
             .header-gif { display: inline-block !important; width: 260px !important; height: auto !important; }
 
@@ -625,19 +625,19 @@
                 padding: 22px 12px 16px 12px; 
             }
             
-            /* 모바일 가로폭 비율 고정 세팅 */
+            /* 💡 [유저 의도 지정] 모바일 간격 gap: 24px 고정 유지 패치 */
             .podium-cards-inner { gap: 24px !important; align-items: flex-end; margin-bottom: 5px; justify-content: center; }
             
+            /* 💡 [유저 의도 지정] 모바일 가로폭 25% : 34% : 25% 고정 유지 패치 */
             .p-1st { height: 470px !important; max-width: 34% !important; flex: 1.1 !important; padding: 15px 4px 20px 4px !important; } 
             .p-2nd { height: 410px !important; max-width: 25% !important; flex: 1 !important; padding: 15px 4px 20px 4px !important; } 
             .p-3rd { height: 410px !important; max-width: 25% !important; flex: 1 !important; padding: 15px 4px 20px 4px !important; }
             
-            /* 모바일 홀더 높이 정렬 바인딩 */
             .p-1st .trophy-box-holder { height: 240px !important; }
             .p-2nd .trophy-box-holder { height: 200px !important; }
             .p-3rd .trophy-box-holder { height: 200px !important; }
 
-            /* 모바일 트로피 아우라 매칭 */
+            /* 모바일 트로피 아우라 밸런스 가동 */
             .p-1st .trophy-img { height: 240px !important; min-height: 240px !important; margin-bottom: 10px; filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.25)); } 
             .p-2nd .trophy-img { height: 200px !important; min-height: 200px !important; margin-bottom: 10px; filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.2)); } 
             .p-3rd .trophy-img { 
@@ -647,16 +647,16 @@
                 filter: drop-shadow(0 0 14px rgba(205, 127, 50, 0.2)); 
             }
             
-            /* 모바일 전용 타이포 크기 최적화 세팅 */
-            .podium-card .podium-name { font-size: 11px !important; font-weight: 700 !important; margin-bottom: 3px; }
-            .podium-card .podium-level { font-size: 10px !important; margin-bottom: 3px; }
-            .podium-card .podium-power { font-size: 11px !important; font-weight: 800 !important; margin-bottom: 8px; color: #b71c1c !important; } 
+            /* 💡 [유저 의도 지정] 모바일 가독성 폰트 크기 14px / 16px 원상 복구 및 완벽 결착 */
+            .podium-card .podium-name { font-size: 14px !important; font-weight: 700 !important; margin-bottom: 3px; }
+            .podium-card .podium-level { font-size: 11px !important; margin-bottom: 3px; }
+            .podium-card .podium-power { font-size: 14px !important; font-weight: 800 !important; margin-bottom: 8px; color: #b71c1c !important; } 
             
-            .p-1st .podium-name { font-size: 14px !important; font-weight: 900 !important; color: #ebd47d !important; }
-            .p-1st .podium-power { font-size: 14px !important; font-weight: 900 !important; color: #b71c1c !important; }
+            .p-1st .podium-name { font-size: 16px !important; font-weight: 900 !important; color: #ebd47d !important; }
+            .p-1st .podium-power { font-size: 16px !important; font-weight: 900 !important; color: #b71c1c !important; }
             .p-3rd .podium-name { color: #caa37a !important; }
 
-            .podium-card .btn-view-stats { font-size: 10px !important; padding: 4px 6px !important; border-radius: 4px; }
+            .podium-card .btn-view-stats { font-size: 12px !important; padding: 4px 6px !important; border-radius: 4px; }
 
             /* 모바일 하단 여백 보정 구조 고정 */
             .rank-panel { 
