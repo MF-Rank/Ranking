@@ -232,7 +232,7 @@
             transition: transform 0.2s, box-shadow 0.2s;
             position: relative;
             overflow: hidden;
-            width: auto;
+            width: var(--card-width, auto);
         }
 
         .podium-card:hover {
@@ -252,7 +252,7 @@
 
         .trophy-img {
             width: auto;
-            max-width: 115%; /* 가로 제한에 걸리지 않도록 살짝 확장 허용 */
+            max-width: 130%; /* 👈 닉네임 박스를 밀지 않고 트로피만 가로로 웅장하게 확장할 수 있도록 락 해제 */
             object-fit: contain;
             margin: 0;
             padding: 0;
@@ -293,13 +293,14 @@
         .p-2nd:hover {
             box-shadow: 0 0 25px var(--glow-2nd), 0 12px 24px rgba(0, 0, 0, 0.06);
         }
-        .p-2nd .trophy-box-holder { height: 240px; } /* 💡 가로 한계 락을 해제하기 위해 높이 홀더 스케일업 */
+        /* 💡 래퍼 상자 높이를 210px로 원복 조율하여 닉네임 박스가 아래로 밀리는 구조 원천 진압 */
+        .p-2nd .trophy-box-holder { height: 210px; } 
         .p-2nd .trophy-img { 
-            height: 240px !important; /* 💡 가로와 매칭하여 실물 크기 웅장하게 벌크업 완료 */
+            height: 240px !important; /* 👈 이미지 크기는 웅장하게 최대 유지 */
             filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.2)) drop-shadow(0 6px 12px rgba(0,0,0,0.12)); 
         }
 
-        /* 🥉 3등 카드 PC 디자인 (2등과 대칭 구조 형성) */
+        /* 🥉 3등 카드 PC 디자인 */
         .p-3rd {
             flex: 1;
             height: 390px; 
@@ -310,11 +311,11 @@
         .p-3rd:hover {
             box-shadow: 0 0 25px var(--glow-3rd), 0 12px 24px rgba(0, 0, 0, 0.06);
         }
-        .p-3rd .trophy-box-holder { height: 240px; } 
-        /* 💡 가로 락 해제된 크기 비율에 맞춰 210px로 최적화 후, 바닥선을 2등과 칼같이 동기화하는 오프셋 마진(-13px) 부여 */
+        .p-3rd .trophy-box-holder { height: 210px; }
+        /* 💡 2등 원상 밸런스 높이에 대응하도록 브론즈 3등 트로피 크기 비율 및 음수 마진 재정렬 보정 완료 */
         .p-3rd .trophy-img { 
-            height: 175px !important; 
-            margin-bottom: 17px !important; /* 👈 투명 공백을 흡수하여 2등 각인선과 정밀 수평선 완결 */
+            height: 210px !important; 
+            margin-bottom: -15px !important; /* 👈 2등 각인선 수평과 칼같이 오차 없이 동기화 */
             filter: drop-shadow(0 0 10px rgba(205, 127, 50, 0.2)) drop-shadow(0 6px 12px rgba(0,0,0,0.12)); 
         }
 
@@ -625,10 +626,9 @@
                 padding: 22px 12px 16px 12px; 
             }
             
-            /* 💡 [유저 의도 지정] 모바일 간격 gap: 24px 고정 유지 패치 */
+            /* 유저 의도 지정 모바일 격리 밸런스 동기화 */
             .podium-cards-inner { gap: 24px !important; align-items: flex-end; margin-bottom: 5px; justify-content: center; }
             
-            /* 💡 [유저 의도 지정] 모바일 가로폭 25% : 34% : 25% 고정 유지 패치 */
             .p-1st { height: 470px !important; max-width: 34% !important; flex: 1.1 !important; padding: 15px 4px 20px 4px !important; } 
             .p-2nd { height: 410px !important; max-width: 25% !important; flex: 1 !important; padding: 15px 4px 20px 4px !important; } 
             .p-3rd { height: 410px !important; max-width: 25% !important; flex: 1 !important; padding: 15px 4px 20px 4px !important; }
@@ -637,7 +637,7 @@
             .p-2nd .trophy-box-holder { height: 200px !important; }
             .p-3rd .trophy-box-holder { height: 200px !important; }
 
-            /* 모바일 트로피 아우라 밸런스 가동 */
+            /* 모바일 트로피 아우라 싱크 유지 */
             .p-1st .trophy-img { height: 240px !important; min-height: 240px !important; margin-bottom: 10px; filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.25)); } 
             .p-2nd .trophy-img { height: 200px !important; min-height: 200px !important; margin-bottom: 10px; filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.2)); } 
             .p-3rd .trophy-img { 
@@ -647,7 +647,7 @@
                 filter: drop-shadow(0 0 14px rgba(205, 127, 50, 0.2)); 
             }
             
-            /* 💡 [유저 의도 지정] 모바일 가독성 폰트 크기 14px / 16px 원상 복구 및 완벽 결착 */
+            /* 유저 의도 지정 모바일 가독성 폰트 고정 */
             .podium-card .podium-name { font-size: 14px !important; font-weight: 700 !important; margin-bottom: 3px; }
             .podium-card .podium-level { font-size: 11px !important; margin-bottom: 3px; }
             .podium-card .podium-power { font-size: 14px !important; font-weight: 800 !important; margin-bottom: 8px; color: #b71c1c !important; } 
@@ -687,7 +687,7 @@
         .modal-user-info { font-weight: 700; font-size: 16px; margin-top: 5px; color: var(--text-title); }
         .notice-box { width: 100%; background-color: rgba(201, 42, 42, 0.05); border: 1px solid rgba(201, 42, 42, 0.2); border-radius: 8px; padding: 16px; margin: 15px 0; box-sizing: border-box; text-align: left; }
         .notice-box ul { margin: 0; padding-left: 20px; color: #f85149; font-size: 14px; line-height: 1.6; }
-        [data-theme="light"] .notice-box ul { color: #c92a2a; }
+        [data-theme="dark"] .notice-box ul { color: #c92a2a; }
         .btn-modal-submit { background: #228be6; color: #fff; border: none; padding: 10px 24px; font-size: 14px; font-weight: 600; border-radius: 8px; cursor: pointer; text-decoration: none; display: inline-block; margin-top: 10px; }
     </style>
 </head>
