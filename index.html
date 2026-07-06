@@ -296,10 +296,10 @@
             100% { transform: translate(30%, 30%); }
         }
 
-        /* 🥇 1등 황금 트로피 후광 이미지 필터 적용 */
+        /* 🥇 PC 1등 황금 트로피 후광 투명도 조율 복구 */
         .p-1st .trophy-img { 
             height: 230px !important; 
-            filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.2)) drop-shadow(0 6px 12px rgba(0,0,0,0.12)); 
+            filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.25)) drop-shadow(0 6px 12px rgba(0,0,0,0.12)); 
         }
 
         /* 🥈 2등 카드 PC 디자인 */
@@ -313,7 +313,7 @@
         .p-2nd:hover {
             box-shadow: 0 0 25px var(--glow-2nd), 0 12px 24px rgba(0, 0, 0, 0.06);
         }
-        /* 🥈 2등 실버 트로피 후광 이미지 필터 적용 */
+        /* 🥈 PC 2등 실버 트로피 후광 투명도 조율 복구 */
         .p-2nd .trophy-img { 
             height: 160px !important; 
             filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.2)) drop-shadow(0 6px 12px rgba(0,0,0,0.12)); 
@@ -330,10 +330,10 @@
         .p-3rd:hover {
             box-shadow: 0 0 25px var(--glow-3rd), 0 12px 24px rgba(0, 0, 0, 0.06);
         }
-        /* 🥉 3등 브론즈 트로피 후광 이미지 필터 적용 */
+        /* 🥉 PC 3등 브론즈 트로피 후광 투명도 조율 복구 */
         .p-3rd .trophy-img { 
             height: 130px !important; 
-            filter: drop-shadow(0 0 10px rgba(205, 127, 50, 0.5)) drop-shadow(0 6px 12px rgba(0,0,0,0.12)); 
+            filter: drop-shadow(0 0 10px rgba(205, 127, 50, 0.2)) drop-shadow(0 6px 12px rgba(0,0,0,0.12)); 
         }
 
         /* 💡 순위별 텍스트 및 서체 설정 */
@@ -401,6 +401,7 @@
             overflow: hidden;
         }
 
+        /* 💡 부모 패널 640px 안에서 가로 정렬 수평 라인을 맞추기 위한 최종 높이 구조 계산 */
         .table-inner-box {
             width: 100%;
             height: 520px; 
@@ -647,12 +648,12 @@
             .p-2nd { height: 410px !important; } 
             .p-3rd { height: 370px !important; }
             
-            /* 💡 모바일 트로피에도 고유 드롭 섀도우 후광 정밀 반사 적용 */
-            .p-1st .trophy-img { height: 300px !important; min-height: 300px !important; margin-bottom: 10px; filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.55)); } 
-            .p-2nd .trophy-img { height: 200px !important; min-height: 200px !important; margin-bottom: 10px; filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.45)); } 
-            .p-3rd .trophy-img { height: 170px !important; min-height: 170px !important; margin-bottom: 10px; filter: drop-shadow(0 0 10px rgba(205, 127, 50, 0.45)); }
+            /* 💡 [은은하게 완화] 모바일 트로피 드롭 섀도우 후광 이펙트 0.2선으로 완벽 리밸런싱 */
+            .p-1st .trophy-img { height: 300px !important; min-height: 300px !important; margin-bottom: 10px; filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.25)); } 
+            .p-2nd .trophy-img { height: 200px !important; min-height: 200px !important; margin-bottom: 10px; filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.2)); } 
+            .p-3rd .trophy-img { height: 170px !important; min-height: 170px !important; margin-bottom: 10px; filter: drop-shadow(0 0 10px rgba(205, 127, 50, 0.25)); }
             
-            /* 모바일 하단 여백 및 크기 유지 보정 고정 */
+            /* 모바일 하단 여백 및 가변 높이 버그 철벽 방어 세팅 */
             .rank-panel { 
                 height: auto; 
                 max-height: none; 
