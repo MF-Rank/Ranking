@@ -533,7 +533,7 @@
             width: 90%;
             height: 520px;
             box-shadow: 0 12px 30px rgba(0,0,0,0.4);
-            display: flex;
+            display: fixed;
             flex-direction: row; 
             position: relative;
             box-sizing: border-box;
@@ -641,32 +641,31 @@
                 padding: 22px 12px 16px 12px; 
             }
             
-            /* 💡 [완벽 교정] % 비율 분할을 걷어내고 PC 버전처럼 컴팩트한 fixed 너비를 주어 퍼짐 없는 슬림핏 유지 */
-            .podium-cards-inner { gap: 10px !important; align-items: flex-end; margin-bottom: 5px; justify-content: center; }
+            /* 💡 [황금 비율 미세 조정 완료] 퍼지던 32% 배분을 깨고 31% : 34% : 31% 슬림 볼륨 매칭 */
+            .podium-cards-inner { gap: 12px !important; align-items: flex-end; margin-bottom: 5px; justify-content: center; }
             
-            /* 가로폭 픽셀 제한으로 카드가 대형화되는 버그 완전 진압 */
-            .p-1st { height: 470px !important; width: 115px !important; max-width: 115px !important; flex: none !important; padding: 12px 4px !important; } 
-            .p-2nd { height: 410px !important; width: 100px !important; max-width: 100px !important; flex: none !important; padding: 12px 4px !important; } 
-            .p-3rd { height: 370px !important; width: 100px !important; max-width: 100px !important; flex: none !important; padding: 12px 4px !important; }
+            .p-1st { height: 470px !important; max-width: 34% !important; flex: 1.1 !important; padding: 15px 6px 20px 6px !important; } 
+            .p-2nd { height: 410px !important; max-width: 31% !important; flex: 1 !important; padding: 15px 6px 20px 6px !important; } 
+            .p-3rd { height: 370px !important; max-width: 31% !important; flex: 1 !important; padding: 15px 6px 20px 6px !important; }
             
-            /* 모바일 트로피 높이 슬림 박스 규격 매칭 축소 조정 */
-            .p-1st .trophy-img { height: 230px !important; min-height: 230px !important; margin-bottom: 6px; filter: drop-shadow(0 0 12px rgba(255, 215, 0, 0.25)); } 
-            .p-2nd .trophy-img { height: 160px !important; min-height: 160px !important; margin-bottom: 6px; filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.2)); } 
-            .p-3rd .trophy-img { height: 130px !important; min-height: 130px !important; margin-bottom: 6px; filter: drop-shadow(0 0 8px rgba(202, 163, 122, 0.25)); }
+            /* 💡 모바일 트로피 볼륨 웅장하게 롤백 완료 */
+            .p-1st .trophy-img { height: 300px !important; min-height: 300px !important; margin-bottom: 10px; filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.25)); } 
+            .p-2nd .trophy-img { height: 200px !important; min-height: 200px !important; margin-bottom: 10px; filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.2)); } 
+            .p-3rd .trophy-img { height: 170px !important; min-height: 170px !important; margin-bottom: 10px; filter: drop-shadow(0 0 10px rgba(205, 127, 50, 0.25)); }
             
-            /* 슬림 핏 내 타이포 스펙 정밀 축소 (UI 깨짐 방지) */
-            .podium-card .podium-name { font-size: 11px !important; font-weight: 700 !important; margin-bottom: 2px; }
-            .podium-card .podium-level { font-size: 9px !important; margin-bottom: 2px; }
-            .podium-card .podium-power { font-size: 11px !important; font-weight: 800 !important; margin-bottom: 6px; color: #b71c1c !important; } 
+            /* 💡 모바일 타이포 가독성 크기 원래대로 정상 복구 */
+            .podium-card .podium-name { font-size: 13px !important; font-weight: 700 !important; margin-bottom: 3px; }
+            .podium-card .podium-level { font-size: 11px !important; margin-bottom: 3px; }
+            .podium-card .podium-power { font-size: 13px !important; font-weight: 800 !important; margin-bottom: 8px; color: #b71c1c !important; } 
             
-            /* 1등 전용 모바일 텍스트 샴페인 골드 스케일링 */
-            .p-1st .podium-name { font-size: 13px !important; font-weight: 900 !important; color: #ebd47d !important; }
-            .p-1st .podium-power { font-size: 13px !important; font-weight: 900 !important; color: #b71c1c !important; }
+            /* 1등 및 3등 고유 포인트 컬러 결착 */
+            .p-1st .podium-name { font-size: 16px !important; font-weight: 900 !important; color: #ebd47d !important; }
+            .p-1st .podium-power { font-size: 16px !important; font-weight: 900 !important; color: #b71c1c !important; }
             .p-3rd .podium-name { color: #caa37a !important; }
 
-            .podium-card .btn-view-stats { font-size: 10px !important; padding: 4px 6px !important; border-radius: 4px; }
+            .podium-card .btn-view-stats { font-size: 11px !important; padding: 5px 10px !important; border-radius: 6px; }
 
-            /* 모바일 레이아웃 유지 보정 */
+            /* 모바일 하단 여백 및 가변 높이 버그 철벽 가드 */
             .rank-panel { 
                 height: auto; 
                 max-height: none; 
