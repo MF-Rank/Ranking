@@ -68,6 +68,10 @@
             margin-bottom: 25px;
             width: 100%;
             max-width: 1400px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
 
         .header-gif {
@@ -76,6 +80,7 @@
             height: auto;
             margin-bottom: -10px;
             object-fit: contain;
+            display: inline-block !important; /* 👈 절대 소멸되지 않도록 강제 출력 세팅 */
         }
 
         h1 {
@@ -239,7 +244,7 @@
             width: 100%;
             height: 280px;
             display: flex;
-            align-items: flex-end; /* 이미지 여백 관계없이 바닥면 수평 정렬 일직선 강제 */
+            align-items: flex-end; 
             justify-content: center;
             margin-bottom: 12px;
             overflow: visible;
@@ -290,7 +295,7 @@
         }
         .p-2nd .trophy-box-holder { height: 210px; }
         .p-2nd .trophy-img { 
-            height: 200px !important; 
+            height: 210px !important; 
             filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.2)) drop-shadow(0 6px 12px rgba(0,0,0,0.12)); 
         }
 
@@ -306,7 +311,6 @@
             box-shadow: 0 0 25px var(--glow-3rd), 0 12px 24px rgba(0, 0, 0, 0.06);
         }
         .p-3rd .trophy-box-holder { height: 210px; }
-        /* 💡 [수정완료] 크기를 180px로 다운스케일링 후 바닥면 여백 오프셋 마진(-10px) 처리하여 일직선 정렬 완성 */
         .p-3rd .trophy-img { 
             height: 180px !important; 
             margin-bottom: 5px !important; 
@@ -608,6 +612,10 @@
             .main-container { flex-direction: column !important; align-items: center !important; }
             .table-inner-box { margin-top: 0px !important; } 
             
+            /* 💡 모바일에서 움짤 레이아웃이 짓눌려 깨지는 현상 원천 차단 */
+            .header-area { display: flex !important; flex-direction: column !important; }
+            .header-gif { display: inline-block !important; width: 260px !important; height: auto !important; }
+
             .podium-wrapper { 
                 flex: none; 
                 max-width: 100% !important; 
@@ -617,29 +625,29 @@
                 padding: 22px 12px 16px 12px; 
             }
             
-            /* 💡 유저 튜닝 모바일 수치 계승 (gap: 12px) 및 가로폭 분할 (25% : 34% : 25%) 결착 */
+            /* 모바일 가로폭 비율 고정 세팅 */
             .podium-cards-inner { gap: 12px !important; align-items: flex-end; margin-bottom: 5px; justify-content: center; }
             
             .p-1st { height: 470px !important; max-width: 34% !important; flex: 1.1 !important; padding: 15px 4px 20px 4px !important; } 
             .p-2nd { height: 410px !important; max-width: 25% !important; flex: 1 !important; padding: 15px 4px 20px 4px !important; } 
             .p-3rd { height: 410px !important; max-width: 25% !important; flex: 1 !important; padding: 15px 4px 20px 4px !important; }
             
-            /* 💡 모바일 홀더 높이 정렬 바인딩 */
+            /* 모바일 홀더 높이 정렬 바인딩 */
             .p-1st .trophy-box-holder { height: 240px !important; }
             .p-2nd .trophy-box-holder { height: 200px !important; }
             .p-3rd .trophy-box-holder { height: 200px !important; }
 
-            /* 💡 [수정완료] 모바일 3등 크기를 200px로 확실히 다운하고 아래 마진 오프셋(-8px) 처리하여 일직선 정렬 */
+            /* 모바일 트로피 아우라 매칭 */
             .p-1st .trophy-img { height: 240px !important; min-height: 240px !important; margin-bottom: 10px; filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.25)); } 
             .p-2nd .trophy-img { height: 200px !important; min-height: 200px !important; margin-bottom: 10px; filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.2)); } 
             .p-3rd .trophy-img { 
                 height: 200px !important; 
                 min-height: 200px !important; 
-                margin-bottom: -8px !important; /* 👈 모바일 화면용 수평 정렬 매칭 키 수치 */
+                margin-bottom: -8px !important; 
                 filter: drop-shadow(0 0 12px rgba(205, 127, 50, 0.2)); 
             }
             
-            /* 유저 튜닝 텍스트 가독성 최적화 세팅 (font-size: 10px) 적용 */
+            /* 모바일 전용 타이포 크기 최적화 세팅 */
             .podium-card .podium-name { font-size: 11px !important; font-weight: 700 !important; margin-bottom: 3px; }
             .podium-card .podium-level { font-size: 10px !important; margin-bottom: 3px; }
             .podium-card .podium-power { font-size: 11px !important; font-weight: 800 !important; margin-bottom: 8px; color: #b71c1c !important; } 
@@ -690,7 +698,7 @@
     </div>
 
     <div class="header-area">
-        <img src="https://mblogthumb-phinf.pstatic.net/20140921_272/saiyuki1357_1411272744482CFU6N_GIF/%B0%AD%C7%F53.gif"
+        <img src="https://mblogthumb-phinf.pstatic.net/20140921_272/saiyuki1357_1411272744482CFU6N_GIF/%B0%AD%C7%F53.gif?type=w420"
              alt="강화 연출" class="header-gif">
         <h1>클래식 서버 전투력 랭킹</h1>
     </div>
@@ -699,15 +707,10 @@
 
         <div class="podium-wrapper">
             <div class="podium-cards-inner">
-                <!-- 🥈 2등 단상 카드 -->
                 <div class="podium-card p-2nd" id="podium-2nd"></div>
-                
-                <!-- 🥇 1등 단상 카드 -->
                 <div class="podium-card p-1st" id="podium-1st">
                     <div class="shine-effect"></div>
                 </div>
-                
-                <!-- 🥉 3등 단상 카드 -->
                 <div class="podium-card p-3rd" id="podium-3rd"></div>
             </div>
             <hr class="podium-divider">
@@ -747,7 +750,6 @@
 
     </div>
 
-    <!-- 모달 관련 구조는 하단에 동일하게 유지 -->
     <div class="modal-overlay" id="omega-hall-modal" onclick="closeOmegaModal()">
         <div class="omega-hall-card" onclick="event.stopPropagation()">
             <span class="modal-close" onclick="closeOmegaModal()">&times;</span>
