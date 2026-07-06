@@ -296,7 +296,7 @@
             100% { transform: translate(30%, 30%); }
         }
 
-        /* 🥇 1등 황금 트로피 후광 이미지 필터 적용 */
+        /* 🥇 PC 1등 황금 트로피 후광 투명도 조율 복구 */
         .p-1st .trophy-img { 
             height: 230px !important; 
             filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.25)) drop-shadow(0 6px 12px rgba(0,0,0,0.12)); 
@@ -313,7 +313,7 @@
         .p-2nd:hover {
             box-shadow: 0 0 25px var(--glow-2nd), 0 12px 24px rgba(0, 0, 0, 0.06);
         }
-        /* 🥈 2등 실버 트로피 후광 이미지 필터 적용 */
+        /* 🥈 PC 2등 실버 트로피 후광 투명도 조율 복구 */
         .p-2nd .trophy-img { 
             height: 160px !important; 
             filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.2)) drop-shadow(0 6px 12px rgba(0,0,0,0.12)); 
@@ -330,7 +330,7 @@
         .p-3rd:hover {
             box-shadow: 0 0 25px var(--glow-3rd), 0 12px 24px rgba(0, 0, 0, 0.06);
         }
-        /* 🥉 3등 브론즈 트로피 후광 이미지 필터 적용 */
+        /* 🥉 PC 3등 브론즈 트로피 후광 투명도 조율 복구 */
         .p-3rd .trophy-img { 
             height: 130px !important; 
             filter: drop-shadow(0 0 10px rgba(205, 127, 50, 0.2)) drop-shadow(0 6px 12px rgba(0,0,0,0.12)); 
@@ -349,7 +349,7 @@
         .p-2nd .podium-name { color: #e9ecef !important; } 
         .p-2nd .podium-level { color: rgba(233, 236, 239, 0.8) !important; }
 
-        /* 🥉 3등 이름/레벨 리얼 브론즈 매칭 (주황기 제거) */
+        /* 🥉 3등 이름/레벨 브론즈 매칭 */
         .p-3rd .podium-name { color: #caa37a !important; text-shadow: 0 0 4px rgba(202, 163, 122, 0.15); } 
         .p-3rd .podium-level { color: rgba(202, 163, 122, 0.8) !important; }
 
@@ -401,6 +401,7 @@
             overflow: hidden;
         }
 
+        /* 💡 부모 패널 640px 안에서 가로 정렬 수평 라인을 맞추기 위한 최종 높이 구조 계산 */
         .table-inner-box {
             width: 100%;
             height: 520px; 
@@ -640,19 +641,19 @@
                 padding: 22px 12px 16px 12px; 
             }
             
-            .podium-cards-inner { gap: 16px !important; align-items: flex-end; margin-bottom: 5px; }
-            .podium-card { max-width: 32% !important; flex: 1 !important; padding: 16px 4px 18px 4px !important; height: auto !important; }
+            /* 💡 [교정 완료] 모바일 가로폭을 30% : 35% : 30% 황금 비율 분할하여 2, 3등의 비대한 착시를 완전 제거 */
+            .podium-cards-inner { gap: 12px !important; align-items: flex-end; margin-bottom: 5px; }
             
-            .p-1st { height: 470px !important; } 
-            .p-2nd { height: 410px !important; } 
-            .p-3rd { height: 370px !important; }
+            .p-1st { height: 470px !important; max-width: 35% !important; flex: 1.2 !important; } 
+            .p-2nd { height: 410px !important; max-width: 30% !important; flex: 1 !important; } 
+            .p-3rd { height: 370px !important; max-width: 30% !important; flex: 1 !important; }
             
-            /* 💡 모바일 트로피 후광 투명도 모바일 환경 맞춤 은은한 조율 */
+            /* 모바일 트로피 은은한 후광 매칭 */
             .p-1st .trophy-img { height: 300px !important; min-height: 300px !important; margin-bottom: 10px; filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.25)); } 
-            .p-2nd .trophy-img { height: 250px !important; min-height: 200px !important; margin-bottom: 10px; filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.2)); } 
-            .p-3rd .trophy-img { height: 200px !important; min-height: 170px !important; margin-bottom: 10px; filter: drop-shadow(0 0 10px rgba(202, 163, 122, 0.25)); }
+            .p-2nd .trophy-img { height: 200px !important; min-height: 200px !important; margin-bottom: 10px; filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.2)); } 
+            .p-3rd .trophy-img { height: 170px !important; min-height: 170px !important; margin-bottom: 10px; filter: drop-shadow(0 0 10px rgba(202, 163, 122, 0.25)); }
             
-            /* 모바일 하단 여백 가변 보정 고정 */
+            /* 모바일 하단 여백 및 가변 높이 버그 보정 */
             .rank-panel { 
                 height: auto; 
                 max-height: none; 
@@ -669,8 +670,8 @@
             .podium-card .podium-power { font-size: 13px !important; font-weight: 800 !important; margin-bottom: 8px; color: #b71c1c !important; } 
             
             /* 1등 리워드 모바일 타이포 확장 세팅 (샴페인 골드) */
-            .p-1st .podium-name { font-size: 16px !important; font-weight: 900 !important; color: #ebd47d !important; }
-            .p-1st .podium-power { font-size: 16px !important; font-weight: 900 !important; color: #b71c1c !important; }
+            .p-1st .podium-name { font-size: 15px !important; font-weight: 900 !important; color: #ebd47d !important; }
+            .p-1st .podium-power { font-size: 15px !important; font-weight: 900 !important; color: #b71c1c !important; }
             
             /* 3등 리워드 모바일 타이포 확장 세팅 (리얼 브론즈) */
             .p-3rd .podium-name { color: #caa37a !important; }
