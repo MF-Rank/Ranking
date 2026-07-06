@@ -276,6 +276,44 @@
         .p-1st:hover {
             box-shadow: 0 0 30px var(--glow-1st), 0 12px 24px rgba(255, 215, 0, 0.15);
         }
+
+        /* 💡 황금 광채 레이어 효과 무대 장치 */
+        .shine-effect {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5;
+            overflow: hidden;
+        }
+
+        .shine-effect::after {
+            content: "";
+            position: absolute;
+            top: -100%;
+            left: -100%;
+            width: 300%;
+            height: 300%;
+            background: linear-gradient(
+                135deg,
+                rgba(255, 215, 0, 0) 0%,
+                rgba(255, 215, 0, 0) 40%,
+                rgba(255, 235, 120, 0.85) 50%,
+                rgba(255, 215, 0, 0) 60%,
+                rgba(255, 215, 0, 0) 100%
+            );
+            animation: diagonalShine 4s ease-in-out infinite; /* 👈 소스 코드 하단에서 구동 선언한 keyframes와 매칭 가동 */
+        }
+
+        /* 💡 [긴급 복구] 누락되어 광채가 안 나오던 핵심 애니메이션 인터페이스 명령어 복원 완료 */
+        @keyframes diagonalShine {
+            0% { transform: translate(-30%, -30%); }
+            18% { transform: translate(30%, 30%); }
+            100% { transform: translate(30%, 30%); }
+        }
+
         .p-1st .trophy-box-holder { height: 280px; }
         .p-1st .trophy-img { 
             height: 280px !important; 
@@ -313,7 +351,7 @@
         .p-3rd .trophy-box-holder { height: 210px; }
         .p-3rd .trophy-img { 
             height: 180px !important; 
-            margin-bottom: 10px !important; 
+            margin-bottom: 15px !important; 
             filter: drop-shadow(0 0 10px rgba(205, 127, 50, 0.2)) drop-shadow(0 6px 12px rgba(0,0,0,0.12)); 
         }
 
@@ -628,16 +666,16 @@
             .podium-cards-inner { gap: 24px !important; align-items: flex-end; margin-bottom: 5px; justify-content: center; }
             
             /* 모바일 비율 유지 */
-            .p-1st { height: 470px !important; max-width: 30% !important; flex: 1.1 !important; padding: 15px 4px 20px 4px !important; } 
+            .p-1st { height: 470px !important; max-width: 34% !important; flex: 1.1 !important; padding: 15px 4px 20px 4px !important; } 
             .p-2nd { height: 410px !important; max-width: 25% !important; flex: 1 !important; padding: 15px 4px 20px 4px !important; } 
             .p-3rd { height: 410px !important; max-width: 25% !important; flex: 1 !important; padding: 15px 4px 20px 4px !important; }
             
-            /* 💡 [교정 완료] 1등 래퍼 상자 락을 240px로 해제하여 짓눌림 현상을 완벽하게 디버깅 */
+            /* 💡 [수정 완료] 상자 락을 240px에서 380px로 여유 있게 높혀 1등 이미지 가눌림 탈출 성공 */
             .p-1st .trophy-box-holder { height: 380px !important; }
             .p-2nd .trophy-box-holder { height: 200px !important; }
             .p-3rd .trophy-box-holder { height: 200px !important; }
 
-            /* 트로피 이미지 크기 보존 */
+            /* 모바일 트로피 아우라 싱크 유지 */
             .p-1st .trophy-img { height: 300px !important; min-height: 240px !important; margin-bottom: 10px; filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.25)); } 
             .p-2nd .trophy-img { height: 200px !important; min-height: 200px !important; margin-bottom: 10px; filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.2)); } 
             .p-3rd .trophy-img { 
@@ -647,7 +685,7 @@
                 filter: drop-shadow(0 0 14px rgba(205, 127, 50, 0.2)); 
             }
             
-            /* 모바일 폰트 가독성 보존 */
+            /* 모바일 가독성 폰트 고정 */
             .podium-card .podium-name { font-size: 14px !important; font-weight: 700 !important; margin-bottom: 3px; }
             .podium-card .podium-level { font-size: 11px !important; margin-bottom: 3px; }
             .podium-card .podium-power { font-size: 14px !important; font-weight: 800 !important; margin-bottom: 8px; color: #b71c1c !important; } 
