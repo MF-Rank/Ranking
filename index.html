@@ -234,11 +234,23 @@
             transform: translateY(-6px);
         }
 
+        /* 💡 트로피 박스 래퍼 컨테이너 추가 (바닥면 수평 정렬 일직선 강제 홀더) */
+        .trophy-box-holder {
+            width: 100%;
+            height: 240px;
+            display: flex;
+            align-items: flex-end; /* 👈 이미지 여백과 상관없이 무조건 밑바닥 기준 정렬 */
+            justify-content: center;
+            margin-bottom: 12px;
+            overflow: visible;
+        }
+
         .trophy-img {
             width: auto;
             max-width: 100%;
             object-fit: contain;
-            margin-bottom: 12px;
+            margin: 0;
+            padding: 0;
             animation: floatAnimation 3s ease-in-out infinite;
         }
 
@@ -259,46 +271,9 @@
         .p-1st:hover {
             box-shadow: 0 0 30px var(--glow-1st), 0 12px 24px rgba(255, 215, 0, 0.15);
         }
-
-        /* 황금 광채 효과 */
-        .shine-effect {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 5;
-            overflow: hidden;
-        }
-
-        .shine-effect::after {
-            content: "";
-            position: absolute;
-            top: -100%;
-            left: -100%;
-            width: 300%;
-            height: 300%;
-            background: linear-gradient(
-                135deg,
-                rgba(255, 215, 0, 0) 0%,
-                rgba(255, 215, 0, 0) 40%,
-                rgba(255, 235, 120, 0.85) 50%,
-                rgba(255, 215, 0, 0) 60%,
-                rgba(255, 215, 0, 0) 100%
-            );
-            animation: diagonalShine 4s ease-in-out infinite;
-        }
-
-        @keyframes diagonalShine {
-            0% { transform: translate(-30%, -30%); }
-            18% { transform: translate(30%, 30%); }
-            100% { transform: translate(30%, 30%); }
-        }
-
-        /* 🥇 PC 1등 황금 트로피 후광 투명도 조율 복구 */
+        .p-1st .trophy-box-holder { height: 260px; } /* 1등 래퍼 높이 */
         .p-1st .trophy-img { 
-            height: 280px !important; 
+            height: 260px !important; 
             filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.25)) drop-shadow(0 6px 12px rgba(0,0,0,0.12)); 
         }
 
@@ -313,13 +288,13 @@
         .p-2nd:hover {
             box-shadow: 0 0 25px var(--glow-2nd), 0 12px 24px rgba(0, 0, 0, 0.06);
         }
-        /* 🥈 PC 2등 실버 트로피 후광 투명도 조율 복구 */
+        .p-2nd .trophy-box-holder { height: 200px; }
         .p-2nd .trophy-img { 
-            height: 210px !important; 
+            height: 200px !important; 
             filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.2)) drop-shadow(0 6px 12px rgba(0,0,0,0.12)); 
         }
 
-        /* 🥉 3등 카드 PC 디자인 (2등과 동급 크기 맞춤) */
+        /* 🥉 3등 카드 PC 디자인 (2등과 동급 매칭) */
         .p-3rd {
             flex: 1;
             height: 390px; 
@@ -330,10 +305,11 @@
         .p-3rd:hover {
             box-shadow: 0 0 25px var(--glow-3rd), 0 12px 24px rgba(0, 0, 0, 0.06);
         }
-        /* 🥉 [수평선 교정] PC 3등 브론즈 트로피 이미지 고유 하단 여백 보정 오프셋 적용 (-15px) */
+        .p-3rd .trophy-box-holder { height: 200px; }
+        /* 💡 이미지 원본 자체에 포함된 하단 투명 가짜공백 마진을 상쇄하여 2등과 완벽 일직선 수평 도킹 */
         .p-3rd .trophy-img { 
-            height: 210px !important; 
-            margin-bottom: -15px !important; /* 👈 이미지 내 투명 여백을 상쇄해 가로선 일직선 빌드 */
+            height: 212px !important; /* 이미지 내 공백 비율 차이를 계산한 보정 스케일 */
+            margin-bottom: -15px !important; /* 투명 여백을 바닥으로 끌어내리는 정밀 오프셋 */
             filter: drop-shadow(0 0 10px rgba(205, 127, 50, 0.2)) drop-shadow(0 6px 12px rgba(0,0,0,0.12)); 
         }
 
@@ -641,19 +617,30 @@
                 padding: 22px 12px 16px 12px; 
             }
             
-            /* 💡 [수정완료] 직접 수정하신 간격 및 대칭 비율 완벽 격리 동기화 고정 */
+            /* 💡 유저 지정 간격(gap: 12px) 및 모바일 중앙 정렬 계승 */
             .podium-cards-inner { gap: 12px !important; align-items: flex-end; margin-bottom: 5px; justify-content: center; }
             
+            /* 💡 유저 지정 카드 가로폭 비율(25% : 34% : 25%) 완벽 이식 */
             .p-1st { height: 470px !important; max-width: 34% !important; flex: 1.1 !important; padding: 15px 4px 20px 4px !important; } 
             .p-2nd { height: 410px !important; max-width: 25% !important; flex: 1 !important; padding: 15px 4px 20px 4px !important; } 
             .p-3rd { height: 410px !important; max-width: 25% !important; flex: 1 !important; padding: 15px 4px 20px 4px !important; }
             
-            /* 💡 [수정완료] 모바일 3등 트로피 과성장 해제 및 이미지 내부 공백 수평 정렬을 위한 하단 마진 오프셋 적용 */
-            .p-1st .trophy-img { height: 300px !important; min-height: 300px !important; margin-bottom: 10px; filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.25)); } 
-            .p-2nd .trophy-img { height: 240px !important; min-height: 240px !important; margin-bottom: 10px; filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.2)); } 
-            .p-3rd .trophy-img { height: 240px !important; min-height: 240px !important; margin-bottom: -4px !important; /* 👈 모바일 프레임 맞춤형 3등 바닥 가로선 결착 키(Key) */ filter: drop-shadow(0 0 12px rgba(205, 127, 50, 0.2)); }
+            /* 💡 모바일 트로피 래퍼 크기 매칭 홀더 */
+            .p-1st .trophy-box-holder { height: 200px !important; }
+            .p-2nd .trophy-box-holder { height: 160px !important; }
+            .p-3rd .trophy-box-holder { height: 160px !important; }
+
+            /* 💡 3등 트로피가 2등보다 비대해지던 현상 제어 및 모바일 수평 정렬 빌드 */
+            .p-1st .trophy-img { height: 200px !important; min-height: 200px !important; margin-bottom: 10px; filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.25)); } 
+            .p-2nd .trophy-img { height: 160px !important; min-height: 160px !important; margin-bottom: 10px; filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.2)); } 
+            .p-3rd .trophy-img { 
+                height: 170px !important; /* 모바일 폭에 맞춰 3등 피규어 실물 스케일 다운 */
+                min-height: 170px !important; 
+                margin-bottom: -11px !important; /* 👈 모바일 프레임 안에서 3등 등수 마킹 수평선을 맞추는 오프셋 수치 */
+                filter: drop-shadow(0 0 12px rgba(205, 127, 50, 0.2)); 
+            }
             
-            /* 모바일 타이포 크기 슬림 구조 연동 */
+            /* 유저 지정 모바일 전용 타이포 크기 (font-size: 10px) 적용 */
             .podium-card .podium-name { font-size: 11px !important; font-weight: 700 !important; margin-bottom: 3px; }
             .podium-card .podium-level { font-size: 10px !important; margin-bottom: 3px; }
             .podium-card .podium-power { font-size: 11px !important; font-weight: 800 !important; margin-bottom: 8px; color: #b71c1c !important; } 
@@ -664,7 +651,7 @@
 
             .podium-card .btn-view-stats { font-size: 10px !important; padding: 4px 6px !important; border-radius: 4px; }
 
-            /* 모바일 하단 여백 유지 보정 */
+            /* 모바일 하단 여백 보정 구조 고정 */
             .rank-panel { 
                 height: auto; 
                 max-height: none; 
@@ -713,10 +700,15 @@
 
         <div class="podium-wrapper">
             <div class="podium-cards-inner">
+                <!-- 🥈 2등 단상 카드 -->
                 <div class="podium-card p-2nd" id="podium-2nd"></div>
+                
+                <!-- 🥇 1등 단상 카드 -->
                 <div class="podium-card p-1st" id="podium-1st">
                     <div class="shine-effect"></div>
                 </div>
+                
+                <!-- 🥉 3등 단상 카드 (2등과 가로/세로 동급 대칭 완료) -->
                 <div class="podium-card p-3rd" id="podium-3rd"></div>
             </div>
             <hr class="podium-divider">
@@ -1075,7 +1067,9 @@
                     let shineLayerHtml = (rankNum === 1) ? '<div class="shine-effect"></div>' : '';
                     cardContainer.innerHTML = `
                         ${shineLayerHtml}
-                        <img src="${trophyUrl}" class="trophy-img" alt="${rankNum}등 트로피">
+                        <div class="trophy-box-holder">
+                            <img src="${trophyUrl}" class="trophy-img" alt="${rankNum}등 트로피">
+                        </div>
                         <div class="podium-name">${user.name}</div>
                         <div class="podium-level">Lv.${user.level}</div>
                         <div class="podium-power">${user.power.toLocaleString()}</div>
