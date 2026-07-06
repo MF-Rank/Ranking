@@ -232,7 +232,7 @@
             transition: transform 0.2s, box-shadow 0.2s;
             position: relative;
             overflow: hidden;
-            width: var(--card-width, auto);
+            width: auto;
         }
 
         .podium-card:hover {
@@ -252,7 +252,7 @@
 
         .trophy-img {
             width: auto;
-            max-width: 130%; /* 👈 닉네임 박스를 밀지 않고 트로피만 가로로 웅장하게 확장할 수 있도록 락 해제 */
+            max-width: 115%; 
             object-fit: contain;
             margin: 0;
             padding: 0;
@@ -293,10 +293,9 @@
         .p-2nd:hover {
             box-shadow: 0 0 25px var(--glow-2nd), 0 12px 24px rgba(0, 0, 0, 0.06);
         }
-        /* 💡 래퍼 상자 높이를 210px로 원복 조율하여 닉네임 박스가 아래로 밀리는 구조 원천 진압 */
         .p-2nd .trophy-box-holder { height: 210px; } 
         .p-2nd .trophy-img { 
-            height: 210px !important; /* 👈 이미지 크기는 웅장하게 최대 유지 */
+            height: 210px !important; 
             filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.2)) drop-shadow(0 6px 12px rgba(0,0,0,0.12)); 
         }
 
@@ -312,10 +311,9 @@
             box-shadow: 0 0 25px var(--glow-3rd), 0 12px 24px rgba(0, 0, 0, 0.06);
         }
         .p-3rd .trophy-box-holder { height: 210px; }
-        /* 💡 2등 원상 밸런스 높이에 대응하도록 브론즈 3등 트로피 크기 비율 및 음수 마진 재정렬 보정 완료 */
         .p-3rd .trophy-img { 
-            height: 190px !important; 
-            margin-bottom: 5px !important; /* 👈 2등 각인선 수평과 칼같이 오차 없이 동기화 */
+            height: 180px !important; 
+            margin-bottom: 5px !important; 
             filter: drop-shadow(0 0 10px rgba(205, 127, 50, 0.2)) drop-shadow(0 6px 12px rgba(0,0,0,0.12)); 
         }
 
@@ -626,28 +624,30 @@
                 padding: 22px 12px 16px 12px; 
             }
             
-            /* 유저 의도 지정 모바일 격리 밸런스 동기화 */
+            /* 모바일 간격 유지 */
             .podium-cards-inner { gap: 24px !important; align-items: flex-end; margin-bottom: 5px; justify-content: center; }
             
-            .p-1st { height: 500px !important; max-width: 34% !important; flex: 1.1 !important; padding: 15px 4px 20px 4px !important; } 
+            /* 모바일 비율 유지 */
+            .p-1st { height: 470px !important; max-width: 34% !important; flex: 1.1 !important; padding: 15px 4px 20px 4px !important; } 
             .p-2nd { height: 410px !important; max-width: 25% !important; flex: 1 !important; padding: 15px 4px 20px 4px !important; } 
             .p-3rd { height: 410px !important; max-width: 25% !important; flex: 1 !important; padding: 15px 4px 20px 4px !important; }
             
+            /* 💡 [교정 완료] 1등 래퍼 상자 락을 240px로 해제하여 짓눌림 현상을 완벽하게 디버깅 */
             .p-1st .trophy-box-holder { height: 240px !important; }
             .p-2nd .trophy-box-holder { height: 200px !important; }
             .p-3rd .trophy-box-holder { height: 200px !important; }
 
-            /* 모바일 트로피 아우라 싱크 유지 */
+            /* 트로피 이미지 크기 보존 */
             .p-1st .trophy-img { height: 240px !important; min-height: 240px !important; margin-bottom: 10px; filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.25)); } 
             .p-2nd .trophy-img { height: 200px !important; min-height: 200px !important; margin-bottom: 10px; filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.2)); } 
             .p-3rd .trophy-img { 
                 height: 200px !important; 
                 min-height: 200px !important; 
-                margin-bottom: 5% !important; 
+                margin-bottom: -8px !important; 
                 filter: drop-shadow(0 0 14px rgba(205, 127, 50, 0.2)); 
             }
             
-            /* 유저 의도 지정 모바일 가독성 폰트 고정 */
+            /* 모바일 폰트 가독성 보존 */
             .podium-card .podium-name { font-size: 14px !important; font-weight: 700 !important; margin-bottom: 3px; }
             .podium-card .podium-level { font-size: 11px !important; margin-bottom: 3px; }
             .podium-card .podium-power { font-size: 14px !important; font-weight: 800 !important; margin-bottom: 8px; color: #b71c1c !important; } 
@@ -658,7 +658,7 @@
 
             .podium-card .btn-view-stats { font-size: 12px !important; padding: 4px 6px !important; border-radius: 4px; }
 
-            /* 모바일 하단 여백 보정 구조 고정 */
+            /* 하단 여백 보정 */
             .rank-panel { 
                 height: auto; 
                 max-height: none; 
@@ -687,7 +687,7 @@
         .modal-user-info { font-weight: 700; font-size: 16px; margin-top: 5px; color: var(--text-title); }
         .notice-box { width: 100%; background-color: rgba(201, 42, 42, 0.05); border: 1px solid rgba(201, 42, 42, 0.2); border-radius: 8px; padding: 16px; margin: 15px 0; box-sizing: border-box; text-align: left; }
         .notice-box ul { margin: 0; padding-left: 20px; color: #f85149; font-size: 14px; line-height: 1.6; }
-        [data-theme="dark"] .notice-box ul { color: #c92a2a; }
+        [data-theme="light"] .notice-box ul { color: #c92a2a; }
         .btn-modal-submit { background: #228be6; color: #fff; border: none; padding: 10px 24px; font-size: 14px; font-weight: 600; border-radius: 8px; cursor: pointer; text-decoration: none; display: inline-block; margin-top: 10px; }
     </style>
 </head>
