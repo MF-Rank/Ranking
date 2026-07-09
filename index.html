@@ -5,31 +5,8 @@
     <title>비욘드 - 전투력 랭킹</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
     <style>
-        /* 🎨 기본 라이트모드 변수 */
+        /* 🌙 다크모드 고정 변수 세팅 (라이트모드 완전 삭제 및 변수 대체) */
         :root {
-            --bg-body: #f8f9fa;
-            --bg-panel: #ffffff;
-            --border-color: #e9ecef;
-            --text-main: #333333;
-            --text-sub: #495057;
-            --text-muted: #868e96;
-            --text-title: #222222;
-            --text-name: #212529;
-            --table-th-bg: #f8f9fa;
-            --table-border: #f1f3f5;
-            
-            --bg-clock: #c7c7c7;
-            --text-clock: #000000; 
-            --shadow-clock: rgba(0, 0, 0, 0.4);
-
-            /* 순위별 백라이트 컬러 */
-            --glow-1st: rgba(255, 215, 0, 0.25);
-            --glow-2nd: rgba(192, 192, 192, 0.2);
-            --glow-3rd: rgba(205, 127, 50, 0.2);
-        }
-
-        /* 🌙 다크모드 변수 세팅 */
-        [data-theme="dark"] {
             --bg-body: #141517;
             --bg-panel: #1a1b1e;
             --border-color: #2c2e33;
@@ -45,7 +22,7 @@
             --text-clock: #ffffff; 
             --shadow-clock: rgba(255, 255, 255, 0.6);
 
-            /* 순위별 백라이트 컬러 (다크모드 네온 광채) */
+            /* 순위별 백라이트 컬러 (다크모드 네온 광채 고정) */
             --glow-1st: rgba(255, 215, 0, 0.35);
             --glow-2nd: rgba(192, 192, 192, 0.3);
             --glow-3rd: rgba(205, 127, 50, 0.25);
@@ -62,16 +39,25 @@
             transition: background-color 0.3s, color 0.3s;
         }
 
-        /* 🔝 상단 타이틀 부 */
+        /* 🔝 상단 타이틀 부 (우주 이미지 배경 결착) */
         .header-area {
             text-align: center;
-            margin-bottom: 25px;
-            width: 100%;
+            margin-bottom: 35px;
+            width: 90%;
             max-width: 1400px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            /* 👇 [수정] 헤더 패널의 배경으로 디스코드 우주 이미지를 바인딩 */
+            background-image: url('https://media.discordapp.net/attachments/1056948870518685768/1524804795096104980/83900236-CB78-44AD-A72D-52E0E5F2AAC4.png?ex=6a5114a0&is=6a4fc320&hm=576cf872984ec1ca816240fd851aea42eeb28ff6abc9267d49dfa9c3301ec83a&=&format=webp&quality=lossless&width=1074&height=611');
+            background-size: cover;
+            background-position: center -0.1%;
+            background-repeat: no-repeat;
+            padding: 40px 20px;
+            border-radius: 20px; /* 메인 패널들과 곡률 통일 */
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            box-sizing: border-box;
         }
 
         .header-gif {
@@ -86,8 +72,10 @@
         h1 {
             font-size: 28px;
             font-weight: 700;
-            margin: 10px 0 0 0;
-            color: var(--text-title);
+            margin: 15px 0 0 0;
+            /* 👇 [수정] 딥한 우주 배경 스펙에 맞춰 타이틀을 골드로 튜닝하고 웅장한 네온 텍스트 섀도우 주입 */
+            color: #ebd47d;
+            text-shadow: 0 0 10px rgba(235, 212, 125, 0.6), 0 0 20px rgba(0, 0, 0, 0.8);
         }
 
         /* 🏆 랭킹 등재 신청 버튼 스타일 */
@@ -116,63 +104,15 @@
             background: linear-gradient(135deg, #5c7cfa 0%, #3b5bdb 100%);
         }
 
-        /* 🏛 eclipse 테마 제어 토글 바 양끝 정렬 */
+        /* 🏛 eclipse 테마 제어 토글 바 우측 정렬 */
         .top-control-bar {
             width: 100%;
             max-width: 1400px;
             display: flex;
             flex-direction: row; 
-            justify-content: space-between; 
+            justify-content: flex-end; /* 시계가 빠진 후 버튼을 우측 끝으로 정렬 */
             align-items: center;
             margin-bottom: 20px;
-        }
-
-        .btn-toggle-theme {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            background: var(--bg-panel);
-            color: var(--text-sub);
-            font-size: 13px;
-            font-weight: 700;
-            padding: 8px 16px;
-            border-radius: 50px;
-            border: 1px solid var(--border-color);
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
-            transition: all 0.2s ease-in-out;
-            cursor: pointer;
-            outline: none;
-        }
-
-        .btn-toggle-theme:hover {
-            background: var(--table-th-bg);
-            border-color: var(--text-muted);
-            transform: translateY(-1px);
-        }
-
-        /* 🕒 디지털 시계 스타일 */
-        .digital-clock {
-            font-family: 'Orbitron', sans-serif; 
-            font-size: 18px;
-            color: var(--text-clock);
-            background-color: var(--bg-clock);
-            padding: 8px 16px;
-            border-radius: 8px;
-            box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.8), 0 4px 10px rgba(0, 0, 0, 0.1);
-            border: 2px solid var(--border-color);
-            letter-spacing: 2px;
-            transition: all 0.3s ease-in-out;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            text-shadow: 0 0 8px var(--shadow-clock), 0 0 20px var(--shadow-clock);
-        }
-
-        .digital-clock .ampm {
-            font-size: 11px;
-            opacity: 0.8;
-            padding-right: 4px;
-            font-weight: normal;
         }
 
         /* 🏛️ 메인 내용 컨테이너 */
@@ -277,7 +217,7 @@
             box-shadow: 0 0 30px var(--glow-1st), 0 12px 24px rgba(255, 215, 0, 0.15);
         }
 
-        /* 💡 황금 광채 레이어 효과 무대 장치 */
+        /* 황금 광채 효과 */
         .shine-effect {
             position: absolute;
             top: 0;
@@ -304,10 +244,9 @@
                 rgba(255, 215, 0, 0) 60%,
                 rgba(255, 215, 0, 0) 100%
             );
-            animation: diagonalShine 4s ease-in-out infinite; /* 👈 소스 코드 하단에서 구동 선언한 keyframes와 매칭 가동 */
+            animation: diagonalShine 4s ease-in-out infinite;
         }
 
-        /* 💡 [긴급 복구] 누락되어 광채가 안 나오던 핵심 애니메이션 인터페이스 명령어 복원 완료 */
         @keyframes diagonalShine {
             0% { transform: translate(-30%, -30%); }
             18% { transform: translate(30%, 30%); }
@@ -317,7 +256,7 @@
         .p-1st .trophy-box-holder { height: 280px; }
         .p-1st .trophy-img { 
             height: 280px !important; 
-            filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.15)) drop-shadow(0 6px 12px rgba(0,0,0,0.12)); 
+            filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.25)) drop-shadow(0 6px 12px rgba(0,0,0,0.12)); 
         }
 
         /* 🥈 2등 카드 PC 디자인 */
@@ -331,10 +270,10 @@
         .p-2nd:hover {
             box-shadow: 0 0 25px var(--glow-2nd), 0 12px 24px rgba(0, 0, 0, 0.06);
         }
-        .p-2nd .trophy-box-holder { height: 210px; } 
+        .p-2nd .trophy-box-holder { height: 210px; }
         .p-2nd .trophy-img { 
             height: 210px !important; 
-            filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.15)) drop-shadow(0 6px 12px rgba(0,0,0,0.12)); 
+            filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.2)) drop-shadow(0 6px 12px rgba(0,0,0,0.12)); 
         }
 
         /* 🥉 3등 카드 PC 디자인 */
@@ -352,7 +291,7 @@
         .p-3rd .trophy-img { 
             height: 180px !important; 
             margin-bottom: 15px !important; 
-            filter: drop-shadow(0 0 10px rgba(205, 127, 50, 0.15)) drop-shadow(0 6px 12px rgba(0,0,0,0.12)); 
+            filter: drop-shadow(0 0 10px rgba(205, 127, 50, 0.2)) drop-shadow(0 6px 12px rgba(0,0,0,0.12)); 
         }
 
         /* 💡 순위별 텍스트 및 서체 설정 */
@@ -411,7 +350,7 @@
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.03);
             padding: 24px 24px 20px 24px; 
             box-sizing: border-box;
-            width: 100%;
+            width: 90%;
             display: flex;
             flex-direction: column;
             justify-content: flex-start; 
@@ -656,33 +595,33 @@
             .podium-wrapper { 
                 flex: none; 
                 max-width: 100% !important; 
-                width: 100%; 
+                width: 90%; 
                 height: 620px !important; 
                 max-height: 620px !important; 
                 padding: 22px 12px 16px 12px; 
             }
             
             /* 모바일 간격 유지 */
-            .podium-cards-inner { gap: 24px !important; align-items: flex-end; margin-bottom: 5px; justify-content: center; }
+            .podium-cards-inner { gap: 30px !important; align-items: flex-end; margin-bottom: 5px; justify-content: center; }
             
             /* 모바일 비율 유지 */
-            .p-1st { height: 470px !important; max-width: 34% !important; flex: 1.1 !important; padding: 15px 4px 20px 4px !important; } 
+            .p-1st { height: 470px !important; max-width: 30% !important; flex: 1.1 !important; padding: 15px 4px 20px 4px !important; } 
             .p-2nd { height: 410px !important; max-width: 25% !important; flex: 1 !important; padding: 15px 4px 20px 4px !important; } 
             .p-3rd { height: 410px !important; max-width: 25% !important; flex: 1 !important; padding: 15px 4px 20px 4px !important; }
             
-            /* 💡 [수정 완료] 상자 락을 240px에서 380px로 여유 있게 높혀 1등 이미지 가눌림 탈출 성공 */
+            /* 1등 래퍼 상자 락 해제 스펙 보존 */
             .p-1st .trophy-box-holder { height: 380px !important; }
             .p-2nd .trophy-box-holder { height: 200px !important; }
             .p-3rd .trophy-box-holder { height: 200px !important; }
 
             /* 모바일 트로피 아우라 싱크 유지 */
-            .p-1st .trophy-img { height: 300px !important; min-height: 240px !important; margin-bottom: 10px; filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.15)); } 
-            .p-2nd .trophy-img { height: 200px !important; min-height: 200px !important; margin-bottom: 10px; filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.15)); } 
+            .p-1st .trophy-img { height: 300px !important; min-height: 240px !important; margin-bottom: 10px; filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.25)); } 
+            .p-2nd .trophy-img { height: 200px !important; min-height: 200px !important; margin-bottom: 10px; filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.2)); } 
             .p-3rd .trophy-img { 
                 height: 200px !important; 
                 min-height: 200px !important; 
                 margin-bottom: 5% !important; 
-                filter: drop-shadow(0 0 14px rgba(205, 127, 50, 0.15)); 
+                filter: drop-shadow(0 0 14px rgba(205, 127, 50, 0.2)); 
             }
             
             /* 모바일 가독성 폰트 고정 */
@@ -730,15 +669,13 @@
     </style>
 </head>
 <body>
-    <div class="top-control-bar">
-        <div class="digital-clock" id="live-clock">00:00:00</div>
-        <button class="btn-toggle-theme" id="theme-toggle-btn" onclick="toggleTheme()">☀️ 라이트모드</button>
-    </div>
+    <div class="top-control-bar"></div>
 
     <div class="header-area">
         <img src="https://mblogthumb-phinf.pstatic.net/20140921_272/saiyuki1357_1411272744482CFU6N_GIF/%B0%AD%C7%F53.gif?type=w420"
              alt="강화 연출" class="header-gif">
         <h1>클래식 서버 전투력 랭킹</h1>
+        <h3 style="color: rgba(235, 212, 125, 0.8); margin: 5px 0 0 0; font-weight: 600;">비욘드 (프리시즌)</h3>
     </div>
 
     <div class="main-container" id="main-layout">
@@ -898,39 +835,9 @@
             `;
         }
 
-        function updateClock() {
-            const clockEl = document.getElementById('live-clock');
-            if (!clockEl) return;
-            const now = new Date();
-            const options = { timeZone: 'Asia/Seoul', hour12: true, hour: '2-digit', minute: '2-digit', second: '2-digit' };
-            const rawTimeString = now.toLocaleTimeString('ko-KR', options);
-            const isPM = rawTimeString.includes('오후');
-            const cleanTime = rawTimeString.replace('오전', '').replace('오후', '').trim();
-            clockEl.innerHTML = `<span class="ampm">${isPM ? 'PM' : 'AM'}</span>${cleanTime}`;
-        }
-        setInterval(updateClock, 1000);
-
-        function toggleTheme() {
-            const currentTheme = document.documentElement.getAttribute('data-theme');
-            const targetTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            document.documentElement.setAttribute('data-theme', targetTheme);
-            localStorage.setItem('theme', targetTheme);
-            updateThemeButtonText(targetTheme);
-        }
-
-        function updateThemeButtonText(theme) {
-            const btn = document.getElementById('theme-toggle-btn');
-            if (!btn) return;
-            btn.innerText = theme === 'dark' ? '☀️ 라이트모드' : '🌙 다크모드';
-        }
-
+        // 💡 [수정 완료] 라이트 모드 차단 및 무조건 다크 테마 구동을 위한 최적화 초기화 함수
         (function initTheme() {
-            const savedTheme = localStorage.getItem('theme') || 'dark';
-            document.documentElement.setAttribute('data-theme', savedTheme);
-            window.addEventListener('DOMContentLoaded', () => {
-                updateThemeButtonText(savedTheme);
-                updateClock();
-            });
+            document.documentElement.setAttribute('data-theme', 'dark');
         })();
 
         function getJsonUrl(url) {
