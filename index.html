@@ -54,7 +54,7 @@
             background-position: center -0.1%;
             background-repeat: no-repeat;
             
-            /* 📌 [수정] 가운데 정렬 버전 수준으로 상하 패딩(여백)을 대폭 넓혀 공간감 보존 */
+            /* 사용자님이 맞춰두신 상하 패딩 여백 보존 */
             padding: 20px 80px; 
             
             border-radius: 20px; 
@@ -68,17 +68,15 @@
             flex-direction: column;
             align-items: flex-start; 
             text-align: left;
-            /* 📌 양끝 배치 시 중앙 여백 밸런스를 잡기 위해 마진 적용 */
             margin-top: 10px;
         }
 
         .header-gif {
-            width: 400px; /* 👈 필요시 이 숫자를 변경하여 크기 조절 가능 */
+            width: 400px; 
             max-width: 100%;
             height: auto;
             object-fit: contain;
             display: inline-block !important;
-            /* 📌 텍스트 정렬 높이와 우측 GIF 간의 상하 균형을 맞춰주는 여백 보정 */
             margin-bottom: -5px; 
             filter: drop-shadow(0 0 15px rgba(235, 212, 125, 0.6));
         }
@@ -86,7 +84,7 @@
         h1 {
             font-size: 28px;
             font-weight: 700;
-            margin: 0 0 10px 0; /* 📌 타이틀 아래 부제목과의 여백 정돈 */
+            margin: 0 0 10px 0; 
             color: #ebd47d;
             text-shadow: 0 0 10px rgba(235, 212, 125, 0.6), 0 0 20px rgba(0, 0, 0, 0.8);
         }
@@ -609,14 +607,15 @@
                 padding: 30px 20px !important; 
                 align-items: center !important;
                 justify-content: center !important;
+                /* 📌 [오류 교정] 깨진 유령 공백을 지우고, 대소문자 표기(format=webp)를 표준으로 명확하게 바인딩 */
+                background-image: url('https://media.discordapp.net/attachments/1056948870518685768/1524804795096104980/83900236-CB78-44AD-A72D-52E0E5F2AAC4.png?ex=6a5114a0&is=6a4fc320&hm=576cf872984ec1ca816240fd851aea42eeb28ff6abc9267d49dfa9c3301ec83a&=&format=webp&quality=lossless&width=1074&height=611') !important;
+                background-size: cover !important;
+                background-position: center -0.1% !important;
+                background-repeat: no-repeat !important;
             }
             .header-text-group {
-                /* 📌 [버그 해결] 모바일 뷰포트에서 배경을 투명하게 관통하도록 너비와 flex 속성 완전 초기화 */
-                display: block !important;
-                width: auto !important;
                 align-items: center !important;
                 text-align: center !important;
-                margin-top: 0 !important;
             }
             .header-gif { 
                 display: inline-block !important; 
@@ -705,12 +704,10 @@
     <div class="top-control-bar"></div>
 
     <div class="header-area">
-        <!-- 📝 텍스트 구역을 좌측 배치를 위해 래퍼 클래스로 바인딩 -->
         <div class="header-text-group">
             <h1>클래식 서버 전투력 랭킹</h1>
             <h3 style="color: rgba(235, 212, 125, 0.8); margin: 5px 0 0 0; font-weight: 600;">언노운 (프리시즌)</h3>
         </div>
-        <!-- ⚡ 강화 연출 GIF: flex-direction에 의해 자연스럽게 우측 끝에 배치됨 -->
         <img src="https://cdn.discordapp.com/attachments/1056948870518685768/1526631611301625946/output-onlinegiftools-2.gif?ex=6a57b9fb&is=6a56687b&hm=a9ed7cfcbc157097e91ea4bea0941e7233e4a524fa15cb8be79cffea82c53f7b&"
              alt="강화 연출" class="header-gif">
     </div>
