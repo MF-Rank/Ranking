@@ -609,6 +609,11 @@
                 padding: 30px 20px !important; 
                 align-items: center !important;
                 justify-content: center !important;
+                /* 📌 [오류 수정] 모바일 화면에서 누락되었던 우주 배경화면 이미지를 명확하게 강제 주입 */
+                background-image: url('https://media.discordapp.net/attachments/1056948870518685768/1524804795096104980/83900236-CB78-44AD-A72D-52E0E5F2AAC4.png?ex=6a5114a0&is=6a4fc320&hm=576cf872984ec1ca816240fd851aea42eeb28ff6abc9267d49dfa9c3301ec83a&=&format=webp&quality=lossless&width=1074&height=611') !important;
+                background-size: cover !important;
+                background-position: center -0.1% !important;
+                background-repeat: no-repeat !important;
             }
             .header-text-group {
                 align-items: center !important;
@@ -653,7 +658,7 @@
                 filter: drop-shadow(0 0 14px rgba(205, 127, 50, 0.2)); 
             }
             
-            /* 모바일 가독성 폰트 고정 */
+            /* 모바일 가독성 폰정 고정 */
             .podium-card .podium-name { font-size: 14px !important; font-weight: 700 !important; margin-bottom: 3px; }
             .podium-card .podium-level { font-size: 11px !important; margin-bottom: 3px; }
             .podium-card .podium-power { font-size: 14px !important; font-weight: 800 !important; margin-bottom: 8px; color: #b71c1c !important; } 
