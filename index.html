@@ -55,7 +55,7 @@
             background-repeat: no-repeat;
             
             /* 📌 [수정] 가운데 정렬 버전 수준으로 상하 패딩(여백)을 대폭 넓혀 공간감 보존 */
-            padding: 40px 80px; 
+            padding: 20px 80px; 
             
             border-radius: 20px; 
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
@@ -73,13 +73,14 @@
         }
 
         .header-gif {
-            width: 350px; /* 👈 필요시 이 숫자를 변경하여 크기 조절 가능 */
+            width: 400px; /* 👈 필요시 이 숫자를 변경하여 크기 조절 가능 */
             max-width: 100%;
             height: auto;
             object-fit: contain;
             display: inline-block !important;
             /* 📌 텍스트 정렬 높이와 우측 GIF 간의 상하 균형을 맞춰주는 여백 보정 */
-            margin-bottom: 50px; 
+            margin-bottom: -5px; 
+            filter: drop-shadow(0 0 15px rgba(235, 212, 125, 0.6));
         }
 
         h1 {
