@@ -609,11 +609,17 @@
                 padding: 30px 20px !important; 
                 align-items: center !important;
                 justify-content: center !important;
-                /* 📌 [오류 수정] 모바일 화면에서 누락되었던 우주 배경화면 이미지를 명확하게 강제 주입 */
+                
+                /* 📌 [교정 1] 모바일 전용 브라우저가 인식할 수 있게 주소 끝의 불필요한 & 제거 */
                 background-image: url('https://media.discordapp.net/attachments/1056948870518685768/1524804795096104980/83900236-CB78-44AD-A72D-52E0E5F2AAC4.png?ex=6a5114a0&is=6a4fc320&hm=576cf872984ec1ca816240fd851aea42eeb28ff6abc9267d49dfa9c3301ec83a&=&format=webp&quality=lossless&width=1074&height=611') !important;
+                
+                /* 📌 [교정 2] 모바일 기기 화면 비율에 맞게 우주 배경이 꽉 차도록 속성 보강 */
                 background-size: cover !important;
-                background-position: center -0.1% !important;
+                background-position: center center !important;
                 background-repeat: no-repeat !important;
+                
+                /* 📌 [교정 3] 모바일에서 absolute 해제 시 배경 높이가 쪼그라드는 것을 방지 */
+                min-height: 180px !important; 
             }
             .header-text-group {
                 align-items: center !important;
