@@ -764,7 +764,7 @@
             <span class="modal-close" onclick="closeOmegaModal()">&times;</span>
             <div class="hall-sidebar">
                 <div class="hall-sidebar-title">🏅 역대 시즌</div>
-                <button class="hall-tab-btn active" id="btn-tab-beyond" onclick="switchHallSeason('beyond')">언노운(프리시즌)</button>
+                <button class="hall-tab-btn active" id="btn-tab-unknown" onclick="switchHallSeason('unknown')">언노운(프리시즌)</button>
             </div>
             <div class="hall-main-content" id="hall-main-viewport"></div>
         </div>
@@ -807,14 +807,14 @@
         const PAGE_SIZE = 10; 
 
         const OMEGA_HALL_DATABASE = {
-            beyond: {
+            unknown: {
                 status: "running"
             }
         };
 
         function openOmegaModal() {
             document.getElementById('omega-hall-modal').style.display = 'flex';
-            switchHallSeason('beyond');
+            switchHallSeason('unknown');
         }
 
         function closeOmegaModal() {
@@ -823,7 +823,7 @@
 
         function switchHallSeason(seasonKey) {
             document.querySelectorAll('.hall-tab-btn').forEach(btn => btn.classList.remove('active'));
-            if(seasonKey === 'beyond') document.getElementById('btn-tab-beyond').classList.add('active');
+            if(seasonKey === 'unknown') document.getElementById('btn-tab-unknown').classList.add('active');
 
             const viewport = document.getElementById('hall-main-viewport');
             const data = OMEGA_HALL_DATABASE[seasonKey];
