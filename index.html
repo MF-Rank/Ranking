@@ -361,7 +361,7 @@
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.03);
             padding: 24px 24px 20px 24px; 
             box-sizing: border-box;
-            width: 90%;
+            width: 100%;
             display: flex;
             flex-direction: column;
             justify-content: flex-start; 
@@ -595,6 +595,25 @@
             color: var(--text-sub) !important;
         }
 
+        /* 📝 최하단 기여 트랙(푸터) 스타일 크리에이팅 */
+        .rank-footer {
+            width: 100%;
+            max-width: 1400px;
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 30px;
+            font-size: 13px;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border-color);
+            letter-spacing: 0.5px;
+            line-height: 1.6;
+            box-sizing: border-box;
+        }
+        .rank-footer b {
+            color: var(--text-sub);
+            font-weight: 600;
+        }
+
         /* 📱 모바일 및 스마트폰 해상도 전용 리디자인 격리 패치 구역 */
         @media (max-width: 991px) {
             .main-container { flex-direction: column !important; align-items: center !important; }
@@ -607,7 +626,6 @@
                 padding: 30px 20px !important; 
                 align-items: center !important;
                 justify-content: center !important;
-                /* 📌 [오류 교정] 깨진 유령 공백을 지우고, 대소문자 표기(format=webp)를 표준으로 명확하게 바인딩 */
                 background-image: url('https://raw.githubusercontent.com/MF-Rank/Ranking/f50b78bcf96f8e64c9fc3efff6a172c351bf55e9/images/background/83900236-CB78-44AD-A72D-52E0E5F2AAC4.png') !important;
                 background-size: cover !important;
                 background-position: center -0.1% !important;
@@ -674,6 +692,14 @@
                 min-height: 520px !important; 
                 overflow: visible; 
                 padding-bottom: 30px !important; 
+            }
+
+            /* 💡 [모바일 수치 정렬 교정] 푸터가 모바일 뷰포트 영역(90%) 밖으로 삐져나가지 않도록 비율 바인딩 */
+            .rank-footer {
+                width: 90% !important;
+                max-width: 90% !important;
+                margin-top: 20px;
+                padding: 15px 0;
             }
             
             .podium-divider { display: block !important; margin: 12px 0 8px 0; }
@@ -796,6 +822,11 @@
         </div>
     </div>
 
+    <!-- 🏛 최하단 크레딧 기여 패널 컴포넌트 마운트 고정 -->
+    <div class="rank-footer">
+        Special Thanks <br> <b>@태백</b> <b>@우주</b> <b>@델타</b> <b>@칸</b> <b>@라스</b> </br>
+    </div>
+
     <script>
         const TROPHY_1ST = "https://raw.githubusercontent.com/MF-Rank/Ranking/2bd4a2cabef9b50cfc9285ff3cb57b884854212c/images/trophys/S1-1st.png";
         const TROPHY_2ND = "https://raw.githubusercontent.com/MF-Rank/Ranking/2bd4a2cabef9b50cfc9285ff3cb57b884854212c/images/trophys/S1-2nd.png";
@@ -869,7 +900,6 @@
             `;
         }
 
-        // 💡 [수정 완료] 라이트 모드 차단 및 무조건 다크 테마 구동을 위한 최적화 초기화 함수
         (function initTheme() {
             document.documentElement.setAttribute('data-theme', 'dark');
         })();
